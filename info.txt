@@ -1,3 +1,15 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    info.txt                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: yde-rudd <marvin@42.fr>                    +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2024/10/16 21:58:14 by yde-rudd          #+#    #+#              #
+#    Updated: 2024/10/16 21:58:19 by yde-rudd         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 my task:
 - builtins:
 	builtins are shell commands that are implemented directly within the shell itself,
