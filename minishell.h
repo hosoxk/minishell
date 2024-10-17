@@ -15,7 +15,8 @@
 
 # include "./libft/libft.h"
 	// for chdir
-# include "unistd.h"
+# include <unistd.h>
+# include <bool.h>
 
 enum	e_token
 {
