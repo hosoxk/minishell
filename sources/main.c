@@ -15,6 +15,7 @@
 int	main(int argc, char **argv, char **envp)
 {
 	char	*line;
+	t_token	*token_list;
 	(void)argv;
 	(void)envp;
 
@@ -24,11 +25,17 @@ int	main(int argc, char **argv, char **envp)
 		printf("%s\n", *(envp++));*/
 	while (1)
 	{
+		token_list = NULL;
 		line = readline(BOLD_MAGENTA"$minishell: "RESET);
 		add_history(line);
-		if (!lexer(line)) //TODO
-			return (1);
+		lexer(line, &token_list); //TODO
+		t_token *current = token_list;
+		while (current) {
+			   printf("Token: %s, Type: %d\n", current->value, current->type);
+			   current = current->next;
+		}
 		free (line);
+		// free_token_list(); //TODO
 	}
 	/*parser(); //TODO
 	//expander(); //TODO

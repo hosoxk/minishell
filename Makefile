@@ -23,11 +23,13 @@ LIBFT_DIR = ./sources/libft
 
 #source and object files
 SRC_FILES = $(SRC_DIR)/main.c \
-			$(SRC_DIR)/lexer.c
-			#$(SRC_DIR)/pwd_builtin.c \
-			$(SRC_DIR)/echo_builtin.c \
-			$(SRC_DIR)/cd_builtin.c \
-			$(SRC_DIR)/exit_builtin.c
+		$(SRC_DIR)/lexer.c \
+		$(SRC_DIR)/handler.c \
+		$(SRC_DIR)/utils.c
+		#$(SRC_DIR)/pwd_builtin.c \
+		$(SRC_DIR)/echo_builtin.c \
+		$(SRC_DIR)/cd_builtin.c \
+		$(SRC_DIR)/exit_builtin.c
 
 OBJ_FILES = $(SRC_FILES:.c=.o)
 
@@ -45,7 +47,7 @@ all: $(LIBFT) $(NAME)
 #link executables
 $(NAME): $(OBJ_FILES) $(LIBFT)
 	@echo "$(YELLOW)Linking $(NAME)...$(RESET)"
-	@$(CC) $(CFLAGS) $(PROJECT_FLAGS) $(OBJ_FILES) $(LIBFT) -o $(NAME)
+	@$(CC) $(CFLAGS) $(OBJ_FILES) $(PROJECT_FLAGS) $(LIBFT) -o $(NAME)
 	@echo "$(GREEN)Compilation successfull!$(RESET)"
 
 %.o: %.c

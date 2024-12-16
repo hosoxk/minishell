@@ -72,5 +72,6 @@ t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
 char	**ft_cpyarr(char **src);
 void	ft_freearr(char **arr);
 bool	is_white_space(char c);
+char	*ft_strndup(const char *s, size_t n);
 
 #endif

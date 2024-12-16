@@ -20,6 +20,7 @@
 # include <readline/history.h>
 
 # define BOLD_MAGENTA "\033[35m"
+# define BOLD_RED "\033[31m"
 # define RESET "\033[0m"
 
 typedef enum e_token_type
@@ -38,9 +39,17 @@ typedef struct s_token
 {
 	char			*value;
 	t_token_type	type;
+	struct s_token	*next; // pointer to the next token
 }	t_token;
 
-// *** LEXER ***
-bool	lexer(char *line);
+// *** LEXER & HANDLER ***
+void	lexer(char *line, t_token **token_list);
+void	handle_var(char **line, t_token **token_list);
+void	handle_redirect(char **line, t_token **token_list);
+void	handle_quoted_str(char **line, t_token **token_list);
+void	add_token_to_list(t_token **token_list, char *value, t_token_type type);
+
+// *** UTILS ***
+bool	is_special_case(char c);
 
 #endif
