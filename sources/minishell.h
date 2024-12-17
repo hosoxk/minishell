@@ -52,5 +52,6 @@ void	add_token_to_list(t_token **token_list, char *value, t_token_type type);
 
 // *** UTILS ***
 bool	is_special_case(char c);
+void	print_tokens(t_token **token_list);
 
 #endif

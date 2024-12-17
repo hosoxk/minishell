@@ -12,6 +12,16 @@
 
 #include "minishell.h"
 
+void	print_tokens(t_token **token_list)
+{
+	t_token *current = *token_list;
+	while (current)
+	{
+		printf("Token: %s, Type: %d\n", current->value, current->type);
+		current = current->next;
+	}
+}
+
 bool	is_special_case(char c)
 {
 	if (c == '|' || c == '<' || c == '>' || c == '$' || c == '\'' || c == '\"')

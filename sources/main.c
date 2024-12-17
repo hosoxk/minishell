@@ -24,24 +24,21 @@ int	main(int argc, char **argv, char **envp)
 	if (!envp)
 		return (printf("Failure finding envp\n"), 1);
 	/*while (*envp)
-		printf("%s\n", *(envp++));*/
+	 * printf("%s\n", *(envp++));*/
 	while (1)
 	{
 		token_list = NULL;
 		line = readline(BOLD_MAGENTA"$minishell: "RESET);
 		add_history(line);
-		lexer(line, &token_list); //TODO
-		t_token *current = token_list;
-		while (current) {
-			   printf("Token: %s, Type: %d\n", current->value, current->type);
-			   current = current->next;
-		}
+		lexer(line, &token_list);
+		print_tokens(&token_list);
+		/*if (parser()) //TODO
+		 * {
+			//expander(); //TODO
+			//executor(); //TODO
+		}*/
 		free (line);
 		// free_token_list(); //TODO
 	}
-	/*parser(); //TODO
-	//expander(); //TODO
-	//executor(); //TODO
-	*/
 	return (0);
 }
