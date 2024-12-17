@@ -6,7 +6,7 @@
 /*   By: yde-rudd <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:36:00 by yde-rudd          #+#    #+#             */
-/*   Updated: 2024/12/16 16:34:37 by yde-rudd         ###   ########.fr       */
+/*   Updated: 2024/12/17 15:41:44 by yde-rudd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ typedef enum e_token_type
 	APPEND, // >>
 	HEREDOC, // <<
 	VARIABLE, // $VAR
-	QUOTED_STRING, // '...' or "..."
+	QUOTED_STRING, // '...'
+	DOUBLE_QUOTED_STRING, // "..."
 }	t_token_type;
 
 typedef struct s_token

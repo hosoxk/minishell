@@ -6,7 +6,7 @@
 /*   By: yde-rudd <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 16:56:36 by yde-rudd          #+#    #+#             */
-/*   Updated: 2024/12/16 17:22:20 by yde-rudd         ###   ########.fr       */
+/*   Updated: 2024/12/17 15:45:26 by yde-rudd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,10 @@ void     handle_quoted_str(char **line, t_token **token_list)
         if (**line == quote_char)
         {
                 quoted_str = ft_strndup(start, *line - start);
-                add_token_to_list(token_list, quoted_str, QUOTED_STRING);
+				if (quote_char == '\'' && **line == '\'')
+                	add_token_to_list(token_list, quoted_str, QUOTED_STRING);
+				else
+					add_token_to_list(token_list, quoted_str, DOUBLE_QUOTED_STRING);
                 free(quoted_str);
                 (*line)++; //skips closing quote
         }

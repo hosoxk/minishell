@@ -6,7 +6,7 @@
 #    By: yde-rudd <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/25 15:08:03 by yde-rudd          #+#    #+#              #
-#    Updated: 2024/12/16 16:12:46 by yde-rudd         ###   ########.fr        #
+#    Updated: 2024/12/17 17:33:52 by yde-rudd         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@
 NAME = minishell
 CC = cc
 CFLAGS = -g3 -Wall -Werror -Wextra
-PROJECT_FLAGS = -lreadline
+PROJECTFLAGS = -lreadline
 MAKEFLAGS += -s
 
 #directories
@@ -37,6 +37,7 @@ OBJ_FILES = $(SRC_FILES:.c=.o)
 LIBFT = $(LIBFT_DIR)/libft.a
 
 #define colors
+MAGENTA = \033[1;35m
 YELLOW = \033[1;33m
 GREEN = \033[1;32m
 RESET = \033[0m
@@ -46,8 +47,10 @@ all: $(LIBFT) $(NAME)
 
 #link executables
 $(NAME): $(OBJ_FILES) $(LIBFT)
+	@echo "$(MAGENTA)Using compiler: $(CC)$(RESET)"
+	@echo "$(MAGENTA)Using flags: $(CFLAGS) $(PROJECTFLAGS) $(RESET)"
 	@echo "$(YELLOW)Linking $(NAME)...$(RESET)"
-	@$(CC) $(CFLAGS) $(OBJ_FILES) $(PROJECT_FLAGS) $(LIBFT) -o $(NAME)
+	@$(CC) $(CFLAGS) $(OBJ_FILES) $(PROJECTFLAGS) $(LIBFT) -o $(NAME)
 	@echo "$(GREEN)Compilation successfull!$(RESET)"
 
 %.o: %.c

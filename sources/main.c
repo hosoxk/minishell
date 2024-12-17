@@ -6,7 +6,7 @@
 /*   By: yde-rudd <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:38:48 by yde-rudd          #+#    #+#             */
-/*   Updated: 2024/12/16 17:14:16 by yde-rudd         ###   ########.fr       */
+/*   Updated: 2024/12/17 15:24:40 by yde-rudd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,9 @@ int	main(int argc, char **argv, char **envp)
 	(void)envp;
 
 	if (argc != 1)
-		return (printf("fuckyou\n"), 1);
+		return (printf(BOLD_RED"Correct usage: ./minishell\n"RESET), 1);
+	if (!envp)
+		return (printf("Failure finding envp\n"), 1);
 	/*while (*envp)
 		printf("%s\n", *(envp++));*/
 	while (1)
