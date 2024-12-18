@@ -5,7 +5,7 @@ static void	add_argument(char ***args, int *size, int *count, const char *value)
 	if (*args == NULL)
 	{
 		// initial allocation
-		*size = 8; // start with space for 8 arguments
+		*size = ARG_SIZE; // start with space for 8 arguments
 		*args = malloc(sizeof (char *) * (*size));
 		if (!*args)
 			return ;
@@ -17,7 +17,7 @@ static void	add_argument(char ***args, int *size, int *count, const char *value)
 		int	old_size;
 
 		old_size = (*size) * sizeof (char *);
-		*size *= 2;
+		*size += ARG_SIZE; // 8
 		*args = ft_realloc(*args, old_size, (*size) * sizeof (char *));
 		if (!*args)
 			return ;

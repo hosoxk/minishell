@@ -6,7 +6,7 @@
 /*   By: yde-rudd <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:36:00 by yde-rudd          #+#    #+#             */
-/*   Updated: 2024/12/17 15:41:44 by yde-rudd         ###   ########.fr       */
+/*   Updated: 2024/12/18 14:31:41 by yde-rudd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@
 # define BOLD_MAGENTA "\033[35m"
 # define BOLD_RED "\033[31m"
 # define RESET "\033[0m"
+
+# define ARG_SIZE 8;
 
 typedef enum e_token_type
 {
