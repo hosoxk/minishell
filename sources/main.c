@@ -6,7 +6,7 @@
 /*   By: yde-rudd <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:38:48 by yde-rudd          #+#    #+#             */
-/*   Updated: 2024/12/17 15:24:40 by yde-rudd         ###   ########.fr       */
+/*   Updated: 2024/12/18 18:31:17 by yde-rudd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	main(int argc, char **argv, char **envp)
 	if (argc != 1)
 		return (printf(BOLD_RED"Correct usage: ./minishell\n"RESET), 1);
 	if (!envp)
-		return (printf("Failure finding envp\n"), 1);
+		return (printf("Failure locating envp\n"), 1);
 	/*while (*envp)
 	 * printf("%s\n", *(envp++));*/
 	while (1)
@@ -45,14 +45,14 @@ int	main(int argc, char **argv, char **envp)
 			printf(BOLD_RED"\nAbstract Syntax Tree:\n"RESET);
 			print_ast(ast_root, 0);
 		}
+		free (line);
+		free_ast(ast_root);
+		free_token_list(&token_list);
 		/*if (parser()) //TODO
 		 * {
 			//expander(); //TODO
 			//executor(); //TODO
 		}*/
-		free (line);
-		free_ast(ast_root); //TODO
-		free_token_list(&token_list); //TODO
 	}
 	return (0);
 }

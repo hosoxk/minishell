@@ -6,7 +6,7 @@
 /*   By: yde-rudd <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 16:56:36 by yde-rudd          #+#    #+#             */
-/*   Updated: 2024/12/17 15:45:26 by yde-rudd         ###   ########.fr       */
+/*   Updated: 2024/12/18 18:33:15 by yde-rudd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,13 @@ void    add_token_to_list(t_token **token_list, char *value, t_token_type type)
         t_token *new_token;
         t_token *current;
 
+		if (!token_list || !value)
+			return ;
         current = NULL;
-        new_token = malloc(sizeof(t_token));
+        new_token = malloc(sizeof (t_token)); // valgrind issue also happens here? lol //TODO
         if (!new_token)
                 return ;
-        new_token->value = ft_strdup(value);
+        new_token->value = ft_strdup(value); // valgrind issue happens here?? //TODO
         if (!new_token->value)
                 return (free(new_token));
         new_token->type = type;
