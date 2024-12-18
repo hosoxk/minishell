@@ -73,5 +73,7 @@ char	**ft_cpyarr(char **src);
 void	ft_freearr(char **arr);
 bool	is_white_space(char c);
 char	*ft_strndup(const char *s, size_t n);
+void    *ft_realloc(void *ptr, size_t old_size, size_t new_size);
+char    *ft_strcpy(char *dest, const char *src);
 
 #endif

@@ -43,6 +43,15 @@ typedef struct s_token
 	struct s_token	*next; // pointer to the next token
 }	t_token;
 
+typedef struct s_ast
+{
+	t_token_type	type;
+	char		**args; // array of arguments for commands
+	char		*file; // file name for redirection
+	struct s_ast	*left; // left child (for pipes and redirects)
+	struct s_ast	*right; // right child
+}	t_ast;
+
 // *** LEXER & HANDLER ***
 void	lexer(char *line, t_token **token_list);
 void	handle_var(char **line, t_token **token_list);
@@ -50,8 +59,16 @@ void	handle_redirect(char **line, t_token **token_list);
 void	handle_quoted_str(char **line, t_token **token_list);
 void	add_token_to_list(t_token **token_list, char *value, t_token_type type);
 
+// *** PARSER ***
+t_ast   *parse_ast(t_token **tokens);
+
 // *** UTILS ***
 bool	is_special_case(char c);
 void	print_tokens(t_token **token_list);
+void    print_ast(t_ast *node, int depth);
+
+// *** CLEAN ***
+void    free_token_list(t_token **token_list);
+void    free_ast(t_ast *node);
 
 #endif

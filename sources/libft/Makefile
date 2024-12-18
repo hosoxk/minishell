@@ -76,7 +76,9 @@ SRC = $(SRC_DIR)/ft_isalpha.c \
 	$(GNL_DIR)/get_next_line.c \
 	$(GNL_DIR)/get_next_line_utils.c \
 	$(SRC_DIR)/is_white_space.c \
-	$(SRC_DIR)/ft_strndup.c
+	$(SRC_DIR)/ft_strndup.c \
+	$(SRC_DIR)/ft_realloc.c \
+	$(SRC_DIR)/ft_strcpy.c
 PRINTF_SRC = $(PRINTF_DIR)/ft_printf.c \
 			 $(PRINTF_DIR)/ft_printf_char.c \
 			 $(PRINTF_DIR)/ft_printf_int.c \

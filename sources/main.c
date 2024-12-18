@@ -16,6 +16,7 @@ int	main(int argc, char **argv, char **envp)
 {
 	char	*line;
 	t_token	*token_list;
+	t_ast	*ast_root;
 	(void)argv;
 	(void)envp;
 
@@ -28,17 +29,30 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		token_list = NULL;
+		ast_root = NULL;
 		line = readline(BOLD_MAGENTA"$minishell: "RESET);
-		add_history(line);
+		if (!line)
+			break ; // Exit on EOF
+		if (*line)
+			add_history(line);
+		// tokenize input
 		lexer(line, &token_list);
 		print_tokens(&token_list);
+		// parse tokens into AST
+		ast_root = parse_ast(&token_list);
+		if (ast_root)
+		{
+			printf(BOLD_RED"\nAbstract Syntax Tree:\n"RESET);
+			print_ast(ast_root, 0);
+		}
 		/*if (parser()) //TODO
 		 * {
 			//expander(); //TODO
 			//executor(); //TODO
 		}*/
 		free (line);
-		// free_token_list(); //TODO
+		free_ast(ast_root); //TODO
+		free_token_list(&token_list); //TODO
 	}
 	return (0);
 }
