@@ -12,31 +12,51 @@
 
 #include "minishell.h"
 
-int	main(int argc, char **argv, char **envp)
+static bool	check_input(int argc, char **envp)
 {
+	if (argc != 1)
+		return (printf(BOLD_RED"Correct usage: ./minishell\n"RESET),
+			false);
+	if (!envp)
+		return (printf(BOLD_RED"Failure locating envp\n"RESET), 
+			false);
+	/*while (*envp)
+	 * printf("%s\n", *(envp++));*/
+	return (true);
+}
+
+static char	*handle_line(void)
+{
+	char	*line;
+
+	line = readline(BOLD_MAGENTA"$minishell: "RESET);
+	if (!line)
+		return (false);
+	if (*line)
+		add_history(line);
+	return (line);
+}
+
+int	main(int argc, char **envp)
+{
+	(void)envp;
 	char	*line;
 	t_token	*token_list;
 	t_ast	*ast_root;
-	(void)argv;
-	(void)envp;
 
-	if (argc != 1)
-		return (printf(BOLD_RED"Correct usage: ./minishell\n"RESET), 1);
-	if (!envp)
-		return (printf("Failure locating envp\n"), 1);
-	/*while (*envp)
-	 * printf("%s\n", *(envp++));*/
+	if (!check_input(argc, envp))
+		return (1);
 	while (1)
 	{
 		token_list = NULL;
 		ast_root = NULL;
-		line = readline(BOLD_MAGENTA"$minishell: "RESET);
-		if (!line)
-			break ; // Exit on EOF
-		if (*line)
-			add_history(line);
+		line = NULL;
+		// read input
+		if (!(line = handle_line()))
+			return (1);
 		// tokenize input
 		lexer(line, &token_list);
+		free (line);
 		print_tokens(&token_list);
 		// parse tokens into AST
 		ast_root = parse_ast(&token_list);
@@ -45,7 +65,6 @@ int	main(int argc, char **argv, char **envp)
 			printf(BOLD_RED"\nAbstract Syntax Tree:\n"RESET);
 			print_ast(ast_root, 0);
 		}
-		free (line);
 		free_ast(ast_root);
 		free_token_list(&token_list);
 		/*if (parser()) //TODO

@@ -63,6 +63,11 @@ void	add_token_to_list(t_token **token_list, char *value, t_token_type type);
 
 // *** PARSER ***
 t_ast   *parse_ast(t_token **tokens);
+void    add_argument(char ***args, int *size, int *count, const char *value);
+t_ast	*create_ast_node(t_token_type type);
+t_ast	*create_pipe_node(t_ast *left_node, t_token **tokens);
+t_ast   *create_redirection_node(t_ast *left_node, t_token **tokens);
+t_ast   *create_command_node(t_ast *command_node, t_token **tokens, int *size, int *count);
 
 // *** UTILS ***
 bool	is_special_case(char c);
