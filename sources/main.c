@@ -57,21 +57,20 @@ int	main(int argc, char **envp)
 		// tokenize input
 		lexer(line, &token_list);
 		free (line);
-		print_tokens(&token_list);
-		// parse tokens into AST
-		ast_root = parse_ast(&token_list);
-		if (ast_root)
+		if (validate_token_sequence(token_list))
 		{
-			printf(BOLD_RED"\nAbstract Syntax Tree:\n"RESET);
-			print_ast(ast_root, 0);
+			if ((ast_root = parse_ast(&token_list)))
+			{
+				//expander(); //TODO
+				//executor(); //TODO
+				printf(BOLD_RED"\nAbstract Syntax Tree:\n"RESET);
+				print_ast(ast_root, 0);
+			}
 		}
+		//print_tokens(&token_list);
+		// parse tokens into AST
 		free_ast(ast_root);
 		free_token_list(&token_list);
-		/*if (parser()) //TODO
-		 * {
-			//expander(); //TODO
-			//executor(); //TODO
-		}*/
 	}
 	return (0);
 }

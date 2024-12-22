@@ -60,6 +60,7 @@ void	handle_var(char **line, t_token **token_list);
 void	handle_redirect(char **line, t_token **token_list);
 void	handle_quoted_str(char **line, t_token **token_list);
 void	add_token_to_list(t_token **token_list, char *value, t_token_type type);
+bool    validate_token_sequence(t_token *tokens);
 
 // *** PARSER ***
 t_ast   *parse_ast(t_token **tokens);

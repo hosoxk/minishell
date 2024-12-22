@@ -23,7 +23,7 @@ void    add_token_to_list(t_token **token_list, char *value, t_token_type type)
 	new_token = malloc(sizeof (t_token)); // valgrind issue also happens here? lol //TODO
 	if (!new_token)
 	{
-		printf("Failure mallocing space for new_token\n");
+		printf(BOLD_RED"Failure mallocing space for new_token\n"RESET);
 		return ;
 	}
 	new_token->value = ft_strdup(value); // valgrind issue happens here?? //TODO

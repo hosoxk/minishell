@@ -96,7 +96,6 @@ t_ast	*parse_ast(t_token **tokens)
 			left_node = create_command_node(left_node, tokens, &size, &count);
 			*tokens = (*tokens)->next;
 		}
-
 	}
 	if (left_node)
 	{
