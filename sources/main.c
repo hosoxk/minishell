@@ -6,7 +6,7 @@
 /*   By: yde-rudd <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:38:48 by yde-rudd          #+#    #+#             */
-/*   Updated: 2024/12/18 18:31:17 by yde-rudd         ###   ########.fr       */
+/*   Updated: 2024/12/26 15:52:33 by yde-rudd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ static char	*handle_line(void)
 	line = readline(BOLD_MAGENTA"$minishell: "RESET);
 	if (!line)
 		return (false);
+	if (ft_strcmp(line, "exit") == 0)
+		return (NULL);
 	if (*line)
 		add_history(line);
 	return (line);
@@ -53,7 +55,7 @@ int	main(int argc, char **envp)
 		line = NULL;
 		// read input
 		if (!(line = handle_line()))
-			return (1);
+			return (free(line) ,1);
 		// tokenize input
 		lexer(line, &token_list);
 		free (line);
@@ -63,7 +65,7 @@ int	main(int argc, char **envp)
 			{
 				//expander(); //TODO
 				//executor(); //TODO
-				printf(BOLD_RED"\nAbstract Syntax Tree:\n"RESET);
+				printf(BOLD_MAGENTA"\nAbstract Syntax Tree:\n"RESET);
 				print_ast(ast_root, 0);
 			}
 		}

@@ -6,7 +6,7 @@
 /*   By: yde-rudd <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 18:12:50 by yde-rudd          #+#    #+#             */
-/*   Updated: 2024/12/18 18:26:59 by yde-rudd         ###   ########.fr       */
+/*   Updated: 2024/12/26 15:06:37 by yde-rudd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,15 +33,33 @@ void	free_ast(t_ast *node)
 {
 	if (!node)
 		return ;
-	free_ast(node->left);
-	free_ast(node->right);
 	if (node->args)
 	{
-		for (int i = 0; node->args[i]; i++)
-			free(node->args[i]);
+		int	i;
+
+		i = 0;
+		while (node->args[i])
+			free(node->args[i++]);
 		free(node->args);
 	}
 	if (node->file)
 		free(node->file);
+	free_ast(node->left);
+	free_ast(node->right);
 	free(node);
+}
+
+void	free_program(char *line, t_token *token_list, t_ast *ast_root)
+{
+	if (line)
+		free(line);
+	free_token_list(&token_list);
+	while (ast_root)
+	{
+		t_ast	*temp;
+
+		temp = ast_root;
+		ast_root = ast_root->right;
+		free_ast(temp);
+	}
 }

@@ -6,7 +6,7 @@
 /*   By: yde-rudd <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:36:00 by yde-rudd          #+#    #+#             */
-/*   Updated: 2024/12/18 14:31:41 by yde-rudd         ###   ########.fr       */
+/*   Updated: 2024/12/26 14:58:08 by yde-rudd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,5 +78,6 @@ void    print_ast(t_ast *node, int depth);
 // *** CLEAN ***
 void    free_token_list(t_token **token_list);
 void    free_ast(t_ast *node);
+void	free_program(char *line, t_token *token_list, t_ast *ast_root);
 
 #endif
