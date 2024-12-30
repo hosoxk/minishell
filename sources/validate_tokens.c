@@ -46,8 +46,8 @@ bool	is_valid_command(t_token *token)
 		printf("%p\n", token->value);
 		if (ft_strcmp(token->value, valid_commands[i]) == 0)
 		{
+			token->is_command = true;
 			get_command_type(token);
-			return (printf("\nCommand found!\n\n"), true);
 		}
 		i++;
 	}

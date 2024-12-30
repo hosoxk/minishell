@@ -6,7 +6,7 @@
 /*   By: yde-rudd <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 15:15:46 by yde-rudd          #+#    #+#             */
-/*   Updated: 2024/12/17 15:15:47 by yde-rudd         ###   ########.fr       */
+/*   Updated: 2024/12/30 16:19:20 by yde-rudd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	print_tokens(t_token **token_list)
 	t_token *current = *token_list;
 	while (current)
 	{
-		printf("Token: %s, Type: %d\n", current->value, current->type);
+		printf(BOLD_BLUE"Token: %s, Type: %d\n"RESET, current->value, current->type);
 		current = current->next;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: yde-rudd <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:43:38 by yde-rudd          #+#    #+#             */
-/*   Updated: 2024/12/16 17:17:40 by yde-rudd         ###   ########.fr       */
+/*   Updated: 2024/12/30 16:18:48 by yde-rudd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ void	lexer(char *line, t_token **token_list)
 			line++;
 		else if (is_special_case(*line))
 			handle_special_case(&line, token_list);
-			//printf("%c is a special character\n", *line++);
 		else
 			handle_word(&line, token_list);
 	}
