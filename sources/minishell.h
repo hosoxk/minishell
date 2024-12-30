@@ -6,7 +6,11 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:36:00 by yde-rudd          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2024/12/30 18:07:43 by yde-rudd         ###   ########.fr       */
+=======
+/*   Updated: 2024/12/30 18:01:05 by kvanden-         ###   ########.fr       */
+>>>>>>> b8e587559f32df70575236da8e3a7bfbdb256363
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,8 +113,8 @@ void				free_program(char *line, t_token *token_list,
 // *** EXECUTION ***
 void				executor(t_ast *ast_root, char ***env);
 void				execute_build_in_cmd(char *name, char **argv, char **env);
-void				execute_custom_cmd_after_fork(char *name, char **argv, char ***env,
-						t_command_type type);
+void				execute_custom_cmd_after_fork(char *name, char **argv,
+						char ***env, t_command_type type);
 bool				execute_custom_cmd(char *name, char **argv, char ***env,
 						t_command_type type);
 
@@ -118,5 +122,8 @@ void				my_echo(char **argv);
 void				my_env(char **env);
 void				export(char ***env, char **argv);
 void				unset(char ***env, char **argv);
+void				my_pwd(char **env);
+
+char				*my_getenv(char *name, char **env);
 
 #endif

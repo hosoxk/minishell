@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 12:10:12 by kvanden-          #+#    #+#             */
-/*   Updated: 2024/12/30 15:32:03 by kvanden-         ###   ########.fr       */
+/*   Updated: 2024/12/30 17:35:33 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,11 @@ static void	execute(t_ast *ast_root, char ***env)
 void	executor(t_ast *ast_root, char ***env)
 {
 	pid_t	pid;
-    int status;
+	int		status;
 
-	if (execute_custom_cmd(ast_root->args[0], ast_root->args, env, ast_root->type))
+	if (execute_custom_cmd(ast_root->args[0], ast_root->args, env,
+			ast_root->type))
 		return ;
-
 	pid = fork();
 	if (pid == -1)
 		exit(1);

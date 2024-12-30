@@ -6,13 +6,13 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 13:00:45 by kvanden-          #+#    #+#             */
-/*   Updated: 2024/12/30 13:33:30 by kvanden-         ###   ########.fr       */
+/*   Updated: 2024/12/30 17:55:13 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*my_getenv(char *name, char **env)
+char	*my_getenv(char *name, char **env)
 {
 	int	i;
 	int	len;
