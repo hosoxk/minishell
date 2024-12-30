@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
@@ -7,12 +6,10 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:38:48 by yde-rudd          #+#    #+#             */
-/*   Updated: 2024/12/30 17:40:24 by yde-rudd         ###   ########.fr       */
+/*   Updated: 2024/12/30 18:55:54 by yde-rudd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-=======
->>>>>>> b8e587559f32df70575236da8e3a7bfbdb256363
 #include "minishell.h"
 
 static bool	check_input(int argc, char **envp)
@@ -43,6 +40,7 @@ static void parse_token(char *line, t_token *token_list, t_ast *ast_root, char *
 {
 	if (!line)
 		return ;
+	(void)env;
 	// tokenize input
 	lexer(line, &token_list);
 	free (line);
@@ -53,7 +51,7 @@ static void parse_token(char *line, t_token *token_list, t_ast *ast_root, char *
 		if ((ast_root = parse_ast(&token_list)))
 		{
 			//expander(); //TODO
-			executor(ast_root, env); //TODO
+			//executor(ast_root, env); //TODO
 			printf(BOLD_MAGENTA"\nAbstract Syntax Tree:\n"RESET);
 			print_ast(ast_root, 0);
 		}
@@ -74,8 +72,9 @@ int	main(int argc, char **argv, char **envp)
 	char	*line;
 	t_token	*token_list;
 	t_ast	*ast_root;
-	char **env = envp;
-
+	char	**env;
+	
+	env = envp;
 	if (!check_input(argc, envp))
 		return (1);
 	env = ft_copy_tab(envp);

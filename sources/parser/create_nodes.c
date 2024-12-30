@@ -6,7 +6,7 @@
 /*   By: yde-rudd <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 14:48:39 by yde-rudd          #+#    #+#             */
-/*   Updated: 2024/12/30 17:05:25 by yde-rudd         ###   ########.fr       */
+/*   Updated: 2024/12/30 19:29:41 by yde-rudd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,6 @@ t_ast	*create_pipe_node(t_ast *left_node, t_token **tokens)
 		return (printf("Failed to allocate memory for PIPE node\n"), NULL);
 	pipe_node->left = left_node;
 	*tokens = (*tokens)->next;
-	if (!*tokens)
-		return (printf("Syntax error: unexpected end of input after PIPE\n"), NULL);
 	printf("Moving to parse right side of PIPE\n");
 	pipe_node->right = parse_ast(tokens);
 	return (pipe_node);

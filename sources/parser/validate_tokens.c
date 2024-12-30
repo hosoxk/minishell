@@ -1,11 +1,49 @@
 #include "../minishell.h"
 
-static bool	check_pipe(t_token *token)
+static bool	check_pipe(t_token *token, t_token *prev_token)
 {
+	if (!prev_token)
+		return (printf(BOLD_RED"Syntax error: unexpected pipe at the beginning\n"RESET), false);
 	if (!token->next || token->next->type == PIPE)
-		return (printf(BOLD_RED"Syntax error: near unexpected token '|'\n"RESET), false);
+		return (printf(BOLD_RED"Syntax error: invalid pipe sequence\n"RESET), false);
 	if (!token->next || token->next->type != WORD)
 		return (printf(BOLD_RED"Syntax error: missing command after pipe\n"RESET), false);
+	return (true);
+}
+
+static bool	check_redir(t_token *token, t_token *prev_token)
+{
+	if (!token->next || token->next->type != WORD)
+		return (printf(BOLD_RED"Syntax error: missing target for redirection\n"RESET), false);
+	if (!prev_token || prev_token != WORD)
+		return (printf(BOLD_RED"Syntax error: missing command before redirection\n"RESET), false);
+	return (true);
+}
+
+bool	validate_token_sequence(t_token *tokens)
+{
+	t_token	*prev_token;
+
+	prev_token = NULL;
+	while (tokens)
+	{
+		if (tokens->type == PIPE)
+		{
+			if (!check_pipe(tokens, prev_token))
+				return (false);
+		}
+		if ((tokens->type == REDIRECT_IN || tokens->type == REDIRECT_OUT ||
+			tokens->type == APPEND || tokens->type == HEREDOC))
+		{
+			if (!check_redir(tokens, prev_token))
+				return (false);
+		}
+	/*	if (tokens->type == WORD)
+			is_valid_command(tokens);
+	*/
+		prev_token = tokens;
+		tokens = tokens->next;
+	}
 	return (true);
 }
 /*
@@ -53,34 +91,3 @@ bool	is_valid_command(t_token *token)
 	return (false);
 }
 */
-bool	validate_token_sequence(t_token *tokens)
-{
-	t_token	*prev_token;
-
-	prev_token = NULL;
-	while (tokens)
-	{
-		if (tokens->type == PIPE)
-		{
-			check_pipe(tokens);
-			if (!prev_token)
-				return (printf(BOLD_RED"Syntax error: unexpected pipe at the beginning\n"RESET), false);
-			if (!tokens->next || tokens->next->type == PIPE)
-				return (printf(BOLD_RED"Syntax error: invalid pipe sequence\n"RESET), false);
-			if (!tokens->next || tokens->next->type != WORD)
-				return (printf(BOLD_RED"Syntax error: missing command after pipe\n"RESET), false);
-		}
-		if ((tokens->type == REDIRECT_IN || tokens->type == REDIRECT_OUT ||
-			tokens->type == APPEND || tokens->type == HEREDOC))
-		{
-			if (!tokens->next || tokens->next->type != WORD)
-				return (printf(BOLD_RED"Syntax error: missing target for redirection\n"RESET), false);
-		}
-	/*	if (tokens->type == WORD)
-			is_valid_command(tokens);
-	*/
-		prev_token = tokens;
-		tokens = tokens->next;
-	}
-	return (true);
-}

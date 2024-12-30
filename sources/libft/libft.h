@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 02:03:33 by yde-rudd          #+#    #+#             */
-/*   Updated: 2024/12/30 17:03:07 by kvanden-         ###   ########.fr       */
+/*   Updated: 2024/12/30 18:52:48 by yde-rudd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,5 @@ bool				ft_free(void **pt);
 char				**ft_copy_tab(char **tab);
 int					ft_tab_len(char **tab);
 void				ft_print_tab(char **tab);
-void				*ft_realloc(void *ptr, size_t old_size, size_t new_size);
 
 #endif
