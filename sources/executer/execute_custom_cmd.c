@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 13:00:31 by kvanden-          #+#    #+#             */
-/*   Updated: 2024/12/30 15:39:10 by kvanden-         ###   ########.fr       */
+/*   Updated: 2024/12/30 18:01:28 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ void	execute_custom_cmd_after_fork(char *name, char **argv, char ***env,
 		my_echo(argv);
 	else if (ft_strcmp(name, "env") == 0)
 		my_env(*env);
+	else if (ft_strcmp(name, "pwd") == 0)
+		my_pwd(*env);
 	else
 		return ;
 	// else if (ft_strcmp(token->value, "cd") == 0)
