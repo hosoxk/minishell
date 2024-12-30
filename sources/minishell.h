@@ -38,10 +38,24 @@ typedef enum e_token_type
 	DOUBLE_QUOTED_STRING, // "..."
 }	t_token_type;
 
+typedef enum e_command_type
+{
+	CMD_NONE = -1,
+	CMD_ECHO,
+	CMD_CD,
+	CMD_PWD,
+	CMD_EXPORT,
+	CMD_UNSET,
+	CMD_ENV,
+	CMD_EXIT
+}	t_command_type;
+
 typedef struct s_token
 {
 	char			*value;
 	t_token_type	type;
+	bool		is_command;
+	t_command_type	command_type;
 	struct s_token	*next; // pointer to the next token
 }	t_token;
 
@@ -61,6 +75,7 @@ void	handle_redirect(char **line, t_token **token_list);
 void	handle_quoted_str(char **line, t_token **token_list);
 void	add_token_to_list(t_token **token_list, char *value, t_token_type type);
 bool    validate_token_sequence(t_token *tokens);
+bool	is_valid_command(t_token *token);
 
 // *** PARSER ***
 t_ast   *parse_ast(t_token **tokens);

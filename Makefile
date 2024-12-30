@@ -28,7 +28,8 @@ SRC_FILES = $(SRC_DIR)/main.c \
 		$(SRC_DIR)/utils.c \
 		$(SRC_DIR)/parsing.c \
 		$(SRC_DIR)/clean.c \
-		$(SRC_DIR)/create_nodes.c
+		$(SRC_DIR)/create_nodes.c \
+		$(SRC_DIR)/validate_tokens.c
 		#$(SRC_DIR)/pwd_builtin.c \
 		$(SRC_DIR)/echo_builtin.c \
 		$(SRC_DIR)/cd_builtin.c \

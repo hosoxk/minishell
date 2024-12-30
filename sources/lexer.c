@@ -12,37 +12,6 @@
 
 #include "minishell.h"
 
-bool	validate_token_sequence(t_token *tokens)
-{
-	t_token	*prev_token;
-
-	prev_token = NULL;
-	while (tokens)
-	{
-		if (tokens->type == PIPE)
-		{
-			if (!prev_token)
-				return (printf(BOLD_RED"Syntax error: unexpected pipe at the beginning\n"RESET), false);
-			if (!tokens->next || tokens->next->type == PIPE)
-				return (printf(BOLD_RED"Syntax error: invalid pipe sequence\n"RESET), false);
-			if (!tokens->next || tokens->next->type != WORD)
-				return (printf(BOLD_RED"Syntax error: missing command after pipe\n"RESET), false);
-		}
-		if ((tokens->type == REDIRECT_IN || tokens->type == REDIRECT_OUT ||
-			tokens->type == APPEND || tokens->type == HEREDOC))
-		{
-			if (!tokens->next || tokens->next->type != WORD)
-				return (printf(BOLD_RED"Syntax error: missing target for redirection\n"RESET), false);
-		}
-		if ((tokens->type == REDIRECT_IN || tokens->type == REDIRECT_OUT || tokens->type == APPEND
-			|| tokens->type == HEREDOC || tokens->type == PIPE) && !tokens->next)
-			return (printf(BOLD_RED"Syntax error: invalid token at the beginning\n"RESET), false);
-		prev_token = tokens;
-		tokens = tokens->next;
-	}
-	return (true);
-}
-
 static void    handle_word(char **line, t_token **token_list)
 {
         char    *start;

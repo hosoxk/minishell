@@ -30,6 +30,8 @@ void    add_token_to_list(t_token **token_list, char *value, t_token_type type)
 	if (!new_token->value)
 		return (free(new_token));
 	new_token->type = type;
+	new_token->command_type = CMD_NONE;
+	new_token->is_command = is_valid_command(new_token);
 	new_token->next = NULL;
 	if (*token_list == NULL)
 		*token_list = new_token;

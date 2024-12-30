@@ -37,7 +37,7 @@ void	add_argument(char ***args, int *size, int *count, const char *value)
 	// add the argument to the array
 	(*args)[*count] = ft_strdup(value);
 	(*count)++;
-	(*args)[*count] = NULL; // null-terminate
+	(*args)[*count] = NULL;
 }
 
 t_ast	*create_ast_node(t_token_type type)
