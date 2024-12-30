@@ -6,11 +6,11 @@
 /*   By: yde-rudd <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:43:38 by yde-rudd          #+#    #+#             */
-/*   Updated: 2024/12/30 16:18:48 by yde-rudd         ###   ########.fr       */
+/*   Updated: 2024/12/30 17:05:38 by yde-rudd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 static void    handle_word(char **line, t_token **token_list)
 {

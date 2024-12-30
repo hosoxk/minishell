@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:36:00 by yde-rudd          #+#    #+#             */
-/*   Updated: 2024/12/30 16:19:31 by kvanden-         ###   ########.fr       */
+/*   Updated: 2024/12/30 18:07:43 by yde-rudd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,8 @@ typedef struct s_token
 {
 	char			*value;
 	t_token_type	type;
-	bool			is_command;
-	t_command_type	command_type;
 	struct s_token *next; // pointer to the next token
+	struct s_token	*prev;
 }					t_token;
 
 typedef struct s_ast

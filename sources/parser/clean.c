@@ -6,11 +6,11 @@
 /*   By: yde-rudd <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 18:12:50 by yde-rudd          #+#    #+#             */
-/*   Updated: 2024/12/26 15:06:37 by yde-rudd         ###   ########.fr       */
+/*   Updated: 2024/12/30 17:05:17 by yde-rudd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 void	free_token_list(t_token **token_list)
 {

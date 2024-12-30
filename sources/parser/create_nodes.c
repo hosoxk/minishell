@@ -6,11 +6,11 @@
 /*   By: yde-rudd <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 14:48:39 by yde-rudd          #+#    #+#             */
-/*   Updated: 2024/12/26 14:48:41 by yde-rudd         ###   ########.fr       */
+/*   Updated: 2024/12/30 17:05:25 by yde-rudd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 t_ast	*create_pipe_node(t_ast *left_node, t_token **tokens)
 {

@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:38:48 by yde-rudd          #+#    #+#             */
-/*   Updated: 2024/12/30 16:25:26 by kvanden-         ###   ########.fr       */
+/*   Updated: 2024/12/30 17:40:24 by yde-rudd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 
 static bool	check_input(int argc, char **envp)
 {
-	// while (*envp)
-	// 	printf("%s\n", *(envp++));
 	if (argc != 1)
 		return (printf(BOLD_RED"Correct usage: ./minishell\n"RESET),
 			false);
@@ -38,7 +36,7 @@ static char	*handle_line(void)
 	return (line);
 }
 
-void parse_token(char *line, t_token *token_list, t_ast *ast_root, char ***env)
+static void parse_token(char *line, t_token *token_list, t_ast *ast_root, char ***env)
 {
 	if (!line)
 		return ;
@@ -88,6 +86,8 @@ int	main(int argc, char **argv, char **envp)
 		// read input
 		if (!(line = handle_line()))
 			return (1);
+		if (ft_strcmp(line, "exit") == 0)
+			return (free(line), 0);
 		if (DEBUG == 0)
 			parse_token(line, token_list, ast_root, &env);
 		else if (DEBUG == 1)

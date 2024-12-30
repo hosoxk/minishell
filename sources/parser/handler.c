@@ -6,11 +6,11 @@
 /*   By: yde-rudd <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 16:56:36 by yde-rudd          #+#    #+#             */
-/*   Updated: 2024/12/30 15:39:21 by yde-rudd         ###   ########.fr       */
+/*   Updated: 2024/12/30 18:23:15 by yde-rudd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 void    add_token_to_list(t_token **token_list, char *value, t_token_type type)
 {
@@ -31,9 +31,8 @@ void    add_token_to_list(t_token **token_list, char *value, t_token_type type)
 	if (!new_token->value)
 		return (free(new_token));
 	new_token->type = type;
-	new_token->command_type = CMD_NONE;
-	new_token->is_command = is_valid_command(new_token);
 	new_token->next = NULL;
+	new_token->prev = NULL;
 	if (*token_list == NULL)
 		*token_list = new_token;
 	else
@@ -42,6 +41,7 @@ void    add_token_to_list(t_token **token_list, char *value, t_token_type type)
 		while (current->next) //traverse the list to find the last element
 			current = current->next;
 		current->next = new_token; // append new token at the end
+		new_token->prev = current;
 	}
 }
 

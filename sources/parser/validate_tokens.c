@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "../minishell.h"
 
 static bool	check_pipe(t_token *token)
 {
@@ -8,7 +8,7 @@ static bool	check_pipe(t_token *token)
 		return (printf(BOLD_RED"Syntax error: missing command after pipe\n"RESET), false);
 	return (true);
 }
-
+/*
 static void	get_command_type(t_token *token)
 {
 	if (ft_strcmp(token->value, "echo") == 0)
@@ -43,7 +43,6 @@ bool	is_valid_command(t_token *token)
 	valid_commands[7] = NULL;
 	while(valid_commands[i])
 	{
-		printf("%p\n", token->value);
 		if (ft_strcmp(token->value, valid_commands[i]) == 0)
 		{
 			token->is_command = true;
@@ -53,7 +52,7 @@ bool	is_valid_command(t_token *token)
 	}
 	return (false);
 }
-
+*/
 bool	validate_token_sequence(t_token *tokens)
 {
 	t_token	*prev_token;
@@ -77,11 +76,9 @@ bool	validate_token_sequence(t_token *tokens)
 			if (!tokens->next || tokens->next->type != WORD)
 				return (printf(BOLD_RED"Syntax error: missing target for redirection\n"RESET), false);
 		}
-		if ((tokens->type == REDIRECT_IN || tokens->type == REDIRECT_OUT || tokens->type == APPEND
-			|| tokens->type == HEREDOC || tokens->type == PIPE) && !tokens->next)
-			return (printf(BOLD_RED"Syntax error: invalid token at the beginning\n"RESET), false);
-		if (tokens->type == WORD)
+	/*	if (tokens->type == WORD)
 			is_valid_command(tokens);
+	*/
 		prev_token = tokens;
 		tokens = tokens->next;
 	}

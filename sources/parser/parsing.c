@@ -6,11 +6,11 @@
 /*   By: yde-rudd <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 18:12:13 by yde-rudd          #+#    #+#             */
-/*   Updated: 2024/12/18 18:12:45 by yde-rudd         ###   ########.fr       */
+/*   Updated: 2024/12/30 17:05:46 by yde-rudd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 void	add_argument(char ***args, int *size, int *count, const char *value)
 {
