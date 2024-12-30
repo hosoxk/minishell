@@ -40,9 +40,10 @@ bool	is_valid_command(t_token *token)
 	valid_commands[4] = "unset";
 	valid_commands[5] = "env";
 	valid_commands[6] = "exit";
-	valid_commands[7] = "NULL";
-	while(valid_commands[i]) // i++
+	valid_commands[7] = NULL;
+	while(valid_commands[i])
 	{
+		printf("%p\n", token->value);
 		if (ft_strcmp(token->value, valid_commands[i]) == 0)
 		{
 			get_command_type(token);

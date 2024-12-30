@@ -6,7 +6,7 @@
 /*   By: yde-rudd <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 16:56:36 by yde-rudd          #+#    #+#             */
-/*   Updated: 2024/12/18 18:33:15 by yde-rudd         ###   ########.fr       */
+/*   Updated: 2024/12/30 15:39:21 by yde-rudd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,13 @@ void    add_token_to_list(t_token **token_list, char *value, t_token_type type)
 	if (!token_list || !value)
 		return ;
 	current = NULL;
-	new_token = malloc(sizeof (t_token)); // valgrind issue also happens here? lol //TODO
+	new_token = ft_calloc(1, sizeof(t_token)); // valgrind issue also happens here? lol //TODO
 	if (!new_token)
 	{
 		printf(BOLD_RED"Failure mallocing space for new_token\n"RESET);
 		return ;
 	}
+	new_token->value = NULL;
 	new_token->value = ft_strdup(value); // valgrind issue happens here?? //TODO
 	if (!new_token->value)
 		return (free(new_token));
