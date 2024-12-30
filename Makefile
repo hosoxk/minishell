@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: yde-rudd <marvin@42.fr>                    +#+  +:+       +#+         #
+#    By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/25 15:08:03 by yde-rudd          #+#    #+#              #
-#    Updated: 2024/12/17 17:33:52 by yde-rudd         ###   ########.fr        #
+#    Updated: 2024/12/30 14:54:50 by kvanden-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,15 @@ SRC_FILES = $(SRC_DIR)/main.c \
 		$(SRC_DIR)/parsing.c \
 		$(SRC_DIR)/clean.c \
 		$(SRC_DIR)/create_nodes.c \
-		$(SRC_DIR)/validate_tokens.c
+		$(SRC_DIR)/validate_tokens.c \
+		$(SRC_DIR)/executer/execute_build_in_cmd.c \
+		$(SRC_DIR)/executer/execute_custom_cmd.c \
+		$(SRC_DIR)/executer/executer.c \
+		$(SRC_DIR)/executer/my_echo.c \
+		$(SRC_DIR)/executer/my_env.c \
+		$(SRC_DIR)/executer/my_unset.c \
+		$(SRC_DIR)/executer/my_export.c \
+		$(SRC_DIR)/executer/rediraction.c
 		#$(SRC_DIR)/pwd_builtin.c \
 		$(SRC_DIR)/echo_builtin.c \
 		$(SRC_DIR)/cd_builtin.c \
@@ -59,7 +67,7 @@ $(NAME): $(OBJ_FILES) $(LIBFT)
 
 %.o: %.c
 	@echo "$(YELLOW)Compiling $<...$(RESET)"
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) -I $(SRC_DIR) -c $< -o $@
 
 $(LIBFT):
 	@echo "$(YELLOW)Building libft...$(RESET)"

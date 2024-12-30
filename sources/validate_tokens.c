@@ -41,12 +41,15 @@ bool	is_valid_command(t_token *token)
 	valid_commands[5] = "env";
 	valid_commands[6] = "exit";
 	valid_commands[7] = "NULL";
-	while(valid_commands[i++])
+	while(valid_commands[i]) // i++
+	{
 		if (ft_strcmp(token->value, valid_commands[i]) == 0)
 		{
 			get_command_type(token);
 			return (printf("\nCommand found!\n\n"), true);
 		}
+		i++;
+	}
 	return (false);
 }
 
