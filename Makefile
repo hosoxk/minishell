@@ -6,78 +6,103 @@
 #    By: yde-rudd <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/25 15:08:03 by yde-rudd          #+#    #+#              #
-#    Updated: 2024/12/17 17:33:52 by yde-rudd         ###   ########.fr        #
+#    Updated: 2024/12/30 14:59:48 by yde-rudd         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-#project name and compilation settings
-NAME = minishell
-CC = cc
-CFLAGS = -g3 -Wall -Werror -Wextra
+# project name and compilation settings
+NAME         = minishell
+DEBUG_NAME   = minishell_debug
+
+CC           = cc
+CFLAGS       = -g3 -Wall -Werror -Wextra
+# additional flags for debug build
+DEBUG_FLAGS  = -DDEBUG=1
+
 PROJECTFLAGS = -lreadline
-MAKEFLAGS += -s
+MAKEFLAGS   += -s
 
-#directories
-SRC_DIR = ./sources
-LIBFT_DIR = ./sources/libft
+# directories
+SRC_DIR      = ./sources
+LIBFT_DIR    = ./sources/libft
 
-#source and object files
+# source and object files
 SRC_FILES = $(SRC_DIR)/main.c \
-		$(SRC_DIR)/lexer.c \
-		$(SRC_DIR)/handler.c \
-		$(SRC_DIR)/utils.c \
-		$(SRC_DIR)/parsing.c \
-		$(SRC_DIR)/clean.c \
-		$(SRC_DIR)/create_nodes.c \
-		$(SRC_DIR)/validate_tokens.c
-		#$(SRC_DIR)/pwd_builtin.c \
-		$(SRC_DIR)/echo_builtin.c \
-		$(SRC_DIR)/cd_builtin.c \
-		$(SRC_DIR)/exit_builtin.c
+            $(SRC_DIR)/lexer.c \
+            $(SRC_DIR)/handler.c \
+            $(SRC_DIR)/utils.c \
+            $(SRC_DIR)/parsing.c \
+            $(SRC_DIR)/clean.c \
+            $(SRC_DIR)/create_nodes.c \
+            $(SRC_DIR)/validate_tokens.c
 
-OBJ_FILES = $(SRC_FILES:.c=.o)
+OBJ_FILES        = $(SRC_FILES:.c=.o)
+DEBUG_OBJ_FILES  = $(SRC_FILES:.c=.debug.o)
 
-#libraries
-LIBFT = $(LIBFT_DIR)/libft.a
+# libraries
+LIBFT         = $(LIBFT_DIR)/libft.a
 
-#define colors
+# define colors
 MAGENTA = \033[1;35m
-YELLOW = \033[1;33m
-GREEN = \033[1;32m
-RESET = \033[0m
+YELLOW  = \033[1;33m
+GREEN   = \033[1;32m
+RESET   = \033[0m
 
-#build targets
+# ---------------------------------------------------------------------------- #
+#                              Build Targets                                   #
+# ---------------------------------------------------------------------------- #
+
 all: $(LIBFT) $(NAME)
 
-#link executables
+# Normal (non-debug) executable
 $(NAME): $(OBJ_FILES) $(LIBFT)
 	@echo "$(MAGENTA)Using compiler: $(CC)$(RESET)"
 	@echo "$(MAGENTA)Using flags: $(CFLAGS) $(PROJECTFLAGS) $(RESET)"
 	@echo "$(YELLOW)Linking $(NAME)...$(RESET)"
 	@$(CC) $(CFLAGS) $(OBJ_FILES) $(PROJECTFLAGS) $(LIBFT) -o $(NAME)
-	@echo "$(GREEN)Compilation successfull!$(RESET)"
+	@echo "$(GREEN)Compilation successful!$(RESET)"
 
+# Debug executable
+debug: $(LIBFT) $(DEBUG_NAME)
+
+$(DEBUG_NAME): $(DEBUG_OBJ_FILES) $(LIBFT)
+	@echo "$(MAGENTA)Using compiler: $(CC) for DEBUG build$(RESET)"
+	@echo "$(MAGENTA)Using flags: $(CFLAGS) $(DEBUG_FLAGS) $(PROJECTFLAGS)$(RESET)"
+	@echo "$(YELLOW)Linking $(DEBUG_NAME)...$(RESET)"
+	@$(CC) $(CFLAGS) $(DEBUG_FLAGS) $(DEBUG_OBJ_FILES) $(PROJECTFLAGS) $(LIBFT) -o $(DEBUG_NAME)
+	@echo "$(GREEN)Debug build successful!$(RESET)"
+
+# Rule to build object files for normal build
 %.o: %.c
 	@echo "$(YELLOW)Compiling $<...$(RESET)"
-	$(CC) $(CFLAGS) -c $< -o $@
+	@$(CC) $(CFLAGS) -c $< -o $@
 
+# Rule to build object files for debug build
+%.debug.o: %.c
+	@echo "$(YELLOW)Compiling DEBUG $<...$(RESET)"
+	@$(CC) $(CFLAGS) $(DEBUG_FLAGS) -c $< -o $@
+
+# Libft build
 $(LIBFT):
 	@echo "$(YELLOW)Building libft...$(RESET)"
-	$(MAKE) -C $(LIBFT_DIR)
-	@echo "$(GREEN)Libft compiled succesfully!$(RESET)"
+	@$(MAKE) -C $(LIBFT_DIR)
+	@echo "$(GREEN)Libft compiled successfully!$(RESET)"
 
 clean:
 	@echo "$(YELLOW)Cleaning object files...$(RESET)"
-	rm -fr $(OBJ_FILES)
-	$(MAKE) -C $(LIBFT_DIR) clean
+	@rm -f $(OBJ_FILES) $(DEBUG_OBJ_FILES)
+	@$(MAKE) -C $(LIBFT_DIR) clean
 	@echo "$(GREEN)Object files cleaned!$(RESET)"
 
 fclean: clean
-	@echo "$(YELLOW)Removing $(NAME) executable...$(RESET)"
-	rm -fr $(NAME)
-	$(MAKE) -C $(LIBFT_DIR) fclean
-	@echo "$(GREEN)Executable $(NAME) removed!$(RESET)"
+	@echo "$(YELLOW)Removing $(NAME) and $(DEBUG_NAME) executables...$(RESET)"
+	@rm -f $(NAME) $(DEBUG_NAME)
+	@$(MAKE) -C $(LIBFT_DIR) fclean
+	@echo "$(GREEN)Executables removed!$(RESET)"
 
 re: fclean all
 
-.PHONY: all clean fclean re
+# Build both non-debug and debug
+both: all debug
+
+.PHONY: all clean fclean re debug both

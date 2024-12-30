@@ -1,0 +1,23 @@
+sources/handler.c:29:	new_token->value = ft_strdup(value); // valgrind issue happens here?? //TODO
+sources/handler.c:30:	if (!new_token->value)
+sources/handler.c:32:	new_token->type = type;
+sources/handler.c:33:	new_token->command_type = CMD_NONE;
+sources/handler.c:34:	new_token->is_command = is_valid_command(new_token);
+sources/handler.c:35:	new_token->next = NULL;
+sources/validate_tokens.c:5:	if (!token->next || token->next->type == PIPE)
+sources/validate_tokens.c:7:	if (!token->next || token->next->type != WORD)
+sources/validate_tokens.c:14:	if (ft_strcmp(token->value, "echo") == 0)
+sources/validate_tokens.c:15:		token->command_type = CMD_ECHO;
+sources/validate_tokens.c:16:	else if (ft_strcmp(token->value, "cd") == 0)
+sources/validate_tokens.c:17:		token->command_type = CMD_CD;
+sources/validate_tokens.c:18:	else if (ft_strcmp(token->value, "pwd") == 0)
+sources/validate_tokens.c:19:		token->command_type = CMD_PWD;
+sources/validate_tokens.c:20:	else if (ft_strcmp(token->value, "export") == 0)
+sources/validate_tokens.c:21:		token->command_type = CMD_EXPORT;
+sources/validate_tokens.c:22:	else if (ft_strcmp(token->value, "unset") == 0)
+sources/validate_tokens.c:23:		token->command_type = CMD_UNSET;
+sources/validate_tokens.c:24:	else if (ft_strcmp(token->value, "env") == 0)
+sources/validate_tokens.c:25:		token->command_type = CMD_ENV;
+sources/validate_tokens.c:26:	else if (ft_strcmp(token->value, "exit") == 0)
+sources/validate_tokens.c:27:		token->command_type = CMD_EXIT;
+sources/validate_tokens.c:46:		if (ft_strcmp(token->value, valid_commands[i]) == 0)

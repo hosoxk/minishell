@@ -6,7 +6,7 @@
 /*   By: yde-rudd <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:36:00 by yde-rudd          #+#    #+#             */
-/*   Updated: 2024/12/26 14:58:08 by yde-rudd         ###   ########.fr       */
+/*   Updated: 2024/12/30 14:59:03 by yde-rudd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,10 @@
 # define BOLD_MAGENTA "\033[35m"
 # define BOLD_RED "\033[31m"
 # define RESET "\033[0m"
+
+# ifndef DEBUG
+#  define DEBUG 0
+# endif
 
 # define ARG_SIZE 8;
 
