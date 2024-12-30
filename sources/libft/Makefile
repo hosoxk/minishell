@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: yde-rudd <marvin@42.fr>                    +#+  +:+       +#+         #
+#    By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/25 18:01:07 by yde-rudd          #+#    #+#              #
-#    Updated: 2024/12/16 14:58:34 by yde-rudd         ###   ########.fr        #
+#    Updated: 2024/12/30 15:10:25 by kvanden-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -78,7 +78,11 @@ SRC = $(SRC_DIR)/ft_isalpha.c \
 	$(SRC_DIR)/is_white_space.c \
 	$(SRC_DIR)/ft_strndup.c \
 	$(SRC_DIR)/ft_realloc.c \
-	$(SRC_DIR)/ft_strcpy.c
+	$(SRC_DIR)/ft_strcpy.c \
+	$(SRC_DIR)/ft_free_tab.c \
+	$(SRC_DIR)/ft_copy_tab.c \
+	$(SRC_DIR)/ft_print_tab.c
+	
 PRINTF_SRC = $(PRINTF_DIR)/ft_printf.c \
 			 $(PRINTF_DIR)/ft_printf_char.c \
 			 $(PRINTF_DIR)/ft_printf_int.c \

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yde-rudd <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:38:48 by yde-rudd          #+#    #+#             */
-/*   Updated: 2024/12/30 16:19:50 by yde-rudd         ###   ########.fr       */
+/*   Updated: 2024/12/30 16:25:26 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,14 @@
 
 static bool	check_input(int argc, char **envp)
 {
+	// while (*envp)
+	// 	printf("%s\n", *(envp++));
 	if (argc != 1)
 		return (printf(BOLD_RED"Correct usage: ./minishell\n"RESET),
 			false);
 	if (!envp)
 		return (printf(BOLD_RED"Failure locating envp\n"RESET), 
 			false);
-	/*while (*envp)
-	 * printf("%s\n", *(envp++));*/
 	return (true);
 }
 
@@ -38,7 +38,7 @@ static char	*handle_line(void)
 	return (line);
 }
 
-void parse_token(char *line, t_token *token_list, t_ast *ast_root)
+void parse_token(char *line, t_token *token_list, t_ast *ast_root, char ***env)
 {
 	if (!line)
 		return ;
@@ -52,29 +52,33 @@ void parse_token(char *line, t_token *token_list, t_ast *ast_root)
 		if ((ast_root = parse_ast(&token_list)))
 		{
 			//expander(); //TODO
-			//executor(); //TODO
+			executor(ast_root, env); //TODO
 			printf(BOLD_MAGENTA"\nAbstract Syntax Tree:\n"RESET);
 			print_ast(ast_root, 0);
 		}
 	}
 }
 
-void excecute_test(char *line, t_token **token_list, t_ast **ast_root)
+void excecute_test(char *line, t_token **token_list, t_ast **ast_root, char ***env)
 {
 	if (line)
-		parse_token(line, *token_list, *ast_root);
+		parse_token(line, *token_list, *ast_root, env);
 	*token_list = NULL;
 	*ast_root = NULL;
 }
 
-int	main(int argc, char **envp)
+int	main(int argc, char **argv, char **envp)
 {
-	(void)envp;
+	(void)argv;
 	char	*line;
 	t_token	*token_list;
 	t_ast	*ast_root;
+	char **env = envp;
 
 	if (!check_input(argc, envp))
+		return (1);
+	env = ft_copy_tab(envp);
+	if (!env)
 		return (1);
 	while (1)
 	{
@@ -82,22 +86,19 @@ int	main(int argc, char **envp)
 		ast_root = NULL;
 		line = NULL;
 		// read input
-		if ((line = handle_line()))
+		if (!(line = handle_line()))
+			return (1);
+		if (DEBUG == 0)
+			parse_token(line, token_list, ast_root, &env);
+		else if (DEBUG == 1)
 		{
-			if (DEBUG == 0)
-				parse_token(line, token_list, ast_root);
-			else if (DEBUG == 1)
+			if (ft_strcmp("test", line) == 0)
 			{
-				if (ft_strcmp("test", line) == 0)
-				{
-					excecute_test(ft_strdup("ls -lR"), &token_list, &ast_root);
-					excecute_test(ft_strdup("echo \"hello\""), &token_list, &ast_root);
-				}
-				else
-					parse_token(line, token_list, ast_root);
+				excecute_test(ft_strdup("ls -lR"), &token_list, &ast_root, &env);
+				excecute_test(ft_strdup("echo \"hello\""), &token_list, &ast_root, &env);
 			}
-			free_ast(ast_root);
-			free_token_list(&token_list);
+			else
+				parse_token(line, token_list, ast_root, &env);
 		}
 	}
 	return (0);

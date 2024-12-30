@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: yde-rudd <marvin@42.fr>                    +#+  +:+       +#+         #
+#    By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/25 15:08:03 by yde-rudd          #+#    #+#              #
-#    Updated: 2024/12/30 14:59:48 by yde-rudd         ###   ########.fr        #
+#    Updated: 2024/12/30 16:18:20 by kvanden-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,13 +28,25 @@ LIBFT_DIR    = ./sources/libft
 
 # source and object files
 SRC_FILES = $(SRC_DIR)/main.c \
-            $(SRC_DIR)/lexer.c \
-            $(SRC_DIR)/handler.c \
-            $(SRC_DIR)/utils.c \
-            $(SRC_DIR)/parsing.c \
-            $(SRC_DIR)/clean.c \
-            $(SRC_DIR)/create_nodes.c \
-            $(SRC_DIR)/validate_tokens.c
+		$(SRC_DIR)/lexer.c \
+		$(SRC_DIR)/handler.c \
+		$(SRC_DIR)/utils.c \
+		$(SRC_DIR)/parsing.c \
+		$(SRC_DIR)/clean.c \
+		$(SRC_DIR)/create_nodes.c \
+		$(SRC_DIR)/validate_tokens.c \
+		$(SRC_DIR)/executer/execute_build_in_cmd.c \
+		$(SRC_DIR)/executer/execute_custom_cmd.c \
+		$(SRC_DIR)/executer/executer.c \
+		$(SRC_DIR)/executer/my_echo.c \
+		$(SRC_DIR)/executer/my_env.c \
+		$(SRC_DIR)/executer/my_unset.c \
+		$(SRC_DIR)/executer/my_export.c \
+		$(SRC_DIR)/executer/rediraction.c
+		#$(SRC_DIR)/pwd_builtin.c \
+		$(SRC_DIR)/echo_builtin.c \
+		$(SRC_DIR)/cd_builtin.c \
+		$(SRC_DIR)/exit_builtin.c
 
 OBJ_FILES        = $(SRC_FILES:.c=.o)
 DEBUG_OBJ_FILES  = $(SRC_FILES:.c=.debug.o)
@@ -75,7 +87,7 @@ $(DEBUG_NAME): $(DEBUG_OBJ_FILES) $(LIBFT)
 # Rule to build object files for normal build
 %.o: %.c
 	@echo "$(YELLOW)Compiling $<...$(RESET)"
-	@$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) -I $(SRC_DIR) -c $< -o $@
 
 # Rule to build object files for debug build
 %.debug.o: %.c
