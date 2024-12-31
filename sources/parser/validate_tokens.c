@@ -15,7 +15,7 @@ static bool	check_redir(t_token *token, t_token *prev_token)
 {
 	if (!token->next || token->next->type != WORD)
 		return (printf(BOLD_RED"Syntax error: missing target for redirection\n"RESET), false);
-	if (!prev_token || prev_token != WORD)
+	if (token->type != HEREDOC && (!prev_token || prev_token != WORD))
 		return (printf(BOLD_RED"Syntax error: missing command before redirection\n"RESET), false);
 	return (true);
 }

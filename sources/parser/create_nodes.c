@@ -27,6 +27,34 @@ t_ast	*create_pipe_node(t_ast *left_node, t_token **tokens)
 	return (pipe_node);
 }
 
+static void	create_heredoc_node(t_token **tokens, t_ast *redir_node)
+{
+	char	*heredoc_content;
+	size_t	len;
+
+	heredoc_content = NULL;
+	len = 0;
+	while (*tokens && (*tokens)->type != WORD)
+	{
+		size_t	token_len;
+
+		token_len = ft_strlen((*tokens)->value);
+		heredoc_content = ft_realloc(heredoc_content, len, len + token_len + 1);
+		if (!heredoc_content)
+		{
+			printf(BOLD_RED"Failed to reallocate memory for heredoc content\n"RESET);
+			return ;
+		}
+		ft_strcpy(heredoc_content + len, (*tokens)->value);
+		len += token_len;
+		*tokens = (*tokens)->next;
+	}
+	if (*tokens && ft_strcmp((*tokens)->value, "EOF") == 0)
+		*tokens = (*tokens)->next;
+	redir_node->file = heredoc_content;
+	printf("Attached heredoc content to REDIRECTION node: %s\n", redir_node->file);
+}
+
 t_ast	*create_redirection_node(t_ast *left_node, t_token **tokens)
 {
 	t_ast	*redir_node;
@@ -37,36 +65,12 @@ t_ast	*create_redirection_node(t_ast *left_node, t_token **tokens)
 		return (printf(BOLD_RED"Failed to allocate memory for REDIRECTION node\n"RESET), NULL);
 	*tokens = (*tokens)->next; // move past the redirection token
 	if (redir_node->type == HEREDOC)
-	{
-		char	*heredoc_content;
-		size_t	len;
-
-		heredoc_content = NULL;
-		len = 0;
-		while (*tokens && (*tokens)->type != WORD)
-		{
-			size_t	token_len;
-
-			token_len = ft_strlen((*tokens)->value);
-			heredoc_content = ft_realloc(heredoc_content, len, len + token_len + 1);
-			if (!heredoc_content)
-				return (printf("Failed to reallocate memory for heredoc content\n"), NULL);
-			ft_strcpy(heredoc_content + len, (*tokens)->value);
-			len += token_len;
-			*tokens = (*tokens)->next;
-		}
-		if (*tokens && ft_strcmp((*tokens)->value, "EOF") == 0)
-			*tokens = (*tokens)->next;
-		redir_node->file = heredoc_content;
-		printf("Attached heredoc content to REDIRECTION node: %s\n", redir_node->file);
-	}
+		create_heredoc_node(tokens, redir_node);
 	else if (*tokens && (*tokens)->type == WORD)
 	{
 		redir_node->file = ft_strdup((*tokens)->value);
 		*tokens = (*tokens)->next;
 	}
-	else
-		return (printf(BOLD_RED"Syntax error: missing file for redirection\n"RESET), NULL);
 	redir_node->left = left_node;
 	return (redir_node);
 }
