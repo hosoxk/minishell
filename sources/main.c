@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:38:48 by yde-rudd          #+#    #+#             */
-/*   Updated: 2025/01/02 10:03:59 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/01/02 14:54:18 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,11 @@ static bool	check_input(int argc, char **envp)
 	return (true);
 }
 
-static char	*handle_line(void)
+static char	*handle_line(char **env)
 {
 	char	*line;
 
-	line = readline(BOLD_MAGENTA"$minishell: "RESET);
+	line = readline(get_prompt(env));
 	if (!line)
 		return (NULL);
 	// add command to history
@@ -84,7 +84,7 @@ int	main(int argc, char **argv, char **envp)
 		ast_root = NULL;
 		line = NULL;
 		// read input
-		if (!(line = handle_line()))
+		if (!(line = handle_line(env)))
 			return (1);
 		if (ft_strcmp(line, "exit") == 0)
 			return (free(line), 0);

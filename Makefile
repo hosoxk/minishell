@@ -6,7 +6,7 @@
 #    By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/25 15:08:03 by yde-rudd          #+#    #+#              #
-#    Updated: 2025/01/02 11:41:53 by kvanden-         ###   ########.fr        #
+#    Updated: 2025/01/02 14:53:03 by kvanden-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,7 +45,8 @@ SRC_FILES = $(SRC_DIR)/main.c \
 		$(SRC_DIR)/executer/my_pwd.c \
 		$(SRC_DIR)/executer/my_cd.c \
 		$(SRC_DIR)/executer/rediraction.c \
-		$(SRC_DIR)/executer/env_util.c
+		$(SRC_DIR)/executer/env_util.c \
+		$(SRC_DIR)/util.c 
 
 OBJ_FILES        = $(SRC_FILES:.c=.o)
 DEBUG_OBJ_FILES  = $(SRC_FILES:.c=.debug.o)

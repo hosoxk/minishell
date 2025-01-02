@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/02 11:25:13 by kvanden-          #+#    #+#             */
-/*   Updated: 2025/01/02 13:34:40 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/01/02 16:03:37 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,10 @@ static char	*get_new_dir(char *cwd, char **env, char **argv)
 	}
 	if (argv[1] == NULL)
 		nwd = ft_strdup(getenv_stript("HOME", env));
-	else if (ft_strcmp(argv[1], ".") == 0 || argv[1][0] == '/')
+	else if (ft_strcmp(argv[1], ".") == 0)
 		nwd = ft_strdup(cwd);
+    else if (argv[1][0] == '/')
+        nwd = ft_strdup(argv[1]);
 	else if (ft_strcmp(argv[1], "..") == 0)
 		nwd = ft_substr(cwd, 0, ft_strrchr(cwd, '/') - cwd);
 	else
@@ -51,5 +53,8 @@ void	my_cd(char **env, char **argv)
 		perror("cd");
 		return ;
 	}
-	update_env("PWD", nwd, env);
+    free(nwd);
+    if (!getcwd(cwd, sizeof(cwd)))
+		perror("getcwd");
+	update_env("PWD", cwd, env);
 }
