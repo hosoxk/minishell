@@ -1,2 +1,6 @@
 cat info.txt | grep '-' > lol.txt
 < info.txt cat | grep '-' > lol.txt
+echo $HOME
+echo "$HOME"
+echo '$HOME'
+echo cool$HOME
