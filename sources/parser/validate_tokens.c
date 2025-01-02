@@ -3,20 +3,20 @@
 static bool	check_pipe(t_token *token, t_token *prev_token)
 {
 	if (!prev_token)
-		return (printf(BOLD_RED"Syntax error: unexpected pipe at the beginning\n"RESET), false);
+		return (print_error("Syntax error: unexpected pipe at the beginning"), false);
 	if (!token->next || token->next->type == PIPE)
-		return (printf(BOLD_RED"Syntax error: invalid pipe sequence\n"RESET), false);
+		return (print_error("Syntax error: invalid pipe sequence"), false);
 	if (!token->next || token->next->type != WORD)
-		return (printf(BOLD_RED"Syntax error: missing command after pipe\n"RESET), false);
+		return (print_error("Syntax error: missing command after pipe"), false);
 	return (true);
 }
 
 static bool	check_redir(t_token *token, t_token *prev_token)
 {
 	if (!token->next || token->next->type != WORD)
-		return (printf(BOLD_RED"Syntax error: missing target for redirection\n"RESET), false);
+		return (print_error("Syntax error: missing target for redirection"), false);
 	if (token->type != HEREDOC && (!prev_token || prev_token != WORD))
-		return (printf(BOLD_RED"Syntax error: missing command before redirection\n"RESET), false);
+		return (print_error("Syntax error: missing command before redirection"), false);
 	return (true);
 }
 

@@ -12,6 +12,11 @@
 
 #include "../minishell.h"
 
+void	print_error(char *str)
+{
+	printf(BOLD_RED"%s\n"RESET, str);
+}
+
 void	print_tokens(t_token **token_list)
 {
 	t_token *current;

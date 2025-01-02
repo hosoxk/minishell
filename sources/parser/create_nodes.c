@@ -19,7 +19,7 @@ t_ast	*create_pipe_node(t_ast *left_node, t_token **tokens)
 	printf("Found PIPE token, creating PIPE node\n");
 	pipe_node = create_ast_node(PIPE);
 	if (!pipe_node)
-		return (printf("Failed to allocate memory for PIPE node\n"), NULL);
+		return (print_error("Failed to allocate memory for PIPE node"), NULL);
 	pipe_node->left = left_node;
 	*tokens = (*tokens)->next;
 	printf("Moving to parse right side of PIPE\n");
@@ -42,7 +42,7 @@ static void	create_heredoc_node(t_token **tokens, t_ast *redir_node)
 		heredoc_content = ft_realloc(heredoc_content, len, len + token_len + 1);
 		if (!heredoc_content)
 		{
-			printf(BOLD_RED"Failed to reallocate memory for heredoc content\n"RESET);
+			print_error("Failed to reallocate memory for heredoc content"RESET);
 			return ;
 		}
 		ft_strcpy(heredoc_content + len, (*tokens)->value);
@@ -62,7 +62,7 @@ t_ast	*create_redirection_node(t_ast *left_node, t_token **tokens)
 	printf("Found REDIRECTION token: %d, creating REDIRECTION node\n", (*tokens)->type);
 	redir_node = create_ast_node((*tokens)->type);
 	if (!redir_node)
-		return (printf(BOLD_RED"Failed to allocate memory for REDIRECTION node\n"RESET), NULL);
+		return (print_error("Failed to allocate memory for REDIRECTION node"), NULL);
 	*tokens = (*tokens)->next; // move past the redirection token
 	if (redir_node->type == HEREDOC)
 		create_heredoc_node(tokens, redir_node);
@@ -82,7 +82,7 @@ t_ast	*create_command_node(t_ast *command_node, t_token **tokens, int *size, int
 		printf("Creating COMMAND node\n");
 		command_node = create_ast_node(WORD);
 		if (!command_node)
-			return (printf(BOLD_RED"Failed to allocate memory for COMMAND node\n"RESET), NULL);
+			return (print_error("Failed to allocate memory for COMMAND node"), NULL);
 	}
 	printf("Adding argument to COMMAND node: %s\n", (*tokens)->value);
 	add_argument(&(command_node->args), size, count, (*tokens)->value);

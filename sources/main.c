@@ -15,11 +15,9 @@
 static bool	check_input(int argc, char **envp)
 {
 	if (argc != 1)
-		return (printf(BOLD_RED"Correct usage: ./minishell\n"RESET),
-			false);
+		return (print_error("Correct usage: ./minishell"), false);
 	if (!envp)
-		return (printf(BOLD_RED"Failure locating envp\n"RESET), 
-			false);
+		return (print_error("Failure locating envp"), false);
 	return (true);
 }
 

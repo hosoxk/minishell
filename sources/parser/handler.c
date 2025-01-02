@@ -23,7 +23,7 @@ void    add_token_to_list(t_token **token_list, char *value, t_token_type type)
 	new_token = ft_calloc(1, sizeof(t_token)); // valgrind issue also happens here? lol //TODO
 	if (!new_token)
 	{
-		printf(BOLD_RED"Failure mallocing space for new_token\n"RESET);
+		print_error("Failure mallocing space for new_token");
 		return ;
 	}
 	new_token->value = NULL;
@@ -32,16 +32,14 @@ void    add_token_to_list(t_token **token_list, char *value, t_token_type type)
 		return (free(new_token));
 	new_token->type = type;
 	new_token->next = NULL;
-	new_token->prev = NULL;
 	if (*token_list == NULL)
 		*token_list = new_token;
 	else
 	{
 		current = *token_list;
-		while (current->next) //traverse the list to find the last element
+		while (current->next)
 			current = current->next;
-		current->next = new_token; // append new token at the end
-		new_token->prev = current;
+		current->next = new_token;
 	}
 }
 
@@ -67,7 +65,7 @@ void     handle_quoted_str(char **line, t_token **token_list)
 		(*line)++; //skips closing quote
 	}
 	else
-		printf(BOLD_RED"Error: unmatched quote\n"RESET);
+		print_error("Error: unmatched quote");
 }
 
 void     handle_redirect(char **line, t_token **token_list)

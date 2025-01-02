@@ -62,8 +62,7 @@ typedef struct s_token
 {
 	char			*value;
 	t_token_type	type;
-	struct s_token *next; // pointer to the next token
-	struct s_token	*prev;
+	struct s_token *next;
 }					t_token;
 
 typedef struct s_ast
@@ -100,6 +99,7 @@ t_ast				*create_command_node(t_ast *command_node, t_token **tokens,
 bool				is_special_case(char c);
 void				print_tokens(t_token **token_list);
 void				print_ast(t_ast *node, int depth);
+void				print_error(char *str);
 
 // *** CLEAN ***
 void				free_token_list(t_token **token_list);
