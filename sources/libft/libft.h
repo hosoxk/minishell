@@ -84,5 +84,6 @@ bool				ft_free(void **pt);
 char				**ft_copy_tab(char **tab);
 int					ft_tab_len(char **tab);
 void				ft_print_tab(char **tab);
+char				*ft_strappend(char *str, char c);
 
 #endif

@@ -48,7 +48,7 @@ static void parse_token(char *line, t_token *token_list, t_ast *ast_root, char *
 		// parse tokens into AST
 		if ((ast_root = parse_ast(&token_list)))
 		{
-			//expander(); //TODO
+			expand_ast(ast_root, env);
 			executor(ast_root, env);
 			printf(BOLD_MAGENTA"\nAbstract Syntax Tree:\n"RESET);
 			print_ast(ast_root, 0);
@@ -88,6 +88,7 @@ int	main(int argc, char **argv, char **envp)
 			return (1);
 		if (ft_strcmp(line, "exit") == 0)
 			return (free(line), 0);
+		// tokenize, create AST, expand, execute
 		if (DEBUG == 0)
 			parse_token(line, token_list, ast_root, &env);
 		else if (DEBUG == 1)

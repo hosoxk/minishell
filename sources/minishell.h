@@ -107,6 +107,9 @@ void				free_ast(t_ast *node);
 void				free_program(char *line, t_token *token_list,
 						t_ast *ast_root);
 
+// *** EXPANDER ***
+void				expand_ast(t_ast *node, char **env);
+
 // *** EXECUTION ***
 void				executor(t_ast *ast_root, char ***env);
 void				execute_build_in_cmd(char *name, char **argv, char **env);

@@ -81,7 +81,8 @@ SRC = $(SRC_DIR)/ft_isalpha.c \
 	$(SRC_DIR)/ft_strcpy.c \
 	$(SRC_DIR)/ft_free_tab.c \
 	$(SRC_DIR)/ft_copy_tab.c \
-	$(SRC_DIR)/ft_print_tab.c 
+	$(SRC_DIR)/ft_print_tab.c \
+	$(SRC_DIR)/ft_strappend.c
 
 PRINTF_SRC = $(PRINTF_DIR)/ft_printf.c \
 			 $(PRINTF_DIR)/ft_printf_char.c \
