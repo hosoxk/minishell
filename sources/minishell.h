@@ -6,8 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:36:00 by yde-rudd          #+#    #+#             */
-/*   Updated: 2024/12/30 18:53:39 by yde-rudd         ###   ########.fr       */
-/*   Updated: 2024/12/30 18:01:05 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/01/02 12:15:12 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +15,7 @@
 
 # include "libft/libft.h"
 # include <errno.h>
+# include <limits.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <stdbool.h>
@@ -62,7 +62,7 @@ typedef struct s_token
 {
 	char			*value;
 	t_token_type	type;
-	struct s_token *next;
+	struct s_token	*next;
 }					t_token;
 
 typedef struct s_ast
@@ -119,8 +119,11 @@ void				my_echo(char **argv);
 void				my_env(char **env);
 void				export(char ***env, char **argv);
 void				unset(char ***env, char **argv);
-void				my_pwd(char **env);
+void				my_cd(char **env, char **argv);
+void				my_pwd(void);
 
-char				*my_getenv(char *name, char **env);
+char				*getenv_stript(char *name, char **env);
+int					getenv_index(char *name, char **env);
+void				update_env(char *name, char *value, char **env);
 
 #endif

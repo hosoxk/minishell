@@ -6,13 +6,14 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 02:03:33 by yde-rudd          #+#    #+#             */
-/*   Updated: 2024/12/30 18:52:48 by yde-rudd         ###   ########.fr       */
+/*   Updated: 2025/01/02 12:50:51 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
 
+# include <stdarg.h>
 # include <stdbool.h>
 # include <stdlib.h>
 # include <unistd.h>
@@ -52,6 +53,7 @@ void				*ft_calloc(size_t nmemb, size_t size);
 char				*ft_strdup(const char *s);
 char				*ft_substr(char const *s, unsigned int start, size_t len);
 char				*ft_strjoin(char const *s1, char const *s2);
+char				*ft_strjoin_multiple(char *str, ...);
 char				*ft_strtrim(char const *s1, char const *set);
 char				**ft_split(char const *s, char c);
 char				*ft_itoa(int n);

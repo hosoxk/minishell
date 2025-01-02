@@ -1,1 +1,2 @@
-
+cat info.txt | grep '-' > lol.txt
+< info.txt cat | grep '-' > lol.txt

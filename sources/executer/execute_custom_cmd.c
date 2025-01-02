@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 13:00:31 by kvanden-          #+#    #+#             */
-/*   Updated: 2024/12/30 18:01:28 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/01/02 11:41:15 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ bool	execute_custom_cmd(char *name, char **argv, char ***env,
 		export(env, argv);
 	else if (ft_strcmp(name, "unset") == 0)
 		unset(env, argv);
+	else if (ft_strcmp(name, "cd") == 0)
+		my_cd(*env, argv);
 	else
 		return (false);
 	return (true);
@@ -35,7 +37,7 @@ void	execute_custom_cmd_after_fork(char *name, char **argv, char ***env,
 	else if (ft_strcmp(name, "env") == 0)
 		my_env(*env);
 	else if (ft_strcmp(name, "pwd") == 0)
-		my_pwd(*env);
+		my_pwd();
 	else
 		return ;
 	// else if (ft_strcmp(token->value, "cd") == 0)

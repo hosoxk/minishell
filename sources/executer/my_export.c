@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 14:52:33 by kvanden-          #+#    #+#             */
-/*   Updated: 2024/12/30 18:02:34 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/01/02 12:10:42 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,35 +32,36 @@ static char	**expent_env(char **env)
 	return (new_env);
 }
 
-static char	*get_location(char ***env, char **argv)
+static int get_location(char ***env, char **argv)
 {
 	char	*name;
-    char    *location;
-    int     i;
+    int     index;
 
-	name = ft_substr(argv[1], 0, ft_strchr(argv[1], '=') - argv[1]); ////
-    location = my_getenv(name, *env);
+	name = ft_substr(argv[1], 0, ft_strchr(argv[1], '=') - argv[1]);
+	if (!name)
+		return (-1);
+    index = getenv_index(name, *env);
 	free(name);
-    if (location)
-        return (location);   
-    location = my_getenv("NULL", *env);
-    if (location)
-        return (location);
-    i = ft_tab_len(*env);
-	*env = expent_env(*env);
-	free((*env)[i]);
-	return ((*env)[i]);
+    if (index >= 0)
+        return (index);   
+    index = getenv_index("NULL", *env);
+    if (index >= 0)
+        return (index);   
+    index = ft_tab_len(*env);
+	*env = expent_env(*env); //////////////
+	return (index);
 }
 
 void	export(char ***env, char **argv)
 {
-	char	*location;
+	int index;
 
-	location = get_location(env, argv);
-	if (location)
+	index = get_location(env, argv);
+	if (index >= 0)
 	{
-		location = ft_strdup(argv[1]);
+		free((*env)[index]);
+		(*env)[index] = ft_strdup(argv[1]);
 	}
 	else
-		ft_putendl_fd("iets fouts export", STDERR_FILENO);
+		ft_putendl_fd("iets fouts export", STDERR_FILENO); ////
 }

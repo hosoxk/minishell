@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 12:10:12 by kvanden-          #+#    #+#             */
-/*   Updated: 2024/12/30 17:35:33 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/01/02 11:36:27 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ static void	execute_cmd(t_ast *ast_root, char ***env)
 	type = CMD_NONE;
 	execute_custom_cmd_after_fork(name, ast_root->args, env, type);
 	execute_build_in_cmd(name, ast_root->args, *env);
+	exit(1);
+	// cleanup
 }
 
 static void	execute(t_ast *ast_root, char ***env)
@@ -53,6 +55,6 @@ void	executor(t_ast *ast_root, char ***env)
 		exit(1);
 	if (!pid)
 		execute(ast_root, env);
-	else if (waitpid(pid, &status, 0) == -1)
+	if (waitpid(pid, &status, 0) == -1)
 		perror("waitpid failed");
 }

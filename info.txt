@@ -3,13 +3,13 @@
 #                                                         :::      ::::::::    #
 #    info.txt                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: yde-rudd <marvin@42.fr>                    +#+  +:+       +#+         #
+#    By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/16 21:58:14 by yde-rudd          #+#    #+#              #
-#    Updated: 2024/12/16 14:46:43 by yde-rudd         ###   ########.fr        #
+#    Updated: 2025/01/02 10:10:20 by kvanden-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
-- builtins:
+
 	- echo:
 		prints text to the terminal, if the -n option is passed, it should not append a newline
 	- cd:
