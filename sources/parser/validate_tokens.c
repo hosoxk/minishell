@@ -27,16 +27,12 @@ bool	validate_token_sequence(t_token *tokens)
 	while (tokens)
 	{
 		if (tokens->type == PIPE)
-		{
 			if (!check_pipe(tokens, prev_token))
 				return (false);
-		}
 		if ((tokens->type == REDIRECT_IN || tokens->type == REDIRECT_OUT ||
 			tokens->type == APPEND || tokens->type == HEREDOC))
-		{
 			if (!check_redir(tokens, prev_token))
 				return (false);
-		}
 	/*	if (tokens->type == WORD)
 			is_valid_command(tokens);
 	*/

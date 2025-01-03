@@ -6,7 +6,7 @@
 /*   By: yde-rudd <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:43:38 by yde-rudd          #+#    #+#             */
-/*   Updated: 2024/12/30 17:05:38 by yde-rudd         ###   ########.fr       */
+/*   Updated: 2025/01/03 15:05:03 by yde-rudd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,12 @@ static void     handle_special_case(char **line, t_token **token_list)
         {
                 handle_redirect(line, token_list);
         }
+		/*
         else if (**line == '$')
         {
                 handle_var(line, token_list);
         }
+		*/
 }
 
 void	lexer(char *line, t_token **token_list)

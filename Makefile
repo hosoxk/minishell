@@ -49,8 +49,8 @@ SRC_FILES = $(SRC_DIR)/main.c \
 		$(SRC_DIR)/executer/heredoc.c \
 		$(SRC_DIR)/executer/pids.c \
 		$(SRC_DIR)/env_util.c \
-		$(SRC_DIR)/util.c 
-		# $(SRC_DIR)/parser/expander.c \
+		$(SRC_DIR)/util.c \
+		$(SRC_DIR)/parser/expander.c 
 
 OBJ_FILES        = $(SRC_FILES:.c=.o)
 DEBUG_OBJ_FILES  = $(SRC_FILES:.c=.debug.o)
