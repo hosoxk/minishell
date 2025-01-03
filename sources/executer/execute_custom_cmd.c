@@ -6,23 +6,25 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 13:00:31 by kvanden-          #+#    #+#             */
-/*   Updated: 2025/01/02 11:41:15 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/01/03 14:23:02 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-bool	execute_custom_cmd(char *name, char **argv, char ***env,
-		t_command_type type)
+bool	execute_custom_cmd(t_ast *ast_root, char ***env)
 {
-	(void)type;
-
+	char	*name;
+	
+	if (ast_root->type != WORD)
+		return (false);
+	name = ast_root->args[0];
 	if (ft_strcmp(name, "export") == 0)
-		export(env, argv);
+		export(env, ast_root->args);
 	else if (ft_strcmp(name, "unset") == 0)
-		unset(env, argv);
+		unset(env, ast_root->args);
 	else if (ft_strcmp(name, "cd") == 0)
-		my_cd(*env, argv);
+		my_cd(*env, ast_root->args);
 	else
 		return (false);
 	return (true);

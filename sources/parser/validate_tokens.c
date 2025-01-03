@@ -13,10 +13,9 @@ static bool	check_pipe(t_token *token, t_token *prev_token)
 
 static bool	check_redir(t_token *token, t_token *prev_token)
 {
+	(void)prev_token;
 	if (!token->next || token->next->type != WORD)
 		return (print_error("Syntax error: missing target for redirection"), false);
-	if (token->type != HEREDOC && (!prev_token || prev_token->type != WORD))
-		return (print_error("Syntax error: missing command before redirection"), false);
 	return (true);
 }
 

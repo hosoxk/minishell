@@ -6,7 +6,7 @@
 #    By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/25 15:08:03 by yde-rudd          #+#    #+#              #
-#    Updated: 2025/01/03 15:00:36 by yde-rudd         ###   ########.fr        #
+#    Updated: 2025/01/03 14:15:23 by kvanden-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,7 +44,9 @@ SRC_FILES = $(SRC_DIR)/main.c \
 		$(SRC_DIR)/executer/my_export.c \
 		$(SRC_DIR)/executer/my_pwd.c \
 		$(SRC_DIR)/executer/my_cd.c \
+		$(SRC_DIR)/executer/pipe.c \
 		$(SRC_DIR)/executer/rediraction.c \
+		$(SRC_DIR)/executer/pids.c \
 		$(SRC_DIR)/env_util.c \
 		$(SRC_DIR)/util.c \
 		$(SRC_DIR)/parser/expander.c 

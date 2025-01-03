@@ -4,3 +4,4 @@ echo $HOME
 echo "$HOME"
 echo '$HOME'
 echo cool$HOME
+echo lol | cat > file

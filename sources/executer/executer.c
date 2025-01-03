@@ -6,18 +6,11 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 12:10:12 by kvanden-          #+#    #+#             */
-/*   Updated: 2025/01/02 11:36:27 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/01/03 15:44:51 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	do_pipe(t_ast *ast_root, char ***env)
-{
-	// TODO
-	executor(ast_root->left, env);
-	executor(ast_root->right, env);
-}
 
 static void	execute_cmd(t_ast *ast_root, char ***env)
 {
@@ -32,29 +25,46 @@ static void	execute_cmd(t_ast *ast_root, char ***env)
 	// cleanup
 }
 
-static void	execute(t_ast *ast_root, char ***env)
+void	execute(t_ast *ast_root, char ***env, pid_t *pids)
 {
 	if (ast_root->type == WORD)
 		execute_cmd(ast_root, env);
 	else if (ast_root->type == PIPE)
 	{
-		do_pipe(ast_root, env);
+		do_pipe(ast_root, env, pids);
 	}
+}
+
+int	get_exit_code(pid_t *pids)
+{
+	int	status;
+	int i;
+
+	i = get_len_pids(pids);
+	while (i > 0)
+	{
+		if (waitpid(pids[i], &status, 0) == -1)
+			perror("waitpid failed");
+		if (WIFEXITED(status))
+			status = WEXITSTATUS(status);
+		i--;
+	}
+	free(pids);
+	return (status);
 }
 
 void	executor(t_ast *ast_root, char ***env)
 {
-	pid_t	pid;
+	pid_t	*pids;
 	int		status;
 
-	if (execute_custom_cmd(ast_root->args[0], ast_root->args, env,
-			ast_root->type))
+	if (execute_custom_cmd(ast_root, env))
 		return ;
-	pid = fork();
-	if (pid == -1)
+	pids = get_pid_list(ast_root);
+	pids[0] = fork();
+	if (pids[0] == -1)
 		exit(1);
-	if (!pid)
-		execute(ast_root, env);
-	if (waitpid(pid, &status, 0) == -1)
-		perror("waitpid failed");
+	if (!pids[0])
+		execute(ast_root, env, pids);
+	status = get_exit_code(pids); ////////
 }
