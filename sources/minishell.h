@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:36:00 by yde-rudd          #+#    #+#             */
-/*   Updated: 2025/01/02 14:52:39 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/01/03 10:56:35 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,10 +122,15 @@ void				unset(char ***env, char **argv);
 void				my_cd(char **env, char **argv);
 void				my_pwd(void);
 
+// *** ENVIRONMENT ***
 char				*getenv_stript(char *name, char **env);
 int					getenv_index(char *name, char **env);
 void				update_env(char *name, char *value, char **env);
 
+// *** UTILS ***
 char				*get_prompt(char **env);
+
+// *** EXPANDER ***
+void	expander(t_token *token_list, char **env);
 
 #endif
