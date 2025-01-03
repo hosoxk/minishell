@@ -1,4 +1,4 @@
-#include "../minishell"
+#include "minishell.h"
 
 static char	*get_var_name(char **str)
 {
@@ -7,7 +7,7 @@ static char	*get_var_name(char **str)
 	start = ++(*str);
 	while (**str && (ft_isalnum(**str) || **str == '_'))
 		(*str)++;
-	return (ft_substr(start, 0, *str - start);
+	return (ft_substr(start, 0, *str - start));
 }
 
 static char	*getenv_from_env(const char *var_name, char **env)
@@ -21,7 +21,7 @@ static char	*getenv_from_env(const char *var_name, char **env)
 	i = 0;
 	while (env[i])
 	{
-		if (ft_strcmp(env[i], var_name, var_len) == 0 && env[i][var_len] == '=')
+		if (ft_strncmp(env[i], var_name, var_len) == 0 && env[i][var_len] == '=')
 			return (env[i] + var_len + 1);
 		i++;
 	}

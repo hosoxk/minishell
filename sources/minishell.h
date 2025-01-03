@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:36:00 by yde-rudd          #+#    #+#             */
-/*   Updated: 2025/01/03 10:56:35 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/01/03 11:57:20 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,8 +132,5 @@ void				update_env(char *name, char *value, char **env);
 
 // *** UTILS ***
 char				*get_prompt(char **env);
-
-// *** EXPANDER ***
-void	expander(t_token *token_list, char **env);
 
 #endif
