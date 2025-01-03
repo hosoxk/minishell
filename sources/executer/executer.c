@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 12:10:12 by kvanden-          #+#    #+#             */
-/*   Updated: 2025/01/03 15:44:51 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/01/03 16:57:01 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,15 @@ static void	execute_cmd(t_ast *ast_root, char ***env)
 
 void	execute(t_ast *ast_root, char ***env, pid_t *pids)
 {
-	if (ast_root->type == WORD)
+	if (ast_root->type == WORD) //////////
 		execute_cmd(ast_root, env);
 	else if (ast_root->type == PIPE)
 	{
 		do_pipe(ast_root, env, pids);
+	}
+	else if (ast_root->type >= REDIRECT_IN && ast_root->type <= HEREDOC)
+	{
+		do_redirection(ast_root, env, pids);
 	}
 }
 

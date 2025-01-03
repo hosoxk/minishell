@@ -6,7 +6,7 @@
 #    By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/25 15:08:03 by yde-rudd          #+#    #+#              #
-#    Updated: 2025/01/03 14:15:23 by kvanden-         ###   ########.fr        #
+#    Updated: 2025/01/03 16:27:18 by kvanden-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,6 +46,7 @@ SRC_FILES = $(SRC_DIR)/main.c \
 		$(SRC_DIR)/executer/my_cd.c \
 		$(SRC_DIR)/executer/pipe.c \
 		$(SRC_DIR)/executer/rediraction.c \
+		$(SRC_DIR)/executer/heredoc.c \
 		$(SRC_DIR)/executer/pids.c \
 		$(SRC_DIR)/env_util.c \
 		$(SRC_DIR)/util.c 
