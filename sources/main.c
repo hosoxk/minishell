@@ -6,11 +6,13 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:38:48 by yde-rudd          #+#    #+#             */
-/*   Updated: 2025/01/03 15:24:11 by yde-rudd         ###   ########.fr       */
+/*   Updated: 2025/01/03 17:36:15 by yde-rudd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+volatile int	g_exit_status = 0;
 
 static bool	check_input(int argc, char **envp)
 {
@@ -64,6 +66,30 @@ void excecute_test(char *line, t_token **token_list, t_ast **ast_root, char ***e
 	*ast_root = NULL;
 }
 
+void	handle_sigquit(int sig)
+{
+	(void)sig;
+
+	// do nothing to ignore SIGQUIT
+}
+
+void	handle_sigint(int sig)
+{
+	(void)sig;
+
+	g_exit_status = 130;
+	printf("\n"); // new line for clean prompt ?? // TODO
+	rl_on_new_line(); // resets new line to new rule
+	rl_replace_line("", 0); // clean current line
+	rl_redisplay(); // shows new line
+}
+
+static void	setup_signals(void)
+{
+	signal(SIGINT, handle_sigint);
+	signal(SIGQUIT, handle_sigquit);
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	(void)argv;
@@ -77,7 +103,8 @@ int	main(int argc, char **argv, char **envp)
 		return (1);
 	env = ft_copy_tab(envp);
 	if (!env)
-		return (1);
+		return (print_error("Failure copying envp into env"), 1);
+	setup_signals();
 	while (1)
 	{
 		token_list = NULL;
@@ -85,7 +112,10 @@ int	main(int argc, char **argv, char **envp)
 		line = NULL;
 		// read input
 		if (!(line = handle_line(env)))
-			return (1);
+		{
+			printf("exiting\n");
+			exit(g_exit_status);
+		}
 		if (ft_strcmp(line, "exit") == 0)
 			return (free(line), 0);
 		// tokenize, create AST, expand, execute
@@ -103,5 +133,5 @@ int	main(int argc, char **argv, char **envp)
 		}
 		free_program(token_list, ast_root);
 	}
-	return (0);
+	return (g_exit_status);
 }

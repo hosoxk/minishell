@@ -6,7 +6,7 @@
 /*   By: yde-rudd <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 18:12:13 by yde-rudd          #+#    #+#             */
-/*   Updated: 2024/12/30 17:05:46 by yde-rudd         ###   ########.fr       */
+/*   Updated: 2025/01/03 18:24:45 by yde-rudd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,5 +101,5 @@ t_ast	*parse_ast(t_token **tokens)
 	{
 		printf("Returning COMMAND node\n");
 	}
-	return left_node;
+	return (left_node);
 }

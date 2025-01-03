@@ -6,7 +6,7 @@
 /*   By: yde-rudd <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 15:15:46 by yde-rudd          #+#    #+#             */
-/*   Updated: 2024/12/30 18:23:45 by yde-rudd         ###   ########.fr       */
+/*   Updated: 2025/01/03 18:53:53 by yde-rudd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,8 @@ void	print_ast(t_ast *node, int depth)
 			printf("UNKNOWN\n");
 			break ;
 	}
+	//printf(BOLD_BLUE"\nPrinting left child\n"RESET);
 	print_ast(node->left, depth + 1);
+	//printf(BOLD_BLUE"\nPrinting right child\n"RESET);
 	print_ast(node->right, depth + 1);
 }
