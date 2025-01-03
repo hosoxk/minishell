@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:36:00 by yde-rudd          #+#    #+#             */
-/*   Updated: 2025/01/03 16:54:13 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/01/03 17:38:27 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,7 @@ void				free_program(t_token *token_list, t_ast *ast_root);
 
 // *** EXPANDER ***
 void				expand_ast(t_ast *node, char **env);
+void	kobe_expander(t_token *token_list, char **env);
 
 // *** EXECUTION ***
 void				execute(t_ast *ast_root, char ***env, pid_t *pids);
