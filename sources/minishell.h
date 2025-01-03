@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:36:00 by yde-rudd          #+#    #+#             */
-/*   Updated: 2025/01/03 11:57:20 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/01/03 15:21:19 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,12 +111,14 @@ void				free_program(char *line, t_token *token_list,
 void				expand_ast(t_ast *node, char **env);
 
 // *** EXECUTION ***
+void				execute(t_ast *ast_root, char ***env, pid_t *pids);
 void				executor(t_ast *ast_root, char ***env);
 void				execute_build_in_cmd(char *name, char **argv, char **env);
 void				execute_custom_cmd_after_fork(char *name, char **argv,
 						char ***env, t_command_type type);
-bool				execute_custom_cmd(char *name, char **argv, char ***env,
-						t_command_type type);
+bool				execute_custom_cmd(t_ast *ast_root, char ***env);
+
+void				do_pipe(t_ast *ast_root, char ***env, pid_t *pids);
 
 void				my_echo(char **argv);
 void				my_env(char **env);
@@ -132,5 +134,10 @@ void				update_env(char *name, char *value, char **env);
 
 // *** UTILS ***
 char				*get_prompt(char **env);
+
+// *** pids ***
+pid_t				*get_pid_list(t_ast *ast_root);
+void				set_pid(pid_t *pids, pid_t pid);
+int					get_len_pids(pid_t *pids);
 
 #endif
