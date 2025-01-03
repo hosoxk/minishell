@@ -6,7 +6,7 @@
 #    By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/25 15:08:03 by yde-rudd          #+#    #+#              #
-#    Updated: 2025/01/03 11:56:58 by kvanden-         ###   ########.fr        #
+#    Updated: 2025/01/03 12:03:09 by kvanden-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,7 +35,6 @@ SRC_FILES = $(SRC_DIR)/main.c \
 		$(SRC_DIR)/parser/clean.c \
 		$(SRC_DIR)/parser/create_nodes.c \
 		$(SRC_DIR)/parser/validate_tokens.c \
-		$(SRC_DIR)/parser/expander.c \
 		$(SRC_DIR)/executer/execute_build_in_cmd.c \
 		$(SRC_DIR)/executer/execute_custom_cmd.c \
 		$(SRC_DIR)/executer/executer.c \
@@ -47,7 +46,8 @@ SRC_FILES = $(SRC_DIR)/main.c \
 		$(SRC_DIR)/executer/my_cd.c \
 		$(SRC_DIR)/executer/rediraction.c \
 		$(SRC_DIR)/env_util.c \
-		$(SRC_DIR)/util.c \
+		$(SRC_DIR)/util.c 
+		# $(SRC_DIR)/parser/expander.c \
 
 OBJ_FILES        = $(SRC_FILES:.c=.o)
 DEBUG_OBJ_FILES  = $(SRC_FILES:.c=.debug.o)
