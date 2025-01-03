@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_nodes.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yde-rudd <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 14:48:39 by yde-rudd          #+#    #+#             */
-/*   Updated: 2024/12/30 19:29:41 by yde-rudd         ###   ########.fr       */
+/*   Updated: 2025/01/03 17:21:20 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ t_ast	*create_pipe_node(t_ast *left_node, t_token **tokens)
 	return (pipe_node);
 }
 
-static void	create_heredoc_node(t_token **tokens, t_ast *redir_node)
+void	create_heredoc_node(t_token **tokens, t_ast *redir_node)
 {
 	char	*heredoc_content;
 	size_t	len;
@@ -64,9 +64,10 @@ t_ast	*create_redirection_node(t_ast *left_node, t_token **tokens)
 	if (!redir_node)
 		return (print_error("Failed to allocate memory for REDIRECTION node"), NULL);
 	*tokens = (*tokens)->next; // move past the redirection token
-	if (redir_node->type == HEREDOC)
-		create_heredoc_node(tokens, redir_node);
-	else if (*tokens && (*tokens)->type == WORD)
+	// if (redir_node->type == HEREDOC)
+	// 	create_heredoc_node(tokens, redir_node);
+	// else if (*tokens && (*tokens)->type == WORD)
+	if (*tokens && (*tokens)->type == WORD)
 	{
 		redir_node->file = ft_strdup((*tokens)->value);
 		*tokens = (*tokens)->next;

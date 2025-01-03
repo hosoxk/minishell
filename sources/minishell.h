@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:36:00 by yde-rudd          #+#    #+#             */
-/*   Updated: 2025/01/03 15:21:19 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/01/03 17:38:27 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@
 # include <stdbool.h>
 # include <stdio.h>
 # include <sys/wait.h>
+#include <fcntl.h>
+
 
 # define BOLD_MAGENTA "\033[35m"
 # define BOLD_RED "\033[31m"
@@ -109,6 +111,7 @@ void				free_program(t_token *token_list, t_ast *ast_root);
 
 // *** EXPANDER ***
 void				expand_ast(t_ast *node, char **env);
+void	kobe_expander(t_token *token_list, char **env);
 
 // *** EXECUTION ***
 void				execute(t_ast *ast_root, char ***env, pid_t *pids);
@@ -119,6 +122,7 @@ void				execute_custom_cmd_after_fork(char *name, char **argv,
 bool				execute_custom_cmd(t_ast *ast_root, char ***env);
 
 void				do_pipe(t_ast *ast_root, char ***env, pid_t *pids);
+void				do_redirection(t_ast *ast_root, char ***env, pid_t *pids);
 
 void				my_echo(char **argv);
 void				my_env(char **env);
@@ -126,6 +130,8 @@ void				export(char ***env, char **argv);
 void				unset(char ***env, char **argv);
 void				my_cd(char **env, char **argv);
 void				my_pwd(void);
+
+void init_heredoc(t_ast *ast_root);
 
 // *** ENVIRONMENT ***
 char				*getenv_stript(char *name, char **env);

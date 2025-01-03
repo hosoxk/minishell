@@ -6,7 +6,7 @@
 #    By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/25 15:08:03 by yde-rudd          #+#    #+#              #
-#    Updated: 2025/01/03 14:15:23 by kvanden-         ###   ########.fr        #
+#    Updated: 2025/01/03 17:38:50 by kvanden-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,10 +46,12 @@ SRC_FILES = $(SRC_DIR)/main.c \
 		$(SRC_DIR)/executer/my_cd.c \
 		$(SRC_DIR)/executer/pipe.c \
 		$(SRC_DIR)/executer/rediraction.c \
+		$(SRC_DIR)/executer/heredoc.c \
 		$(SRC_DIR)/executer/pids.c \
 		$(SRC_DIR)/env_util.c \
 		$(SRC_DIR)/util.c \
-		$(SRC_DIR)/parser/expander.c 
+		$(SRC_DIR)/parser/expander.c \
+		$(SRC_DIR)/expander.c
 
 OBJ_FILES        = $(SRC_FILES:.c=.o)
 DEBUG_OBJ_FILES  = $(SRC_FILES:.c=.debug.o)

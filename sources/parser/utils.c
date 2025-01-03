@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yde-rudd <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 15:15:46 by yde-rudd          #+#    #+#             */
 /*   Updated: 2025/01/03 18:53:53 by yde-rudd         ###   ########.fr       */
@@ -31,7 +31,7 @@ void	print_tokens(t_token **token_list)
 
 bool	is_special_case(char c)
 {
-	if (c == '|' || c == '<' || c == '>' || c == '$' || c == '\'' || c == '\"')
+	if (c == '|' || c == '<' || c == '>' || c == '\'' || c == '\"') // || c == '$'
 		return (true);
 	return (false);
 }
