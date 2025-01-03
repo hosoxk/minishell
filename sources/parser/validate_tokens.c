@@ -15,7 +15,7 @@ static bool	check_redir(t_token *token, t_token *prev_token)
 {
 	if (!token->next || token->next->type != WORD)
 		return (print_error("Syntax error: missing target for redirection"), false);
-	if (token->type != HEREDOC && (!prev_token || prev_token != WORD))
+	if (token->type != HEREDOC && (!prev_token || prev_token->type != WORD))
 		return (print_error("Syntax error: missing command before redirection"), false);
 	return (true);
 }
@@ -28,16 +28,12 @@ bool	validate_token_sequence(t_token *tokens)
 	while (tokens)
 	{
 		if (tokens->type == PIPE)
-		{
 			if (!check_pipe(tokens, prev_token))
 				return (false);
-		}
 		if ((tokens->type == REDIRECT_IN || tokens->type == REDIRECT_OUT ||
 			tokens->type == APPEND || tokens->type == HEREDOC))
-		{
 			if (!check_redir(tokens, prev_token))
 				return (false);
-		}
 	/*	if (tokens->type == WORD)
 			is_valid_command(tokens);
 	*/

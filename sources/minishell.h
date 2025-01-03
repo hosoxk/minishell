@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:36:00 by yde-rudd          #+#    #+#             */
-/*   Updated: 2025/01/03 11:57:20 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/01/03 15:45:47 by yde-rudd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ typedef enum e_command_type
 typedef struct s_token
 {
 	char			*value;
+
 	t_token_type	type;
 	struct s_token	*next;
 }					t_token;
@@ -68,10 +69,10 @@ typedef struct s_token
 typedef struct s_ast
 {
 	t_token_type	type;
-	char **args;         // array of arguments for commands
-	char *file;          // file name for redirection
-	struct s_ast *left;  // left child (for pipes and redirects)
-	struct s_ast *right; // right child
+	char			**args; // array of arguments for commands
+	char			*file;  // file name for redirection
+	struct s_ast	*left;  // left child (for pipes and redirects)
+	struct s_ast	*right; // right child
 }					t_ast;
 
 // *** LEXER & HANDLER ***
@@ -104,8 +105,7 @@ void				print_error(char *str);
 // *** CLEAN ***
 void				free_token_list(t_token **token_list);
 void				free_ast(t_ast *node);
-void				free_program(char *line, t_token *token_list,
-						t_ast *ast_root);
+void				free_program(t_token *token_list, t_ast *ast_root);
 
 // *** EXPANDER ***
 void				expand_ast(t_ast *node, char **env);

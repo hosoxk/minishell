@@ -135,15 +135,19 @@ void	expand_ast(t_ast *node, char **env)
 		return ;
 	if (node->type == WORD || node->type ==  QUOTED_STRING
 		|| node->type == DOUBLE_QUOTED_STRING)
+	{
 		if (node->args)
 			expand_args(node->args, env);
+	}
 	else if (node->type == APPEND || node->type == REDIRECT_IN
 		|| node->type == REDIRECT_OUT)
+	{
 		if (node->file)
 			node->file = expand_string(node->file, env);
-	else if (node->type == HEREDOC)
+	}
+	/*else if (node->type == HEREDOC)
 		if (node->file)
-			node->file = expand_heredoc(node->file, env);
+			node->file = expand_heredoc(node->file, env);*/
 	expand_ast(node->left, env);
 	expand_ast(node->right, env);
 }
