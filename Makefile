@@ -35,6 +35,7 @@ SRC_FILES = $(SRC_DIR)/main.c \
 		$(SRC_DIR)/parser/clean.c \
 		$(SRC_DIR)/parser/create_nodes.c \
 		$(SRC_DIR)/parser/validate_tokens.c \
+		$(SRC_DIR)/parser/expander.c \
 		$(SRC_DIR)/executer/execute_build_in_cmd.c \
 		$(SRC_DIR)/executer/execute_custom_cmd.c \
 		$(SRC_DIR)/executer/executer.c \
