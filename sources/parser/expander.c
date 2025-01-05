@@ -72,10 +72,10 @@ static void	expand_s_quote(char **expanded, char **str)
 
 static void	expand_d_quote(char **expanded, char **str, char **env)
 {
-	char	*start;
+//	char	*start;
 	char	*temp;
 
-	start = ++(*str);
+//	start = ++(*str);
 	while (**str && **str != '\"')
 	{
 		if (**str == '$')

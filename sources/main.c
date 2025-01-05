@@ -41,16 +41,15 @@ static void parse_token(char *line, t_token *token_list, t_ast *ast_root, char *
 	if (!line)
 		return ;
 	(void)env;
-	// tokenize input
+
 	lexer(line, &token_list);
 	free (line);
-	kobe_expander(token_list, *env);
 	print_tokens(&token_list);
 	if (validate_token_sequence(token_list))
 	{
-		// parse tokens into AST
 		if ((ast_root = parse_ast(&token_list)))
 		{
+			kobe_expander(token_list, *env);
 			//expand_ast(ast_root, *env);
 			executor(ast_root, env);
 			printf(BOLD_MAGENTA"\nAbstract Syntax Tree:\n"RESET);
@@ -65,30 +64,6 @@ void excecute_test(char *line, t_token **token_list, t_ast **ast_root, char ***e
 		parse_token(line, *token_list, *ast_root, env);
 	*token_list = NULL;
 	*ast_root = NULL;
-}
-
-void	handle_sigquit(int sig)
-{
-	(void)sig;
-
-	// do nothing to ignore SIGQUIT
-}
-
-void	handle_sigint(int sig)
-{
-	(void)sig;
-
-	g_exit_status = 130;
-	printf("\n"); // new line for clean prompt ?? // TODO
-	rl_on_new_line(); // resets new line to new rule
-	rl_replace_line("", 0); // clean current line
-	rl_redisplay(); // shows new line
-}
-
-static void	setup_signals(void)
-{
-	signal(SIGINT, handle_sigint);
-	signal(SIGQUIT, handle_sigquit);
 }
 
 int	main(int argc, char **argv, char **envp)

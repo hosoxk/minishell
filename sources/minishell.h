@@ -21,8 +21,8 @@
 # include <stdbool.h>
 # include <stdio.h>
 # include <sys/wait.h>
-#include <fcntl.h>
-
+# include <fcntl.h>
+# include <termios.h>
 
 # define BOLD_MAGENTA "\033[35m"
 # define BOLD_RED "\033[31m"
@@ -34,6 +34,8 @@
 # endif
 
 # define ARG_SIZE 8;
+
+extern volatile int	g_exit_status;
 
 typedef enum e_token_type
 {
@@ -97,6 +99,9 @@ t_ast	*create_redirection_node(t_ast *left_node,
 								t_token **tokens);
 t_ast				*create_command_node(t_ast *command_node, t_token **tokens,
 						int *size, int *count);
+
+// *** SIGNALS ***
+void				setup_signals(void);
 
 // *** UTILS ***
 bool				is_special_case(char c);

@@ -60,7 +60,7 @@ int	get_exit_code(pid_t *pids)
 void	executor(t_ast *ast_root, char ***env)
 {
 	pid_t	*pids;
-	int		status;
+//	int		status;
 
 	if (execute_custom_cmd(ast_root, env))
 		return ;
@@ -70,5 +70,5 @@ void	executor(t_ast *ast_root, char ***env)
 		exit(1);
 	if (!pids[0])
 		execute(ast_root, env, pids);
-	status = get_exit_code(pids); ////////
+//	status = get_exit_code(pids); ////////
 }
