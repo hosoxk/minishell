@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 12:59:33 by kvanden-          #+#    #+#             */
-/*   Updated: 2025/01/03 16:54:53 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/01/06 10:11:56 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,11 @@ int	open_file(char *file, t_token_type mode)
 	int	ret;
 
 	if (mode == REDIRECT_IN)
-		ret = open(file, O_RDONLY, 0777); 
+		ret = open(file, O_RDONLY, 0666);
 	if (mode == REDIRECT_OUT)
-		ret = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0777);
+		ret = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0666);
 	if (mode == APPEND)
-		ret = open(file, O_WRONLY | O_CREAT | O_APPEND, 0777);
+		ret = open(file, O_WRONLY | O_CREAT | O_APPEND, 0666);
 	if (ret == -1)
 	{
 		perror("Perror");

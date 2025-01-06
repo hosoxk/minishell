@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 13:00:31 by kvanden-          #+#    #+#             */
-/*   Updated: 2025/01/06 09:59:54 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/01/06 10:09:46 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 bool	execute_custom_cmd(t_ast *ast_root, char ***env)
 {
 	char	*name;
-	
+
 	if (ast_root->type != WORD)
 		return (false);
 	name = ast_root->args[0];

@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/02 11:25:13 by kvanden-          #+#    #+#             */
-/*   Updated: 2025/01/06 10:04:22 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/01/06 10:08:34 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ static char	*get_new_dir(char *cwd, char **env, char **argv)
 		nwd = ft_strdup(getenv_stript("HOME", env));
 	else if (ft_strcmp(argv[1], ".") == 0)
 		nwd = ft_strdup(cwd);
-    else if (argv[1][0] == '/')
-        nwd = ft_strdup(argv[1]);
+	else if (argv[1][0] == '/')
+		nwd = ft_strdup(argv[1]);
 	else if (ft_strcmp(argv[1], "..") == 0)
 		nwd = ft_substr(cwd, 0, ft_strrchr(cwd, '/') - cwd);
 	else
@@ -47,15 +47,15 @@ void	my_cd(char **env, char **argv)
 	nwd = get_new_dir(cwd, env, argv);
 	if (!nwd)
 		return ; /// nog ne error geven
-    printf("Changing directory to %s\n", nwd);
+	printf("Changing directory to %s\n", nwd);
 	if (chdir(nwd) != 0)
 	{
 		perror("cd");
 		g_exit_status = 1;
 		return ;
 	}
-    free(nwd);
-    if (!getcwd(cwd, sizeof(cwd)))
+	free(nwd);
+	if (!getcwd(cwd, sizeof(cwd)))
 		perror("getcwd");
 	update_env("PWD", cwd, env);
 }

@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 16:25:49 by kvanden-          #+#    #+#             */
-/*   Updated: 2025/01/03 16:48:40 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/01/06 10:21:05 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,13 @@ static void	here_doc_put_in(t_ast *ast_root, int *p_fd)
         ret = readline("> ");
         if (!ret)
             return ; /////////////
-        //ft_putendl_fd(ret, STDERR_FILENO);
-        if (ft_strncmp(ret, ast_root->file, ft_strlen(ast_root->file)) == 0)
+        if (ft_strcmp(ret, ast_root->file) == 0)
 		{
 			free(ret);
 			exit(0);
 		}
 		ft_putstr_fd(ret, p_fd[1]);
+		ft_putstr_fd("\n", p_fd[1]);
 		free(ret);
 	}
 }
