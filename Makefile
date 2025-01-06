@@ -6,7 +6,8 @@
 #    By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/25 15:08:03 by yde-rudd          #+#    #+#              #
-#    Updated: 2025/01/06 11:14:15 by kvanden-         ###   ########.fr        #
+#    Updated: 2025/01/06 13:15:12 by yde-rudd         ###   ########.fr        #
+#    Updated: 2025/01/06 10:23:59 by yde-rudd         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -65,6 +66,7 @@ LIBFT         = $(LIBFT_DIR)/libft.a
 MAGENTA = \033[1;35m
 YELLOW  = \033[1;33m
 GREEN   = \033[1;32m
+GREENBLUE = \033[1;36m
 RESET   = \033[0m
 
 # ---------------------------------------------------------------------------- #
@@ -77,7 +79,7 @@ all: $(LIBFT) $(NAME)
 $(NAME): $(OBJ_FILES) $(LIBFT)
 	@echo "$(MAGENTA)Using compiler: $(CC)$(RESET)"
 	@echo "$(MAGENTA)Using flags: $(CFLAGS) $(PROJECTFLAGS) $(RESET)"
-	@echo "$(YELLOW)Linking $(NAME)...$(RESET)"
+	@echo "$(GREENBLUE)Linking $(NAME)...$(RESET)"
 	@$(CC) $(CFLAGS) $(OBJ_FILES) $(PROJECTFLAGS) $(LIBFT) -o $(NAME)
 	@echo "$(GREEN)Compilation successful!$(RESET)"
 
@@ -103,7 +105,7 @@ $(DEBUG_NAME): $(DEBUG_OBJ_FILES) $(LIBFT)
 
 # Libft build
 $(LIBFT):
-	@echo "$(YELLOW)Building libft...$(RESET)"
+	@echo "$(GREENBLUE)Building libft...$(RESET)"
 	@$(MAKE) -C $(LIBFT_DIR)
 	@echo "$(GREEN)Libft compiled successfully!$(RESET)"
 

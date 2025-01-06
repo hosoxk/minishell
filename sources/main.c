@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:38:48 by yde-rudd          #+#    #+#             */
-/*   Updated: 2025/01/06 13:10:19 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/01/06 13:45:51 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ static void parse_token(char *line, t_token **token_list, t_ast **ast_root, char
 		return ;
 	(void)env;
 
+	lexer(line, token_list);
 	lexer(line, token_list);
 	free (line);
 	kobe_expander(*token_list, *env);
