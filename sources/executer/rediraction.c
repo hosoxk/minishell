@@ -17,7 +17,7 @@ int	open_file(char *file, t_token_type mode)
 	int	ret;
 
 	if (mode == REDIRECT_IN)
-		ret = open(file, O_RDONLY, 0777);
+		ret = open(file, O_RDONLY, 0777); 
 	if (mode == REDIRECT_OUT)
 		ret = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0777);
 	if (mode == APPEND)

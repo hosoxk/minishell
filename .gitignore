@@ -3,3 +3,6 @@
 minishell
 minishell_debug
 .vscode
+*.txt
+!error_text_commands.txt
+!correct_text_commands.txt

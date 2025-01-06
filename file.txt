@@ -1,4 +1,0 @@
-haha
-cat
-sources/minishell.h
-file.txt
