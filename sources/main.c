@@ -6,11 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:38:48 by yde-rudd          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2025/01/06 09:41:10 by kvanden-         ###   ########.fr       */
-=======
-/*   Updated: 2025/01/06 13:08:56 by yde-rudd         ###   ########.fr       */
->>>>>>> b7e0584 (working on redirs parser)
+/*   Updated: 2025/01/06 13:17:04 by yde-rudd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,14 +44,8 @@ static void parse_token(char *line, t_token **token_list, t_ast *ast_root, char 
 
 	lexer(line, token_list);
 	free (line);
-<<<<<<< HEAD
-	kobe_expander(token_list, *env);
-	print_tokens(&token_list);
-	if (validate_token_sequence(token_list))
-=======
 	print_tokens(token_list);
 	if (validate_token_sequence(*token_list))
->>>>>>> b7e0584 (working on redirs parser)
 	{
 		kobe_expander(*token_list, *env);
 		if ((ast_root = parse_ast(token_list)))
