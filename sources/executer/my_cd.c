@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/02 11:25:13 by kvanden-          #+#    #+#             */
-/*   Updated: 2025/01/06 10:08:34 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/01/06 11:28:48 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,7 @@ static char	*get_new_dir(char *cwd, char **env, char **argv)
 
 	nwd = NULL;
 	if (ft_tab_len(argv) > 2)
-	{
-		ft_putendl_fd("cd: too many arguments", STDERR_FILENO);
-		return (NULL);
-	}
+		return (print_error("cd: too many arguments"), NULL);
 	if (argv[1] == NULL)
 		nwd = ft_strdup(getenv_stript("HOME", env));
 	else if (ft_strcmp(argv[1], ".") == 0)
@@ -33,7 +30,7 @@ static char	*get_new_dir(char *cwd, char **env, char **argv)
 	else
 		nwd = ft_strjoin_multiple(cwd, "/", argv[1], NULL);
 	if (!nwd)
-		perror("malloc");
+		print_error("malloc failed");
 	return (nwd);
 }
 
@@ -43,19 +40,25 @@ void	my_cd(char **env, char **argv)
 	char	*nwd;
 
 	if (!getcwd(cwd, sizeof(cwd)))
+	{
 		perror("getcwd");
+		return ;
+	}
 	nwd = get_new_dir(cwd, env, argv);
 	if (!nwd)
-		return ; /// nog ne error geven
-	printf("Changing directory to %s\n", nwd);
+		return ;
 	if (chdir(nwd) != 0)
 	{
 		perror("cd");
 		g_exit_status = 1;
+		free(nwd);
 		return ;
 	}
 	free(nwd);
 	if (!getcwd(cwd, sizeof(cwd)))
+	{
 		perror("getcwd");
+		return ;
+	}
 	update_env("PWD", cwd, env);
 }

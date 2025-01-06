@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 15:15:46 by yde-rudd          #+#    #+#             */
-/*   Updated: 2025/01/03 18:53:53 by yde-rudd         ###   ########.fr       */
+/*   Updated: 2025/01/06 11:24:47 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,9 @@
 
 void	print_error(char *str)
 {
-	printf(BOLD_RED"%s\n"RESET, str);
+	ft_putstr_fd(BOLD_RED, STDERR_FILENO);
+	ft_putendl_fd(str, STDERR_FILENO);
+	ft_putendl_fd(RESET, STDERR_FILENO);
 }
 
 void	print_tokens(t_token **token_list)
