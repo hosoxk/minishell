@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 13:00:45 by kvanden-          #+#    #+#             */
-/*   Updated: 2025/01/02 11:30:29 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/01/06 10:02:24 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,12 +61,8 @@ void	execute_build_in_cmd(char *name, char **argv, char **env)
 	if (path)
 	{
 		execve(path, argv, env);
-		clean_up(path); //
+		clean_up(path);
 	}
-	else
-	{
-		execve(name, argv, env);
-	}
-	perror("Perror");
-	// return false? exit? cleaning?
+	execve(name, argv, env);
+	clean_up(path);
 }

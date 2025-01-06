@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/02 11:25:13 by kvanden-          #+#    #+#             */
-/*   Updated: 2025/01/02 16:03:37 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/01/06 10:04:22 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ void	my_cd(char **env, char **argv)
 	if (chdir(nwd) != 0)
 	{
 		perror("cd");
+		g_exit_status = 1;
 		return ;
 	}
     free(nwd);

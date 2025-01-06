@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 12:10:12 by kvanden-          #+#    #+#             */
-/*   Updated: 2025/01/03 16:57:01 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/01/06 09:13:46 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,15 +43,17 @@ int	get_exit_code(pid_t *pids)
 {
 	int	status;
 	int i;
+	int len;
 
-	i = get_len_pids(pids);
-	while (i > 0)
+	len = get_len_pids(pids);
+	i = 0;
+	while (i < len)
 	{
 		if (waitpid(pids[i], &status, 0) == -1)
 			perror("waitpid failed");
 		if (WIFEXITED(status))
-			status = WEXITSTATUS(status);
-		i--;
+			status = WEXITSTATUS(status);  ////////
+		i++;
 	}
 	free(pids);
 	return (status);
@@ -70,5 +72,5 @@ void	executor(t_ast *ast_root, char ***env)
 		exit(1);
 	if (!pids[0])
 		execute(ast_root, env, pids);
-//	status = get_exit_code(pids); ////////
+	g_exit_status = get_exit_code(pids);
 }

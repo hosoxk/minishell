@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:36:00 by yde-rudd          #+#    #+#             */
-/*   Updated: 2025/01/03 17:38:27 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/01/06 09:34:08 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,13 @@
 
 # include "libft/libft.h"
 # include <errno.h>
+# include <fcntl.h>
 # include <limits.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <stdbool.h>
 # include <stdio.h>
 # include <sys/wait.h>
-# include <fcntl.h>
 # include <termios.h>
 
 # define BOLD_MAGENTA "\033[35m"
@@ -73,10 +73,10 @@ typedef struct s_token
 typedef struct s_ast
 {
 	t_token_type	type;
-	char			**args; // array of arguments for commands
-	char			*file;  // file name for redirection
-	struct s_ast	*left;  // left child (for pipes and redirects)
-	struct s_ast	*right; // right child
+	char **args;         // array of arguments for commands
+	char *file;          // file name for redirection
+	struct s_ast *left;  // left child (for pipes and redirects)
+	struct s_ast *right; // right child
 }					t_ast;
 
 // *** LEXER & HANDLER ***
@@ -116,7 +116,7 @@ void				free_program(t_token *token_list, t_ast *ast_root);
 
 // *** EXPANDER ***
 void				expand_ast(t_ast *node, char **env);
-void	kobe_expander(t_token *token_list, char **env);
+void				kobe_expander(t_token *token_list, char **env);
 
 // *** EXECUTION ***
 void				execute(t_ast *ast_root, char ***env, pid_t *pids);
@@ -136,12 +136,14 @@ void				unset(char ***env, char **argv);
 void				my_cd(char **env, char **argv);
 void				my_pwd(void);
 
-void init_heredoc(t_ast *ast_root);
+void				init_heredoc(t_ast *ast_root);
 
 // *** ENVIRONMENT ***
 char				*getenv_stript(char *name, char **env);
 int					getenv_index(char *name, char **env);
 void				update_env(char *name, char *value, char **env);
+char				*get_env_value(t_token *token, int index, int len,
+						char **env);
 
 // *** UTILS ***
 char				*get_prompt(char **env);

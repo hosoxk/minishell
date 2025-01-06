@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 13:00:31 by kvanden-          #+#    #+#             */
-/*   Updated: 2025/01/03 14:23:02 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/01/06 09:59:54 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,17 +42,5 @@ void	execute_custom_cmd_after_fork(char *name, char **argv, char ***env,
 		my_pwd();
 	else
 		return ;
-	// else if (ft_strcmp(token->value, "cd") == 0)
-	// 	token->command_type = CMD_CD;
-	// else if (ft_strcmp(token->value, "pwd") == 0)
-	// 	token->command_type = CMD_PWD;
-	// else if (ft_strcmp(token->value, "export") == 0)
-	// 	token->command_type = CMD_EXPORT;
-	// else if (ft_strcmp(token->value, "unset") == 0)
-	// 	token->command_type = CMD_UNSET;
-	// else if (ft_strcmp(token->value, "env") == 0)
-	// 	token->command_type = CMD_ENV;
-	// else if (ft_strcmp(token->value, "exit") == 0)
-	// 	token->command_type = CMD_EXIT;
 	exit(0);
 }

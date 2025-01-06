@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/02 10:22:51 by kvanden-          #+#    #+#             */
-/*   Updated: 2025/01/02 13:34:25 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/01/06 09:38:16 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,4 +50,17 @@ char	*getenv_stript(char *name, char **env)
 	if (i != -1)
 		return (env[i] + ft_strlen(name) + 1);
 	return (NULL);
+}
+
+char	*get_env_value(t_token *token, int index, int len, char **env)
+{
+	char	*env_name;
+	char	*env_value;
+
+	env_name = ft_strndup(&token->value[index], len);
+	if (!env_name)
+		return (NULL);
+	env_value = getenv_stript(env_name, env);
+	free(env_name);
+	return (env_value);
 }
