@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 14:48:39 by yde-rudd          #+#    #+#             */
-/*   Updated: 2025/01/03 17:21:20 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/01/06 12:30:00 by yde-rudd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ t_ast	*create_pipe_node(t_ast *left_node, t_token **tokens)
 	pipe_node->right = parse_ast(tokens);
 	return (pipe_node);
 }
-
+/*
 void	create_heredoc_node(t_token **tokens, t_ast *redir_node)
 {
 	char	*heredoc_content;
@@ -54,8 +54,29 @@ void	create_heredoc_node(t_token **tokens, t_ast *redir_node)
 	redir_node->file = heredoc_content;
 	printf("Attached heredoc content to REDIRECTION node: %s\n", redir_node->file);
 }
+*/
+void	attach_redirection_to_command(t_ast *command, t_token **tokens)
+{
+	t_ast	*redir_node;
 
-t_ast	*create_redirection_node(t_ast *left_node, t_token **tokens)
+	redir_node = create_redirection_node(tokens);
+	if (!redir_node)
+		return ;
+	if (!command->right)
+		command->right = redir_node;
+	else
+	{
+		t_ast	*temp;
+
+		temp = command->right;
+		while (temp->right)
+			temp = temp->right; // find the last redirection
+		temp->right = redir_node;
+	}
+	printf("Attached redir to command\n");
+}
+
+t_ast	*create_redirection_node(t_token **tokens)
 {
 	t_ast	*redir_node;
 
@@ -63,21 +84,30 @@ t_ast	*create_redirection_node(t_ast *left_node, t_token **tokens)
 	redir_node = create_ast_node((*tokens)->type);
 	if (!redir_node)
 		return (print_error("Failed to allocate memory for REDIRECTION node"), NULL);
-	*tokens = (*tokens)->next; // move past the redirection token
-	// if (redir_node->type == HEREDOC)
-	// 	create_heredoc_node(tokens, redir_node);
-	// else if (*tokens && (*tokens)->type == WORD)
-	if (*tokens && (*tokens)->type == WORD)
+	if ((*tokens)->next && (*tokens)->next->type == WORD)
 	{
-		redir_node->file = ft_strdup((*tokens)->value);
-		*tokens = (*tokens)->next;
+		redir_node->file = ft_strdup((*tokens)->next->value);
+		*tokens = (*tokens)->next; // move past file token
 	}
-	redir_node->left = left_node;
+	else
+		return (print_error("Missing file for redirection"), NULL);
+	*tokens = (*tokens)->next; // move past the redirection token
 	return (redir_node);
 }
 
 t_ast	*create_command_node(t_ast *command_node, t_token **tokens, int *size, int *count)
 {
+	t_ast	*node;
+
+	if (command_node && command_node->type == WORD)
+		node = command_node;
+	else
+		node = create_ast_node(WORD);
+	add_argument(&node->args, size, count, (*tokens)->value);
+	printf("Adding argument to COMMAND node: %s\n", (*tokens)->value);
+	*tokens = (*tokens)->next;
+	return (node);
+	/*
 	if (!command_node)
 	{
 		printf("Creating COMMAND node\n");
@@ -88,4 +118,5 @@ t_ast	*create_command_node(t_ast *command_node, t_token **tokens, int *size, int
 	printf("Adding argument to COMMAND node: %s\n", (*tokens)->value);
 	add_argument(&(command_node->args), size, count, (*tokens)->value);
 	return (command_node);
+	*/
 }

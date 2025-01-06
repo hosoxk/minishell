@@ -6,7 +6,11 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:38:48 by yde-rudd          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2025/01/06 09:41:10 by kvanden-         ###   ########.fr       */
+=======
+/*   Updated: 2025/01/06 13:08:56 by yde-rudd         ###   ########.fr       */
+>>>>>>> b7e0584 (working on redirs parser)
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,22 +40,28 @@ static char	*handle_line(char **env)
 	return (line);
 }
 
-static void parse_token(char *line, t_token *token_list, t_ast *ast_root, char ***env)
+static void parse_token(char *line, t_token **token_list, t_ast *ast_root, char ***env)
 {
 	if (!line)
 		return ;
 	(void)env;
 
-	lexer(line, &token_list);
+	lexer(line, token_list);
 	free (line);
+<<<<<<< HEAD
 	kobe_expander(token_list, *env);
 	print_tokens(&token_list);
 	if (validate_token_sequence(token_list))
+=======
+	print_tokens(token_list);
+	if (validate_token_sequence(*token_list))
+>>>>>>> b7e0584 (working on redirs parser)
 	{
-		if ((ast_root = parse_ast(&token_list)))
+		kobe_expander(*token_list, *env);
+		if ((ast_root = parse_ast(token_list)))
 		{
 			//expand_ast(ast_root, *env);
-			executor(ast_root, env);
+			//executor(ast_root, env);
 			printf(BOLD_MAGENTA"\nAbstract Syntax Tree:\n"RESET);
 			print_ast(ast_root, 0);
 		}
@@ -61,7 +71,7 @@ static void parse_token(char *line, t_token *token_list, t_ast *ast_root, char *
 void excecute_test(char *line, t_token **token_list, t_ast **ast_root, char ***env)
 {
 	if (line)
-		parse_token(line, *token_list, *ast_root, env);
+		parse_token(line, token_list, *ast_root, env);
 	*token_list = NULL;
 	*ast_root = NULL;
 }
@@ -96,7 +106,7 @@ int	main(int argc, char **argv, char **envp)
 			return (free(line), 0);
 		// tokenize, create AST, expand, execute
 		if (DEBUG == 0)
-			parse_token(line, token_list, ast_root, &env);
+			parse_token(line, &token_list, ast_root, &env);
 		else if (DEBUG == 1)
 		{
 			if (ft_strcmp("test", line) == 0)
@@ -105,7 +115,7 @@ int	main(int argc, char **argv, char **envp)
 				excecute_test(ft_strdup("echo \"hello\""), &token_list, &ast_root, &env);
 			}
 			else
-				parse_token(line, token_list, ast_root, &env);
+				parse_token(line, &token_list, ast_root, &env);
 		}
 		free_program(token_list, ast_root);
 	}
