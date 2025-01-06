@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:38:48 by yde-rudd          #+#    #+#             */
-/*   Updated: 2025/01/06 09:41:10 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/01/06 13:10:19 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,11 @@ static bool	check_input(int argc, char **envp)
 static char	*handle_line(char **env)
 {
 	char	*line;
+	char	*promt;
 
-	line = readline(get_prompt(env));
+	promt = get_prompt(env);
+	line = readline(promt);
+	free(promt);
 	if (!line)
 		return (NULL);
 	// add command to history
@@ -36,24 +39,25 @@ static char	*handle_line(char **env)
 	return (line);
 }
 
-static void parse_token(char *line, t_token *token_list, t_ast *ast_root, char ***env)
+static void parse_token(char *line, t_token **token_list, t_ast **ast_root, char ***env)
 {
+	(void)ast_root; //////////
 	if (!line)
 		return ;
 	(void)env;
 
-	lexer(line, &token_list);
+	lexer(line, token_list);
 	free (line);
-	kobe_expander(token_list, *env);
-	print_tokens(&token_list);
-	if (validate_token_sequence(token_list))
+	kobe_expander(*token_list, *env);
+	print_tokens(token_list);
+	if (validate_token_sequence(*token_list))
 	{
-		if ((ast_root = parse_ast(&token_list)))
+		if ((*ast_root = parse_ast(token_list)))
 		{
 			//expand_ast(ast_root, *env);
-			executor(ast_root, env);
+			// executor(ast_root, env);
 			printf(BOLD_MAGENTA"\nAbstract Syntax Tree:\n"RESET);
-			print_ast(ast_root, 0);
+			print_ast(*ast_root, 0);
 		}
 	}
 }
@@ -61,7 +65,7 @@ static void parse_token(char *line, t_token *token_list, t_ast *ast_root, char *
 void excecute_test(char *line, t_token **token_list, t_ast **ast_root, char ***env)
 {
 	if (line)
-		parse_token(line, *token_list, *ast_root, env);
+		parse_token(line, token_list, ast_root, env);
 	*token_list = NULL;
 	*ast_root = NULL;
 }
@@ -93,10 +97,10 @@ int	main(int argc, char **argv, char **envp)
 			exit(g_exit_status);
 		}
 		if (ft_strcmp(line, "exit") == 0)
-			return (free(line), 0);
+			return (free(line), ft_free_tab(env), 0);
 		// tokenize, create AST, expand, execute
 		if (DEBUG == 0)
-			parse_token(line, token_list, ast_root, &env);
+			parse_token(line, &token_list, &ast_root, &env);
 		else if (DEBUG == 1)
 		{
 			if (ft_strcmp("test", line) == 0)
@@ -105,7 +109,7 @@ int	main(int argc, char **argv, char **envp)
 				excecute_test(ft_strdup("echo \"hello\""), &token_list, &ast_root, &env);
 			}
 			else
-				parse_token(line, token_list, ast_root, &env);
+				parse_token(line, &token_list, &ast_root, &env);
 		}
 		free_program(token_list, ast_root);
 	}
