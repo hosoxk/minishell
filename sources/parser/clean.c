@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clean.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yde-rudd <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 18:12:50 by yde-rudd          #+#    #+#             */
-/*   Updated: 2025/01/03 15:08:28 by yde-rudd         ###   ########.fr       */
+/*   Updated: 2025/01/06 14:45:40 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,13 +51,14 @@ void	free_ast(t_ast *node)
 
 void	free_program(t_token *token_list, t_ast *ast_root)
 {
-	free_token_list(&token_list);
-	while (ast_root)
-	{
-		t_ast	*temp;
+	free_token_list(&token_list); // al gedaan voor execute
+	// while (ast_root)
+	// {
+	// 	t_ast	*temp;
 
-		temp = ast_root;
-		ast_root = ast_root->right;
-		free_ast(temp);
-	}
+	// 	temp = ast_root;
+	// 	ast_root = ast_root->right;
+	// 	free_ast(temp);
+	// }
+	free_ast(ast_root);
 }

@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:36:00 by yde-rudd          #+#    #+#             */
-/*   Updated: 2025/01/06 13:18:55 by yde-rudd         ###   ########.fr       */
+/*   Updated: 2025/01/06 15:43:42 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ void				expand_ast(t_ast *node, char **env);
 void				kobe_expander(t_token *token_list, char **env);
 
 // *** EXECUTION ***
-void				execute(t_ast *ast_root, char ***env, pid_t *pids);
+void				execute(t_ast *ast_root, char ***env, pid_t *pids, bool is_first);
 void				executor(t_ast *ast_root, char ***env);
 void				execute_build_in_cmd(char *name, char **argv, char **env);
 void				execute_custom_cmd_after_fork(char *name, char **argv,
@@ -129,7 +129,7 @@ void				execute_custom_cmd_after_fork(char *name, char **argv,
 bool				execute_custom_cmd(t_ast *ast_root, char ***env);
 
 void				do_pipe(t_ast *ast_root, char ***env, pid_t *pids);
-void				do_redirection(t_ast *ast_root, char ***env, pid_t *pids);
+void				do_redirection(t_ast *ast_root, char ***env, pid_t *pids, bool is_first);
 
 void				my_echo(char **argv);
 void				my_env(char **env);

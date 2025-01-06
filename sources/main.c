@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:38:48 by yde-rudd          #+#    #+#             */
-/*   Updated: 2025/01/06 13:45:51 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/01/06 15:24:26 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,32 +33,32 @@ static char	*handle_line(char **env)
 	free(promt);
 	if (!line)
 		return (NULL);
-	// add command to history
-	if (*line)
+	if (*line) // 
 		add_history(line);
 	return (line);
 }
 
 static void parse_token(char *line, t_token **token_list, t_ast **ast_root, char ***env)
 {
-	(void)ast_root; //////////
+	t_token *temp;
 	if (!line)
 		return ;
-	(void)env;
 
-	lexer(line, token_list);
 	lexer(line, token_list);
 	free (line);
 	kobe_expander(*token_list, *env);
 	print_tokens(token_list);
+	temp = *token_list; /////////
 	if (validate_token_sequence(*token_list))
 	{
-		if ((*ast_root = parse_ast(token_list)))
+		if ((*ast_root = parse_ast(&temp)))
 		{
-			//expand_ast(ast_root, *env);
-			// executor(ast_root, env);
 			printf(BOLD_MAGENTA"\nAbstract Syntax Tree:\n"RESET);
 			print_ast(*ast_root, 0);
+			printf(BOLD_MAGENTA"\noutput:\n"RESET);
+			free_token_list(token_list);
+			executor(*ast_root, env);
+			// printf(BOLD_MAGENTA"end output\n"RESET);
 		}
 	}
 }

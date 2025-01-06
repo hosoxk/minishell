@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 12:59:33 by kvanden-          #+#    #+#             */
-/*   Updated: 2025/01/06 10:11:56 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/01/06 15:43:34 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,11 @@ void	init_redirection(t_ast *ast_root)
 		dup2(fd, STDOUT_FILENO);
 }
 
-void	do_redirection(t_ast *ast_root, char ***env, pid_t *pids)
+void	do_redirection(t_ast *ast_root, char ***env, pid_t *pids, bool is_first)
 {
 	if (ast_root->type == HEREDOC)
 		init_heredoc(ast_root);
 	else
 		init_redirection(ast_root);
-	execute(ast_root->left, env, pids);
+	execute(ast_root->left, env, pids, is_first);
 }

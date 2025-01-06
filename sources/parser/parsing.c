@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yde-rudd <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 18:12:13 by yde-rudd          #+#    #+#             */
-/*   Updated: 2025/01/06 12:53:02 by yde-rudd         ###   ########.fr       */
+/*   Updated: 2025/01/06 14:39:06 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,10 @@ t_ast	*parse_ast(t_token **tokens)
 			if (left_node == NULL || left_node->type != WORD)
 				left_node = create_command_node(left_node, tokens, &size, &count);
 			else
-				add_argument(&left_node->args, &size, &count, (*tokens)->value);
+			{
+				add_argument(&left_node->args, &size, &count, (*tokens)->value); // loopt hier vast
+				*tokens = (*tokens)->next;
+			}	
 		}
 	//	*tokens = (*tokens)->next;
 	}
