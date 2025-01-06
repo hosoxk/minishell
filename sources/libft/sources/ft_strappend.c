@@ -1,8 +1,16 @@
-#include "../libft.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_strappend.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/06 11:58:16 by kvanden-          #+#    #+#             */
+/*   Updated: 2025/01/06 11:58:17 by kvanden-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-/*
- *	Appends a single char to a string and returns new string
- */
+#include "../libft.h"
 
 char	*ft_strappend(char *str, char c)
 {

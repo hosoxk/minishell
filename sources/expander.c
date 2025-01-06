@@ -6,24 +6,24 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 10:22:45 by kvanden-          #+#    #+#             */
-/*   Updated: 2025/01/06 09:50:49 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/01/06 12:10:31 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static	char *make_new_value(t_token *token, int index, char *env_value, int len)
+static char	*make_new_value(t_token *token, int index, char *env_value, int len)
 {
-	char *new_value;
-	
+	char	*new_value;
+
 	new_value = malloc(sizeof(char) * (ft_strlen(token->value) - len
 				+ ft_strlen(env_value) + 1));
 	if (!new_value)
-		return (false); //// error gooiene
+		return (print_error("malloc failed"), NULL);
 	ft_strlcpy(new_value, token->value, index + 1);
 	ft_strcpy(new_value + index - 1, env_value);
 	ft_strcpy(new_value + index - 1 + ft_strlen(env_value), &token->value[index
-			+ len]);
+		+ len]);
 	return (new_value);
 }
 
@@ -32,7 +32,8 @@ static int	find_length(char *str)
 	int	len;
 
 	len = 0;
-	while (str[len] && (ft_isalnum(str[len]) || str[len] == '_' || str[len] == '-' || str[len] == '?')) 
+	while (str[len] && (ft_isalnum(str[len]) || str[len] == '_'
+			|| str[len] == '-' || str[len] == '?'))
 		len++;
 	return (len);
 }
@@ -50,7 +51,7 @@ static bool	insert_env(t_token *token, int index, char **env)
 	if (!env_value && token->value[index] == '?')
 	{
 		free_env_value = true;
-		env_value = ft_itoa(g_exit_status);
+		env_value = ft_itoa(g_exit_status); ///
 	}
 	else if (!env_value)
 		env_value = "";

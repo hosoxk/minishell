@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/02 10:22:51 by kvanden-          #+#    #+#             */
-/*   Updated: 2025/01/06 09:38:16 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/01/06 12:09:02 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,16 @@
 void	update_env(char *name, char *value, char **env)
 {
 	int index;
+	char *new_env;
 
 	index = getenv_index(name, env);
-	if (index >= 0)
-	{
-		free(env[index]);
-		env[index] = ft_strjoin_multiple(name, "=", value, NULL);
-	}
-	else
-		ft_putendl_fd("iets fouts update env", STDERR_FILENO); ////
+	if (index < 0)
+		return ;
+	new_env = ft_strjoin_multiple(name, "=", value, NULL);
+	if (!new_env)
+		return (print_error("malloc failed"));
+	free(env[index]);
+	env[index] = new_env;
 }
 
 int	getenv_index(char *name, char **env)

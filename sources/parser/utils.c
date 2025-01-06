@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 15:15:46 by yde-rudd          #+#    #+#             */
-/*   Updated: 2025/01/06 11:24:47 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/01/06 12:09:19 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void	print_error(char *str)
 	ft_putstr_fd(BOLD_RED, STDERR_FILENO);
 	ft_putendl_fd(str, STDERR_FILENO);
 	ft_putendl_fd(RESET, STDERR_FILENO);
+	g_exit_status = 1;
 }
 
 void	print_tokens(t_token **token_list)

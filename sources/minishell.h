@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:36:00 by yde-rudd          #+#    #+#             */
-/*   Updated: 2025/01/06 11:08:22 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/01/06 11:55:26 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 # define BOLD_MAGENTA "\033[35m"
 # define BOLD_RED "\033[31m"
 # define BOLD_BLUE "\033[1;94m"
+# define BOLD_GREEN "\033[32m"
 # define RESET "\033[0m"
 
 # ifndef DEBUG

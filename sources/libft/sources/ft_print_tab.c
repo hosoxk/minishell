@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 15:09:24 by kvanden-          #+#    #+#             */
-/*   Updated: 2024/12/30 15:09:53 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/01/06 11:59:07 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 
 void	ft_print_tab(char **tab)
 {
-    int	i;
+	int	i;
 
-    i = 0;
-    while (tab[i])
-    {
-        ft_putendl_fd(tab[i], 1);
-        i++;
-    }
+	i = 0;
+	while (tab[i])
+	{
+		ft_putendl_fd(tab[i], 1);
+		i++;
+	}
 }
