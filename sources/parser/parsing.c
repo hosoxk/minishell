@@ -108,7 +108,6 @@ t_ast	*parse_ast(t_token **tokens)
 	redir_node = NULL;
 	while (*tokens)
 	{ 
-		//print_tokens(tokens);
 		printf(BOLD_MAGENTA"Parsing token: type = %d, value = %s\n"RESET, (*tokens)->type, (*tokens)->value);
 		if ((*tokens)->type == PIPE)
 			return (create_pipe_node(left_node, tokens));
