@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:38:48 by yde-rudd          #+#    #+#             */
-/*   Updated: 2025/01/06 15:24:26 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/01/07 09:16:45 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,11 +57,12 @@ static void parse_token(char *line, t_token **token_list, char ***env)
 	{
 		if ((ast_root = parse_ast(&temp)))
 		{
+			set_root_ast(ast_root, ast_root);
 			printf(BOLD_MAGENTA"\nAbstract Syntax Tree:\n"RESET);
 			print_ast(ast_root, 0);
 		//	printf(BOLD_MAGENTA"\noutput:\n"RESET);
 			free_token_list(token_list);
-			//executor(*ast_root, env);
+			executor(ast_root, env);
 			// printf(BOLD_MAGENTA"end output\n"RESET);
 			free_ast(ast_root);
 		}

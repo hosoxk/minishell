@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 18:12:13 by yde-rudd          #+#    #+#             */
-/*   Updated: 2025/01/06 14:39:06 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/01/07 09:15:54 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,15 @@ void	add_argument(char ***args, int *size, int *count, const char *value)
 	(*count)++;
 	(*args)[*count] = NULL;
 	printf("Argument added succesfully. total count = %d\n", *count);
+}
+
+void set_root_ast(t_ast *node, t_ast *root)
+{
+	if (!node)
+		return ;
+	set_root_ast(node->left, root);	
+	set_root_ast(node->right, root);
+	node->root = root;
 }
 
 t_ast	*create_ast_node(t_token_type type)

@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:36:00 by yde-rudd          #+#    #+#             */
-/*   Updated: 2025/01/06 15:43:42 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/01/07 09:20:17 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,10 @@ typedef struct s_ast
 	char *file;          // file name for redirection
 	struct s_ast *left;  // left child (for pipes and redirects)
 	struct s_ast *right; // right child
+	struct s_ast *root;  // for free in exution
 }					t_ast;
+
+void				set_root_ast(t_ast *node, t_ast *root);
 
 // *** LEXER & HANDLER ***
 void				lexer(char *line, t_token **token_list);
@@ -97,7 +100,8 @@ void				add_argument(char ***args, int *size, int *count,
 t_ast				*create_ast_node(t_token_type type);
 t_ast				*create_pipe_node(t_ast *left_node, t_token **tokens);
 t_ast				*create_redirection_node(t_token **tokens);
-void				attach_redirection_to_command(t_ast *command, t_token **tokens);
+void	attach_redirection_to_command(t_ast *command,
+									t_token **tokens);
 t_ast				*create_command_node(t_ast *command_node, t_token **tokens,
 						int *size, int *count);
 
@@ -114,14 +118,15 @@ void				print_error(char *str);
 void				free_token_list(t_token **token_list);
 void				free_ast(t_ast *node);
 void				free_program(t_token *token_list, t_ast *ast_root);
-void				exit_clean(char *err_msg, t_ast *ast_root, char **env);
+void				exit_clean(char *err_msg, t_ast *node, char **env);
 
 // *** EXPANDER ***
 void				expand_ast(t_ast *node, char **env);
 void				kobe_expander(t_token *token_list, char **env);
 
 // *** EXECUTION ***
-void				execute(t_ast *ast_root, char ***env, pid_t *pids, bool is_first);
+void				execute(t_ast *ast_root, char ***env, pid_t *pids,
+						bool is_first);
 void				executor(t_ast *ast_root, char ***env);
 void				execute_build_in_cmd(char *name, char **argv, char **env);
 void				execute_custom_cmd_after_fork(char *name, char **argv,
@@ -129,7 +134,8 @@ void				execute_custom_cmd_after_fork(char *name, char **argv,
 bool				execute_custom_cmd(t_ast *ast_root, char ***env);
 
 void				do_pipe(t_ast *ast_root, char ***env, pid_t *pids);
-void				do_redirection(t_ast *ast_root, char ***env, pid_t *pids, bool is_first);
+void				do_redirection(t_ast *ast_root, char ***env, pid_t *pids,
+						bool is_first);
 
 void				my_echo(char **argv);
 void				my_env(char **env);
