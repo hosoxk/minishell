@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 12:10:12 by kvanden-          #+#    #+#             */
-/*   Updated: 2025/01/07 11:39:58 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/01/07 12:32:13 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,16 @@ static bool	is_execute_build_in(t_ast *ast_root, char ***env)
 	if (!execute_custom_cmd_after_fork(name, ast_root->args, env, type))
 	{
 		execute_build_in_cmd(name, ast_root->args, *env);
+		perror(name);
 		return (true);
 	}
+	exit_clean(ast_root, *env, 0);
 	return (false);
 }
 static void	execute_cmd(t_ast *ast_root, char ***env, pid_t *pids,
 		bool is_first)
 {
-	pid_t			pid;
+	pid_t	pid;
 
 	if (is_first)
 	{
@@ -41,12 +43,15 @@ static void	execute_cmd(t_ast *ast_root, char ***env, pid_t *pids,
 		{
 			free(pids);
 			if (is_execute_build_in(ast_root, env))
-				exit_clean("Failed to execute command", ast_root, *env, -1);
-			exit_clean("", ast_root, *env, 0);
+				exit_clean(ast_root, *env, -1);
 		}
 	}
 	else
-		is_execute_build_in(ast_root, env);
+	{
+		free(pids);
+		if (is_execute_build_in(ast_root, env))
+			exit_clean(ast_root, *env, -1);
+	}
 }
 
 void	execute(t_ast *ast_root, char ***env, pid_t *pids, bool is_first)
@@ -89,7 +94,10 @@ void	executor(t_ast *ast_root, char ***env)
 		return ;
 	pids = get_pid_list(ast_root);
 	if (!pids)
-		exit_clean("Failed to allocate pids", ast_root, *env, -1);
+	{
+		print_error("fork failed");
+		exit_clean(ast_root, *env, -1);
+	}
 	execute(ast_root, env, pids, true);
 	g_exit_status = get_exit_code(pids);
 }

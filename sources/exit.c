@@ -1,9 +1,8 @@
 
 #include "minishell.h"
 
-void	exit_clean(char *err_msg, t_ast *node, char **env, int exit_status)
+void	exit_clean(t_ast *node, char **env, int exit_status)
 {
-	print_error(err_msg);
 	if (node)
 		free_ast(node->root);
 	if (env)

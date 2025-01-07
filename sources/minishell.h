@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:36:00 by yde-rudd          #+#    #+#             */
-/*   Updated: 2025/01/07 11:58:11 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/01/07 12:04:13 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,8 +100,8 @@ void				add_argument(char ***args, int *size, int *count,
 t_ast				*create_ast_node(t_token_type type);
 t_ast				*create_pipe_node(t_ast *left_node, t_token **tokens);
 t_ast				*create_redirection_node(t_token **tokens);
-void	attach_redirection_to_command(t_ast *command,
-									t_token **tokens);
+// void	attach_redirection_to_command(t_ast *command,
+// 									t_token **tokens);
 t_ast				*create_command_node(t_ast *command_node, t_token **tokens,
 						int *size, int *count);
 
@@ -118,7 +118,7 @@ void				print_error(char *str);
 void				free_token_list(t_token **token_list);
 void				free_ast(t_ast *node);
 void				free_program(t_token *token_list, t_ast *ast_root);
-void	exit_clean(char *err_msg, t_ast *node, char **env, int exit_status);
+void	exit_clean(t_ast *node, char **env, int exit_status);
 
 // *** EXPANDER ***
 void				expand_ast(t_ast *node, char **env);
