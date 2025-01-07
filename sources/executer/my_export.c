@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 14:52:33 by kvanden-          #+#    #+#             */
-/*   Updated: 2025/01/06 11:39:55 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/01/07 11:57:50 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,27 +15,31 @@
 static char	**expent_env(char **env)
 {
 	int		size;
-	int		new_size;
+	int		i;
 	char	**new_env;
 	char	*temp;
 
 	size = ft_tab_len(env);
-	new_size = size * 2;
-	new_env = ft_realloc(env, size * sizeof(char *), new_size * sizeof(char *));
+	new_env = ft_calloc(size * 2, sizeof(char *));
 	if (!new_env)
-		return (NULL);
-	while (size < new_size)
+		return (print_error("malloc failed"), NULL);
+	i = 0;
+	while (i < ((size * 2) - 1))
 	{
-		temp = ft_strdup(env[size]);
+		if (i < size)
+			temp = ft_strdup(env[i]);
+		else
+			temp = ft_strdup("NULL");
 		if (!temp)
 		{
-			new_env[size] = NULL;
+			new_env[i] = NULL;
 			ft_free_tab(new_env);
 			return (print_error("malloc failed"), NULL);
 		}
-		new_env[size] = temp;
-		size++;
+		new_env[i] = temp;
+		i++;
 	}
+	ft_free_tab(env);
 	return (new_env);
 }
 
@@ -62,7 +66,7 @@ static int	get_location(char ***env, char **argv)
 	index = ft_tab_len(*env);
 	new_env = expent_env(*env);
 	if (!new_env)
-		return (print_error("malloc failed"), -1);
+		return (-1);
 	*env = new_env;
 	return (index);
 }

@@ -12,7 +12,7 @@ static void	handle_sigint(int sig)
 	printf("\n");
 	rl_on_new_line();
 	rl_replace_line("", 0);
-	rl_redisplay();
+	// rl_redisplay();
 }
 
 /*	Get current terminal settings with tcgetattr,

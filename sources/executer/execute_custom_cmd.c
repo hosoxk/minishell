@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 13:00:31 by kvanden-          #+#    #+#             */
-/*   Updated: 2025/01/06 10:09:46 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/01/07 11:29:47 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ bool	execute_custom_cmd(t_ast *ast_root, char ***env)
 	return (true);
 }
 
-void	execute_custom_cmd_after_fork(char *name, char **argv, char ***env,
+bool	execute_custom_cmd_after_fork(char *name, char **argv, char ***env,
 		t_command_type type)
 {
 	(void)type;
@@ -41,6 +41,6 @@ void	execute_custom_cmd_after_fork(char *name, char **argv, char ***env,
 	else if (ft_strcmp(name, "pwd") == 0)
 		my_pwd();
 	else
-		return ;
-	exit(0);
+		return (false);
+	return (true);
 }

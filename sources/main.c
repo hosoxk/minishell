@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:38:48 by yde-rudd          #+#    #+#             */
-/*   Updated: 2025/01/07 09:16:45 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/01/07 10:49:21 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,10 @@ static char	*handle_line(char **env)
 static void parse_token(char *line, t_token **token_list, char ***env)
 {
 	t_ast	*ast_root;
+	t_token *temp;
 
 	ast_root = NULL;
+	temp = NULL;
 	if (!line)
 		return ;
 
@@ -50,9 +52,10 @@ static void parse_token(char *line, t_token **token_list, char ***env)
 	free (line);
 	kobe_expander(*token_list, *env);
 	print_tokens(token_list);
+	temp = *token_list;
 	if (validate_token_sequence(*token_list))
 	{
-		if ((ast_root = parse_ast(token_list)))
+		if ((ast_root = parse_ast(&temp)))
 		{
 			set_root_ast(ast_root, ast_root);
 			printf(BOLD_MAGENTA"\nAbstract Syntax Tree:\n"RESET);
@@ -94,7 +97,7 @@ int	main(int argc, char **argv, char **envp)
 		// read input
 		if (!(line = handle_line(env)))
 		{
-			printf("exiting\n");
+			printf("exit\n");
 			exit(g_exit_status);
 		}
 		if (ft_strcmp(line, "exit") == 0)

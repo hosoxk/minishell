@@ -6,22 +6,31 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 12:10:12 by kvanden-          #+#    #+#             */
-/*   Updated: 2025/01/07 09:06:58 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/01/07 11:39:58 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-
-static void	execute_cmd(t_ast *ast_root, char ***env, pid_t *pids,
-		bool is_first)
+static bool	is_execute_build_in(t_ast *ast_root, char ***env)
 {
 	char			*name;
 	t_command_type	type;
-	pid_t			pid;
 
 	name = ast_root->args[0];
 	type = CMD_NONE;
+	if (!execute_custom_cmd_after_fork(name, ast_root->args, env, type))
+	{
+		execute_build_in_cmd(name, ast_root->args, *env);
+		return (true);
+	}
+	return (false);
+}
+static void	execute_cmd(t_ast *ast_root, char ***env, pid_t *pids,
+		bool is_first)
+{
+	pid_t			pid;
+
 	if (is_first)
 	{
 		pid = fork();
@@ -30,17 +39,14 @@ static void	execute_cmd(t_ast *ast_root, char ***env, pid_t *pids,
 		set_pid(pids, pid);
 		if (!pid)
 		{
-			execute_custom_cmd_after_fork(name, ast_root->args, env, type);
-			execute_build_in_cmd(name, ast_root->args, *env);
 			free(pids);
-			exit_clean("Failed to execute command", ast_root, *env);
+			if (is_execute_build_in(ast_root, env))
+				exit_clean("Failed to execute command", ast_root, *env, -1);
+			exit_clean("", ast_root, *env, 0);
 		}
 	}
 	else
-	{
-		execute_custom_cmd_after_fork(name, ast_root->args, env, type);
-		execute_build_in_cmd(name, ast_root->args, *env);
-	}
+		is_execute_build_in(ast_root, env);
 }
 
 void	execute(t_ast *ast_root, char ***env, pid_t *pids, bool is_first)
@@ -83,7 +89,7 @@ void	executor(t_ast *ast_root, char ***env)
 		return ;
 	pids = get_pid_list(ast_root);
 	if (!pids)
-		exit_clean("Failed to allocate pids", ast_root, *env);
+		exit_clean("Failed to allocate pids", ast_root, *env, -1);
 	execute(ast_root, env, pids, true);
 	g_exit_status = get_exit_code(pids);
 }

@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:36:00 by yde-rudd          #+#    #+#             */
-/*   Updated: 2025/01/07 09:24:35 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/01/07 11:58:11 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ void				print_error(char *str);
 void				free_token_list(t_token **token_list);
 void				free_ast(t_ast *node);
 void				free_program(t_token *token_list, t_ast *ast_root);
-void				exit_clean(char *err_msg, t_ast *node, char **env);
+void	exit_clean(char *err_msg, t_ast *node, char **env, int exit_status);
 
 // *** EXPANDER ***
 void				expand_ast(t_ast *node, char **env);
@@ -129,7 +129,7 @@ void				execute(t_ast *ast_root, char ***env, pid_t *pids,
 						bool is_first);
 void				executor(t_ast *ast_root, char ***env);
 void				execute_build_in_cmd(char *name, char **argv, char **env);
-void				execute_custom_cmd_after_fork(char *name, char **argv,
+bool				execute_custom_cmd_after_fork(char *name, char **argv,
 						char ***env, t_command_type type);
 bool				execute_custom_cmd(t_ast *ast_root, char ***env);
 
