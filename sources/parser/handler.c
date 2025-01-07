@@ -12,36 +12,6 @@
 
 #include "../minishell.h"
 
-void    add_token_to_list(t_token **token_list, char *value, t_token_type type)
-{
-	t_token *new_token;
-	t_token *current;
-
-	if (!token_list || !value)
-		return ;
-	current = NULL;
-	new_token = ft_calloc(1, sizeof(t_token)); // valgrind issue also happens here? lol //TODO
-	if (!new_token)
-	{
-		print_error("Failure mallocing space for new_token");
-		return ;
-	}
-	new_token->value = NULL;
-	new_token->value = ft_strdup(value); // valgrind issue happens here?? //TODO
-	if (!new_token->value)
-		return (free(new_token));
-	new_token->type = type;
-	new_token->next = NULL;
-	if (*token_list == NULL)
-		*token_list = new_token;
-	else
-	{
-		current = *token_list;
-		while (current->next)
-			current = current->next;
-		current->next = new_token;
-	}
-}
 
 void     handle_quoted_str(char **line, t_token **token_list)
 {
@@ -50,7 +20,7 @@ void     handle_quoted_str(char **line, t_token **token_list)
 	char    *quoted_str;
 
 	quote_char = **line;
-	(*line)++; //skips opening quote
+	(*line)++;
 	start = *line;
 	while (**line && **line != quote_char)
 		(*line)++;
@@ -62,9 +32,8 @@ void     handle_quoted_str(char **line, t_token **token_list)
 		else
 			add_token_to_list(token_list, quoted_str, DOUBLE_QUOTED_STRING);
 		free(quoted_str);
-		(*line)++; //skips closing quote
+		(*line)++;
 	}
-	else
 		print_error("Error: unmatched quote");
 }
 

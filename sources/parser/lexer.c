@@ -12,6 +12,37 @@
 
 #include "../minishell.h"
 
+void    add_token_to_list(t_token **token_list, char *value, t_token_type type)
+{
+	t_token *new_token;
+	t_token *current;
+
+	if (!token_list || !value)
+		return ;
+	current = NULL;
+	new_token = ft_calloc(1, sizeof(t_token)); // valgrind issue also happens here? lol //TODO
+	if (!new_token)
+	{
+		print_error("Failure mallocing space for new_token");
+		return ;
+	}
+	new_token->value = NULL;
+	new_token->value = ft_strdup(value); // valgrind issue happens here?? //TODO
+	if (!new_token->value)
+		return (free(new_token));
+	new_token->type = type;
+	new_token->next = NULL;
+	if (*token_list == NULL)
+		*token_list = new_token;
+	else
+	{
+		current = *token_list;
+		while (current->next)
+			current = current->next;
+		current->next = new_token;
+	}
+}
+
 static void    handle_word(char **line, t_token **token_list)
 {
         char    *start;
@@ -48,6 +79,11 @@ static void     handle_special_case(char **line, t_token **token_list)
 
 void	lexer(char *line, t_token **token_list)
 {
+	if (!line)
+	{
+		print_error("Invalid line pointer in lexer");
+		return ;
+	}
 	while (*line)
 	{
 		if (is_white_space(*line))

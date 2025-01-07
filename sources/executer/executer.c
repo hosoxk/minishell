@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 static void	execute_cmd(t_ast *ast_root, char ***env, pid_t *pids,
 		bool is_first)

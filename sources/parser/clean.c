@@ -16,7 +16,7 @@ void	free_token_list(t_token **token_list)
 {
 	t_token	*tmp;
 
-	if (!token_list)
+	if (!token_list || !*token_list)
 		return ;
 	while (*token_list)
 	{

@@ -33,14 +33,18 @@ static char	*handle_line(char **env)
 	free(promt);
 	if (!line)
 		return (NULL);
-	if (*line) // 
+	if (*line) 
 		add_history(line);
 	return (line);
 }
 
-static void parse_token(char *line, t_token **token_list, t_ast **ast_root, char ***env)
+static void parse_token(char *line, t_token **token_list, char ***env)
 {
+	t_ast	*ast_root;
 	t_token *temp;
+
+	ast_root = NULL;
+	temp = NULL;
 	if (!line)
 		return ;
 
@@ -51,24 +55,24 @@ static void parse_token(char *line, t_token **token_list, t_ast **ast_root, char
 	temp = *token_list; /////////
 	if (validate_token_sequence(*token_list))
 	{
-		if ((*ast_root = parse_ast(&temp)))
+		if ((ast_root = parse_ast(&temp)))
 		{
 			printf(BOLD_MAGENTA"\nAbstract Syntax Tree:\n"RESET);
-			print_ast(*ast_root, 0);
-			printf(BOLD_MAGENTA"\noutput:\n"RESET);
+			print_ast(ast_root, 0);
+		//	printf(BOLD_MAGENTA"\noutput:\n"RESET);
 			free_token_list(token_list);
-			executor(*ast_root, env);
+			//executor(*ast_root, env);
 			// printf(BOLD_MAGENTA"end output\n"RESET);
+			free_ast(ast_root);
 		}
 	}
 }
 
-void excecute_test(char *line, t_token **token_list, t_ast **ast_root, char ***env)
+void excecute_test(char *line, t_token **token_list, char ***env)
 {
-	if (line)
-		parse_token(line, token_list, ast_root, env);
 	*token_list = NULL;
-	*ast_root = NULL;
+	if (line)
+		parse_token(line, token_list, env);
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -76,7 +80,6 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	char	*line;
 	t_token	*token_list;
-	t_ast	*ast_root;
 	char	**env;
 	
 	env = envp;
@@ -89,7 +92,6 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		token_list = NULL;
-		ast_root = NULL;
 		line = NULL;
 		// read input
 		if (!(line = handle_line(env)))
@@ -101,18 +103,19 @@ int	main(int argc, char **argv, char **envp)
 			return (free(line), ft_free_tab(env), 0);
 		// tokenize, create AST, expand, execute
 		if (DEBUG == 0)
-			parse_token(line, &token_list, &ast_root, &env);
+			parse_token(line, &token_list, &env);
 		else if (DEBUG == 1)
 		{
 			if (ft_strcmp("test", line) == 0)
 			{
-				excecute_test(ft_strdup("ls -lR"), &token_list, &ast_root, &env);
-				excecute_test(ft_strdup("echo \"hello\""), &token_list, &ast_root, &env);
+				excecute_test(ft_strdup("> t1"), &token_list, &env);
+				excecute_test(ft_strdup("cat > t1"), &token_list, &env);
+				excecute_test(ft_strdup("cat > t1 > t2"), &token_list, &env);
+				excecute_test(ft_strdup("> t1 cat > t2"), &token_list, &env);
 			}
 			else
-				parse_token(line, &token_list, &ast_root, &env);
+				parse_token(line, &token_list, &env);
 		}
-		free_program(token_list, ast_root);
 	}
 	return (g_exit_status);
 }

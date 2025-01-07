@@ -14,6 +14,12 @@
 
 void	add_argument(char ***args, int *size, int *count, const char *value)
 {
+	if (value == NULL)
+	{
+		print_error("Error: attempting to add NULL argument");
+		return ;
+	}
+	printf("Adding argument: %s (count = %d, size = %d)\n", value, *count, *size);
 	if (*args == NULL)
 	{
 		// initial allocation
@@ -36,8 +42,15 @@ void	add_argument(char ***args, int *size, int *count, const char *value)
 	}
 	// add the argument to the array
 	(*args)[*count] = ft_strdup(value);
+	if((*args)[*count] == NULL)
+	{
+		printf(BOLD_RED"Error: ft_strdup failed for value = %s\n"RESET,
+			value);
+		return ;
+	}
 	(*count)++;
 	(*args)[*count] = NULL;
+	printf("Argument added succesfully. total count = %d\n", *count);
 }
 
 t_ast	*create_ast_node(t_token_type type)
@@ -90,7 +103,9 @@ t_ast	*parse_ast(t_token **tokens)
 				|| (*tokens)->type == APPEND || (*tokens)->type == HEREDOC)
 		{
 			redir_node = create_redirection_node(tokens);
-			if (left_node == NULL)
+			if (!redir_node)
+				return (print_error("Failed to create redirection node"), left_node);
+			if (!left_node)
 				left_node = redir_node;
 			else
 				attach_redirection_to_command(left_node, tokens);
@@ -102,10 +117,12 @@ t_ast	*parse_ast(t_token **tokens)
 			else
 			{
 				add_argument(&left_node->args, &size, &count, (*tokens)->value); // loopt hier vast
+				printf("Tokens processed: type = %d, value = %s\n", (*tokens)->type, (*tokens)->value);
 				*tokens = (*tokens)->next;
 			}	
 		}
-	//	*tokens = (*tokens)->next;
+		else
+			*tokens = (*tokens)->next;
 	}
 	if (left_node)
 	{

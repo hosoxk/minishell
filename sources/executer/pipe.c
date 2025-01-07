@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 void    do_pipe(t_ast *ast_root, char ***env, pid_t *pids)
 {
