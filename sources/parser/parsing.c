@@ -94,52 +94,56 @@ t_ast	*create_ast_node(t_token_type type)
  *	Step 2) Token iteration
  *		Each token is processed sequentially in this function.
  */
-
-t_ast	*parse_ast(t_token **tokens)
+t_ast *parse_ast(t_token **tokens)
 {
-	t_ast	*left_node;
-	t_ast	*redir_node;
-	int	size;
-	int	count;
-
-	size = 0;
-	count = 0;
-	left_node = NULL;
-	redir_node = NULL;
+	t_ast	*left_node = NULL;
+	t_ast *redir_node = NULL;
+	t_ast *current_command = NULL;
+	int size = 0, count = 0;
+	bool is_prefix = 1; // flag to check if redirection is prefix or suffix
 	while (*tokens)
-	{ 
+	{
 		printf(BOLD_MAGENTA"Parsing token: type = %d, value = %s\n"RESET, (*tokens)->type, (*tokens)->value);
 		if ((*tokens)->type == PIPE)
-			return (create_pipe_node(left_node, tokens));
-		else if ((*tokens)->type == REDIRECT_IN || (*tokens)->type == REDIRECT_OUT
-				|| (*tokens)->type == APPEND || (*tokens)->type == HEREDOC)
+			return create_pipe_node(left_node, tokens);
+		else if ((*tokens)->type == REDIRECT_IN || (*tokens)->type == REDIRECT_OUT || (*tokens)->type == APPEND || (*tokens)->type == HEREDOC)
 		{
 			redir_node = create_redirection_node(tokens);
 			if (!redir_node)
 				return (print_error("Failed to create redirection node"), left_node);
-			// attach_redirection_to_command(left_node, redir_node);
-			if (!left_node)
-				left_node = redir_node;
-			/*else
-				attach_redirection_to_command(left_node, tokens);*/
-		}
+			printf("Attaching redirection node: type = %d, file = %s\n", redir_node->type, redir_node->file);
+			if (is_prefix)
+			{
+				if (!current_command)
+				{
+					current_command = create_ast_node(WORD);
+					left_node = current_command;
+				}
+			attach_redirection_to_command(current_command ? current_command : (current_command = create_ast_node(WORD)), redir_node, 1);
+			is_prefix = 0;
+			}
+			else
+				attach_redirection_to_command(current_command, redir_node, 0);
+		}	
 		else if ((*tokens)->type == WORD)
 		{
-			if (left_node == NULL || left_node->type != WORD)
-				left_node = create_command_node(left_node, tokens, &size, &count);
+			if (!current_command || current_command->type != WORD)
+			{
+				current_command = create_command_node(left_node, tokens, &size, &count);
+				left_node = current_command;
+			}
 			else
 			{
-				add_argument(&left_node->args, &size, &count, (*tokens)->value); // loopt hier vast
+				add_argument(&current_command->args, &size, &count, (*tokens)->value);
 				printf("Tokens processed: type = %d, value = %s\n", (*tokens)->type, (*tokens)->value);
 				*tokens = (*tokens)->next;
-			}	
+			}
+			is_prefix = 0; // switch to suffix after first WORD token
 		}
 		else
 			*tokens = (*tokens)->next;
 	}
 	if (left_node)
-	{
 		printf("Returning COMMAND node\n");
-	}
-	return (left_node);
+	return left_node;
 }

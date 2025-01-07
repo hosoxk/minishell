@@ -34,7 +34,11 @@ void     handle_quoted_str(char **line, t_token **token_list)
 		free(quoted_str);
 		(*line)++;
 	}
+	else
+	{
 		print_error("Error: unmatched quote");
+		return ;
+	}
 }
 
 void     handle_redirect(char **line, t_token **token_list)
@@ -46,7 +50,7 @@ void     handle_redirect(char **line, t_token **token_list)
 		print_error("Handler received a null line pointer");
 		return ;
 	}
-	if (!(*line + 1) || !**(line + 1))
+	if (!(*line + 1) || !*(*line + 1))
 	{
 		print_error("Handler exprected target for redirection");
 		return ;
