@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 13:00:45 by kvanden-          #+#    #+#             */
-/*   Updated: 2025/01/06 10:02:24 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/01/07 09:05:38 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,17 +37,6 @@ static char	*get_path(char *cmd, char **env)
 	return (NULL);
 }
 
-static void	clean_up(char *path)
-{
-	free(path);
-	perror("Perror");
-	if (errno == ENOENT)
-		exit(127);
-	if (errno == EACCES)
-		exit(126);
-	exit(1);
-}
-
 void	execute_build_in_cmd(char *name, char **argv, char **env)
 {
 	char	*path;
@@ -61,8 +50,8 @@ void	execute_build_in_cmd(char *name, char **argv, char **env)
 	if (path)
 	{
 		execve(path, argv, env);
-		clean_up(path);
+		free(path);
 	}
 	execve(name, argv, env);
-	clean_up(path);
+	free(path);
 }

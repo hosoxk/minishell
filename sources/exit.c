@@ -1,12 +1,16 @@
 
 #include "minishell.h"
 
-void	exit_clean(char *err_msg, t_ast *ast_root, char **env)
+void	exit_clean(char *err_msg, t_ast *node, char **env)
 {
 	print_error(err_msg);
-	if (ast_root)
-		free_ast(ast_root);
+	if (node)
+		free_ast(node->root);
 	if (env)
 		ft_free_tab(env);
+	if (errno == ENOENT)
+		exit(127);
+	if (errno == EACCES)
+		exit(126);
 	exit(1);
 }
