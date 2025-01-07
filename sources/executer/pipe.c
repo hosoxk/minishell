@@ -6,18 +6,42 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 13:58:20 by kvanden-          #+#    #+#             */
-/*   Updated: 2025/01/07 12:19:04 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/01/07 14:01:39 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+static void	child_process(t_ast *ast_root, char ***env, pid_t *pids, int *p_fd)
+{
+	int	fd_out;
+
+	fd_out = dup(STDOUT_FILENO);
+	close(p_fd[0]);
+	dup2(p_fd[1], STDOUT_FILENO);
+	close(p_fd[1]);
+	execute(ast_root->left, env, pids, false);
+	dup2(fd_out, STDOUT_FILENO);
+	close(fd_out);
+}
+
+static void	parent_process(t_ast *ast_root, char ***env, pid_t *pids, int *p_fd)
+{
+	int	fd_in;
+
+	fd_in = dup(STDIN_FILENO);
+	close(p_fd[1]);
+	dup2(p_fd[0], STDIN_FILENO);
+	close(p_fd[0]);
+	execute(ast_root->right, env, pids, true);
+	dup2(fd_in, STDIN_FILENO);
+	close(fd_in);
+}
+
 void	do_pipe(t_ast *ast_root, char ***env, pid_t *pids)
 {
-	pid_t pid;
-	int p_fd[2];
-	int fd_in;
-	int fd_out;
+	pid_t	pid;
+	int		p_fd[2];
 
 	if (pipe(p_fd) == -1)
 		exit(1);
@@ -25,24 +49,10 @@ void	do_pipe(t_ast *ast_root, char ***env, pid_t *pids)
 	if (pid == -1)
 		exit(1);
 	if (!pid)
-	{
-	    fd_out = dup(STDOUT_FILENO);
-		close(p_fd[0]);
-		dup2(p_fd[1], STDOUT_FILENO);
-		close(p_fd[1]);
-		execute(ast_root->left, env, pids, false);
-		dup2(fd_out, STDOUT_FILENO);
-		close(fd_out);
-	}
+		child_process(ast_root, env, pids, p_fd);
 	else
 	{
-	    fd_in = dup(STDIN_FILENO);
 		set_pid(pids, pid);
-		close(p_fd[1]);
-		dup2(p_fd[0], STDIN_FILENO);
-		close(p_fd[0]);
-		execute(ast_root->right, env, pids, true);
-		dup2(fd_in, STDIN_FILENO);
-        close(fd_in);
+		parent_process(ast_root, env, pids, p_fd);
 	}
 }

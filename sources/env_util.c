@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/02 10:22:51 by kvanden-          #+#    #+#             */
-/*   Updated: 2025/01/06 12:09:02 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/01/07 14:06:15 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 void	update_env(char *name, char *value, char **env)
 {
-	int index;
-	char *new_env;
+	int		index;
+	char	*new_env;
 
 	index = getenv_index(name, env);
 	if (index < 0)

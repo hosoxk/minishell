@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 12:10:12 by kvanden-          #+#    #+#             */
-/*   Updated: 2025/01/07 12:32:13 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/01/07 14:03:22 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ static bool	is_execute_build_in(t_ast *ast_root, char ***env)
 	exit_clean(ast_root, *env, 0);
 	return (false);
 }
+
 static void	execute_cmd(t_ast *ast_root, char ***env, pid_t *pids,
 		bool is_first)
 {
@@ -37,7 +38,7 @@ static void	execute_cmd(t_ast *ast_root, char ***env, pid_t *pids,
 	{
 		pid = fork();
 		if (pid == -1)
-			exit(1); /////////
+			return (print_error("fork failed"), exit(1));
 		set_pid(pids, pid);
 		if (!pid)
 		{

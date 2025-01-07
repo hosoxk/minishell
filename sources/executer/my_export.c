@@ -6,11 +6,22 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 14:52:33 by kvanden-          #+#    #+#             */
-/*   Updated: 2025/01/07 11:57:50 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/01/07 14:06:03 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+static char	*get_new_env(int i, int size, char **env)
+{
+	char	*temp;
+
+	if (i < size)
+		temp = ft_strdup(env[i]);
+	else
+		temp = ft_strdup("NULL");
+	return (temp);
+}
 
 static char	**expent_env(char **env)
 {
@@ -26,10 +37,7 @@ static char	**expent_env(char **env)
 	i = 0;
 	while (i < ((size * 2) - 1))
 	{
-		if (i < size)
-			temp = ft_strdup(env[i]);
-		else
-			temp = ft_strdup("NULL");
+		temp = get_new_env(i, size, env);
 		if (!temp)
 		{
 			new_env[i] = NULL;

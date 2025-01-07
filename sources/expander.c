@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 10:22:45 by kvanden-          #+#    #+#             */
-/*   Updated: 2025/01/06 12:10:31 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/01/07 13:34:46 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,9 @@ static bool	insert_env(t_token *token, int index, char **env)
 	if (!env_value && token->value[index] == '?')
 	{
 		free_env_value = true;
-		env_value = ft_itoa(g_exit_status); ///
+		env_value = ft_itoa(g_exit_status);
+		if (!env_value)
+			return (false);
 	}
 	else if (!env_value)
 		env_value = "";

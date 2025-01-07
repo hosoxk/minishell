@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 12:59:33 by kvanden-          #+#    #+#             */
-/*   Updated: 2025/01/07 09:36:50 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/01/07 13:57:27 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,14 @@ void	init_redirection(t_ast *ast_root)
 		dup2(fd, STDIN_FILENO);
 	else
 		dup2(fd, STDOUT_FILENO);
+	close(fd);
 }
 
 void	do_redirection(t_ast *ast_root, char ***env, pid_t *pids, bool is_first)
 {
-	int fd_in;
-	int fd_out;
-	
+	int	fd_in;
+	int	fd_out;
+
 	fd_in = dup(STDIN_FILENO);
 	fd_out = dup(STDOUT_FILENO);
 	if (ast_root->type == HEREDOC)
@@ -55,4 +56,6 @@ void	do_redirection(t_ast *ast_root, char ***env, pid_t *pids, bool is_first)
 	execute(ast_root->left, env, pids, is_first);
 	dup2(fd_in, STDIN_FILENO);
 	dup2(fd_out, STDOUT_FILENO);
+	close(fd_in);
+	close(fd_out);
 }

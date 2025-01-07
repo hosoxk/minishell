@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:38:48 by yde-rudd          #+#    #+#             */
-/*   Updated: 2025/01/07 10:49:21 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/01/07 13:21:27 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,17 @@ static bool	check_input(int argc, char **envp)
 	return (true);
 }
 
+static void save_cmd(char *line) //////////
+{
+	static int fd = -1;
+	
+	if (!line)
+		return ;
+	if (fd == -1)
+		fd = open("minishell_history.txt", O_WRONLY | O_CREAT | O_TRUNC, 0666);
+	ft_putendl_fd(line, fd);
+}
+
 static char	*handle_line(char **env)
 {
 	char	*line;
@@ -35,6 +46,7 @@ static char	*handle_line(char **env)
 		return (NULL);
 	if (*line) 
 		add_history(line);
+	save_cmd(line); //////////
 	return (line);
 }
 
