@@ -55,10 +55,10 @@ static void parse_token(char *line, t_token **token_list, char ***env)
 		if ((ast_root = parse_ast(token_list)))
 		{
 			printf(BOLD_MAGENTA"\nAbstract Syntax Tree:\n"RESET);
-			print_ast(ast_root);
+			print_ast(ast_root, 0);
 		//	printf(BOLD_MAGENTA"\noutput:\n"RESET);
 			free_token_list(token_list);
-			//executor(*ast_root, env);
+			executor(ast_root, env);
 			// printf(BOLD_MAGENTA"end output\n"RESET);
 			free_ast(ast_root);
 		}

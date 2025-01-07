@@ -107,7 +107,7 @@ void				setup_signals(void);
 // *** UTILS ***
 bool				is_special_case(char c);
 void				print_tokens(t_token **token_list);
-void				print_ast(t_ast *node);
+void				print_ast(t_ast *node, int depth);
 void				print_error(char *str);
 
 // *** CLEAN ***

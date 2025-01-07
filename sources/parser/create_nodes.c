@@ -57,6 +57,13 @@ void	create_heredoc_node(t_token **tokens, t_ast *redir_node)
 */
 void	attach_redirection_to_command(t_ast *command, t_ast *redir)
 {
+	if (!redir)
+	{
+		print_error("Error: redirection node is NULL");
+		return ;
+	}
+	if (!command)
+		command = create_ast_node(WORD);
 	if (!command->left)
 		command->left = redir;
 	else
@@ -82,14 +89,14 @@ t_ast	*create_redirection_node(t_token **tokens)
 	redir_node = create_ast_node((*tokens)->type);
 	if (!redir_node)
 		return (print_error("Failed to allocate memory for REDIRECTION node"), NULL);
-	if ((*tokens)->next && (*tokens)->next->type == WORD)
+	*tokens = (*tokens)->next; // move past the redirection token
+	if ((*tokens) && (*tokens)->type == WORD)
 	{
-		redir_node->file = ft_strdup((*tokens)->next->value);
+		redir_node->file = ft_strdup((*tokens)->value);
 		*tokens = (*tokens)->next; // move past file token
 	}
 	else
 		return (print_error("Missing file for redirection"), NULL);
-	//*tokens = (*tokens)->next; // move past the redirection token
 	return (redir_node);
 }
 
