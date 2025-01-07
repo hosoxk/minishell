@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 18:12:13 by yde-rudd          #+#    #+#             */
-/*   Updated: 2025/01/07 11:59:28 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/01/07 16:57:30 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ t_ast	*parse_ast(t_token **tokens)
 			redir_node = create_redirection_node(tokens);
 			if (!redir_node)
 				return (print_error("Failed to create redirection node"), left_node);
-			// attach_redirection_to_command(left_node, redir_node);
+			attach_redirection_to_command(left_node, redir_node);
 			if (!left_node)
 				left_node = redir_node;
 			/*else
