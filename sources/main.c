@@ -41,10 +41,8 @@ static char	*handle_line(char **env)
 static void parse_token(char *line, t_token **token_list, char ***env)
 {
 	t_ast	*ast_root;
-	t_token *temp;
 
 	ast_root = NULL;
-	temp = NULL;
 	if (!line)
 		return ;
 
@@ -52,14 +50,13 @@ static void parse_token(char *line, t_token **token_list, char ***env)
 	free (line);
 	kobe_expander(*token_list, *env);
 	print_tokens(token_list);
-	temp = *token_list; /////////
 	if (validate_token_sequence(*token_list))
 	{
-		if ((ast_root = parse_ast(&temp)))
+		if ((ast_root = parse_ast(token_list)))
 		{
 			set_root_ast(ast_root, ast_root);
 			printf(BOLD_MAGENTA"\nAbstract Syntax Tree:\n"RESET);
-			print_ast(ast_root, 0);
+			print_ast(ast_root);
 		//	printf(BOLD_MAGENTA"\noutput:\n"RESET);
 			free_token_list(token_list);
 			executor(ast_root, env);

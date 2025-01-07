@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:36:00 by yde-rudd          #+#    #+#             */
-/*   Updated: 2025/01/07 09:20:17 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/01/07 09:24:35 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ void				setup_signals(void);
 // *** UTILS ***
 bool				is_special_case(char c);
 void				print_tokens(t_token **token_list);
-void				print_ast(t_ast *node, int depth);
+void				print_ast(t_ast *node);
 void				print_error(char *str);
 
 // *** CLEAN ***
