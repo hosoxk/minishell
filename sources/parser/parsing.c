@@ -109,10 +109,11 @@ t_ast	*parse_ast(t_token **tokens)
 			redir_node = create_redirection_node(tokens);
 			if (!redir_node)
 				return (print_error("Failed to create redirection node"), left_node);
+			attach_redirection_to_command(left_node, redir_node);
 			if (!left_node)
 				left_node = redir_node;
-			else
-				attach_redirection_to_command(left_node, tokens);
+			/*else
+				attach_redirection_to_command(left_node, tokens);*/
 		}
 		else if ((*tokens)->type == WORD)
 		{

@@ -55,23 +55,18 @@ void	create_heredoc_node(t_token **tokens, t_ast *redir_node)
 	printf("Attached heredoc content to REDIRECTION node: %s\n", redir_node->file);
 }
 */
-void	attach_redirection_to_command(t_ast *command, t_token **tokens)
+void	attach_redirection_to_command(t_ast *command, t_ast *redir)
 {
-	t_ast	*redir_node;
-
-	redir_node = create_redirection_node(tokens);
-	if (!redir_node)
-		return ;
-	if (!command->right)
-		command->right = redir_node;
+	if (!command->left)
+		command->left = redir;
 	else
 	{
 		t_ast	*temp;
 
-		temp = command->right;
+		temp = command->left;
 		while (temp->right)
 			temp = temp->right; // find the last redirection
-		temp->right = redir_node;
+		temp->right = redir;
 	}
 	printf("Attached redir to command\n");
 }
@@ -81,7 +76,7 @@ t_ast	*create_redirection_node(t_token **tokens)
 	t_ast	*redir_node;
 
 	print_tokens(tokens);
-	if (!tokens)
+	if (!tokens || !(*tokens))
 		return (print_error("Null token pointer in create_redirection_node"), NULL);
 	printf("Found REDIRECTION token: %d, creating REDIRECTION node\n", (*tokens)->type);
 	redir_node = create_ast_node((*tokens)->type);
@@ -94,7 +89,7 @@ t_ast	*create_redirection_node(t_token **tokens)
 	}
 	else
 		return (print_error("Missing file for redirection"), NULL);
-	*tokens = (*tokens)->next; // move past the redirection token
+	//*tokens = (*tokens)->next; // move past the redirection token
 	return (redir_node);
 }
 

@@ -39,6 +39,35 @@ bool	is_special_case(char c)
 	return (false);
 }
 
+void print_ast(t_ast *node) {
+    if (!node) return;
+
+    if (node->type == WORD) {
+        printf("Node: COMMAND, args: ");
+        for (int i = 0; node->args && node->args[i]; i++) {
+            printf("%s ", node->args[i]);
+        }
+        printf("\n");
+        if (node->left) {
+            printf("    Redirections:\n");
+            t_ast *redir = node->left;
+            while (redir) {
+                printf("        Redirection: type = %d, target = %s\n",
+                       redir->type, redir->file);
+                redir = redir->right;
+            }
+        }
+    } else if (node->type == REDIRECT_OUT || node->type == REDIRECT_IN) {
+        printf("Node: REDIRECTION, type = %d, file = %s\n",
+               node->type, node->file);
+    }
+
+    // Recursively print left and right children
+    print_ast(node->left);
+    print_ast(node->right);
+}
+
+/*
 void	print_ast(t_ast *node, int depth)
 {
 	if (!node)
@@ -81,3 +110,4 @@ void	print_ast(t_ast *node, int depth)
 	//printf(BOLD_BLUE"\nPrinting right child\n"RESET);
 	print_ast(node->right, depth + 1);
 }
+*/

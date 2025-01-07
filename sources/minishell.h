@@ -97,7 +97,7 @@ void				add_argument(char ***args, int *size, int *count,
 t_ast				*create_ast_node(t_token_type type);
 t_ast				*create_pipe_node(t_ast *left_node, t_token **tokens);
 t_ast				*create_redirection_node(t_token **tokens);
-void				attach_redirection_to_command(t_ast *command, t_token **tokens);
+void				attach_redirection_to_command(t_ast *command, t_ast *redir_node);
 t_ast				*create_command_node(t_ast *command_node, t_token **tokens,
 						int *size, int *count);
 
@@ -107,7 +107,7 @@ void				setup_signals(void);
 // *** UTILS ***
 bool				is_special_case(char c);
 void				print_tokens(t_token **token_list);
-void				print_ast(t_ast *node, int depth);
+void				print_ast(t_ast *node);
 void				print_error(char *str);
 
 // *** CLEAN ***

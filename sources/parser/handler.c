@@ -41,7 +41,6 @@ void     handle_redirect(char **line, t_token **token_list)
 {
 	char    special[3];
 
-	print_tokens(token_list);
 	if (!line || !(*line))
 	{
 		print_error("Handler received a null line pointer");
