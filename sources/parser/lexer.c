@@ -12,6 +12,10 @@
 
 #include "../minishell.h"
 
+/*	Allocate space for a new t_token, if token_list is present,
+ *	token iterates to the end of the list
+ */
+
 void    add_token_to_list(t_token **token_list, char *value, t_token_type type)
 {
 	t_token *new_token;
@@ -20,18 +24,18 @@ void    add_token_to_list(t_token **token_list, char *value, t_token_type type)
 	if (!token_list || !value)
 		return ;
 	current = NULL;
-	new_token = ft_calloc(1, sizeof(t_token)); // valgrind issue also happens here? lol //TODO
+	new_token = malloc(sizeof (t_token)); // valgrind issue also happens here? lol //TODO
 	if (!new_token)
 	{
 		print_error("Failure mallocing space for new_token");
 		return ;
 	}
 	new_token->value = NULL;
+	new_token->type = type;
+	new_token->next = NULL;
 	new_token->value = ft_strdup(value); // valgrind issue happens here?? //TODO
 	if (!new_token->value)
 		return (free(new_token));
-	new_token->type = type;
-	new_token->next = NULL;
 	if (*token_list == NULL)
 		*token_list = new_token;
 	else

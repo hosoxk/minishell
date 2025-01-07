@@ -59,7 +59,10 @@ t_ast	*create_ast_node(t_token_type type)
 
 	node = malloc(sizeof (t_ast));
 	if (!node)
+	{
+		print_error("Error: failure mallocing space for new ast_node");
 		return (NULL);
+	}
 	node->type = type;
 	node->args = NULL;
 	node->file = NULL;
@@ -95,7 +98,8 @@ t_ast	*parse_ast(t_token **tokens)
 	left_node = NULL;
 	redir_node = NULL;
 	while (*tokens)
-	{
+	{ 
+		//print_tokens(tokens);
 		printf(BOLD_MAGENTA"Parsing token: type = %d, value = %s\n"RESET, (*tokens)->type, (*tokens)->value);
 		if ((*tokens)->type == PIPE)
 			return (create_pipe_node(left_node, tokens));

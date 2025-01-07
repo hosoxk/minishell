@@ -80,7 +80,8 @@ t_ast	*create_redirection_node(t_token **tokens)
 {
 	t_ast	*redir_node;
 
-	if (!tokens || !*tokens)
+	print_tokens(tokens);
+	if (!tokens)
 		return (print_error("Null token pointer in create_redirection_node"), NULL);
 	printf("Found REDIRECTION token: %d, creating REDIRECTION node\n", (*tokens)->type);
 	redir_node = create_ast_node((*tokens)->type);
