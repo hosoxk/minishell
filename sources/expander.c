@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 10:22:45 by kvanden-          #+#    #+#             */
-/*   Updated: 2025/01/07 13:34:46 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/01/08 15:38:01 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static char	*make_new_value(t_token *token, int index, char *env_value, int len)
 	ft_strlcpy(new_value, token->value, index + 1);
 	ft_strcpy(new_value + index - 1, env_value);
 	ft_strcpy(new_value + index - 1 + ft_strlen(env_value), &token->value[index
-		+ len]);
+			+ len]);
 	return (new_value);
 }
 
@@ -89,7 +89,10 @@ void	kobe_expander(t_token *token_list, char **env)
 	{
 		if (token_list->type == VARIABLE || token_list->type == WORD
 			|| token_list->type == DOUBLE_QUOTED_STRING)
+		{
 			expend_token(token_list, env);
+			token_list->type = WORD;
+		}
 		token_list = token_list->next;
 	}
 }
