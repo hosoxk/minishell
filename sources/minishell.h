@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:36:00 by yde-rudd          #+#    #+#             */
-/*   Updated: 2025/01/08 12:29:50 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/01/08 13:28:31 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ void				print_error(char *str);
 void				free_token_list(t_token **token_list);
 void				free_ast(t_ast *node);
 void				free_program(t_token *token_list, t_ast *ast_root);
-void	exit_clean(t_ast *node, char **env, int exit_status);
+void				exit_clean(t_ast *node, char **env, int exit_status);
 
 // *** EXPANDER ***
 void				expand_ast(t_ast *node, char **env);
@@ -157,6 +157,7 @@ char				*get_env_value(t_token *token, int index, int len,
 
 // *** UTILS ***
 char				*get_prompt(char **env);
+char				*handle_line(char **env);
 
 // *** pids ***
 pid_t				*get_pid_list(t_ast *ast_root);

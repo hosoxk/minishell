@@ -6,10 +6,10 @@
 #    By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/25 15:08:03 by yde-rudd          #+#    #+#              #
-#    Updated: 2025/01/06 13:15:12 by yde-rudd         ###   ########.fr        #
-#    Updated: 2025/01/06 10:23:59 by yde-rudd         ###   ########.fr        #
+#    Updated: 2025/01/08 13:28:57 by kvanden-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
+
 
 # project name and compilation settings
 NAME         = minishell
@@ -54,6 +54,7 @@ SRC_FILES = $(SRC_DIR)/main.c \
 		$(SRC_DIR)/parser/expander.c \
 		$(SRC_DIR)/expander.c \
 		$(SRC_DIR)/exit.c \
+		$(SRC_DIR)/handle_line.c \
 		$(SRC_DIR)/parser/signals.c
 
 OBJ_FILES        = $(SRC_FILES:.c=.o)

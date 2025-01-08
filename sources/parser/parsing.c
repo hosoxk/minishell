@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 18:12:13 by yde-rudd          #+#    #+#             */
-/*   Updated: 2025/01/08 12:07:03 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/01/08 13:53:56 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void set_root_ast(t_ast *node, t_ast *root)
 {
 	if (!node)
 		return ;
-	if (node == root)
+	if (!isatty(STDIN_FILENO) && node == root)
 		{
 			node->fd_in = dup(STDIN_FILENO);
 			node->fd_out = dup(STDOUT_FILENO);

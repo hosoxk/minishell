@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:38:48 by yde-rudd          #+#    #+#             */
-/*   Updated: 2025/01/08 12:15:50 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/01/08 13:58:09 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,33 +21,6 @@ static bool	check_input(int argc, char **envp)
 	if (!envp)
 		return (print_error("Failure locating envp"), false);
 	return (true);
-}
-
-static void save_cmd(char *line) //////////
-{
-	static int fd = -1;
-	
-	if (!line)
-		return ;
-	if (fd == -1)
-		fd = open("minishell_history.txt", O_WRONLY | O_CREAT | O_TRUNC, 0666);
-	ft_putendl_fd(line, fd);
-}
-
-static char	*handle_line(char **env)
-{
-	char	*line;
-	char	*promt;
-
-	promt = get_prompt(env);
-	line = readline(promt);
-	free(promt);
-	if (!line)
-		return (NULL);
-	if (*line) 
-		add_history(line);
-	save_cmd(line); //////////
-	return (line);
 }
 
 void move_cmds(t_ast **node)
@@ -124,14 +97,18 @@ int	main(int argc, char **argv, char **envp)
 	char	*line;
 	t_token	*token_list;
 	char	**env;
-	
+
+
 	env = envp;
 	if (!check_input(argc, envp))
 		return (1);
+
+	
 	env = ft_copy_tab(envp);
 	if (!env)
 		return (print_error("Failure copying envp into env"), 1);
-	setup_signals();
+	if (isatty(STDIN_FILENO))
+		setup_signals();
 	while (1)
 	{
 		token_list = NULL;
