@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 15:15:46 by yde-rudd          #+#    #+#             */
-/*   Updated: 2025/01/06 12:09:19 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/01/08 15:24:55 by yde-rudd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,8 @@ void	print_ast(t_ast *node, int depth)
 			printf("UNKNOWN\n");
 			break ;
 	}
-	//printf(BOLD_BLUE"\nPrinting left child\n"RESET);
+	printf(BOLD_BLUE"\nPrinting left child\n"RESET);
 	print_ast(node->left, depth + 1);
-	//printf(BOLD_BLUE"\nPrinting right child\n"RESET);
+	printf(BOLD_BLUE"\nPrinting right child\n"RESET);
 	print_ast(node->right, depth + 1);
 }

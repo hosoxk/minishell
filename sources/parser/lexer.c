@@ -6,7 +6,7 @@
 /*   By: yde-rudd <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:43:38 by yde-rudd          #+#    #+#             */
-/*   Updated: 2025/01/03 15:05:03 by yde-rudd         ###   ########.fr       */
+/*   Updated: 2025/01/08 17:04:02 by yde-rudd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,26 +16,25 @@
  *	token iterates to the end of the list
  */
 
-void    add_token_to_list(t_token **token_list, char *value, t_token_type type)
+bool	add_token_to_list(t_token **token_list, char *value, t_token_type type)
 {
-	t_token *new_token;
-	t_token *current;
+	t_token	*new_token;
+	t_token	*current;
 
 	if (!token_list || !value)
-		return ;
+		return (print_error("null parameter found for add_token_to_list"),
+			false);
 	current = NULL;
-	new_token = malloc(sizeof (t_token)); // valgrind issue also happens here? lol //TODO
+	new_token = malloc(sizeof (t_token));
 	if (!new_token)
-	{
-		print_error("Failure mallocing space for new_token");
-		return ;
-	}
-	new_token->value = NULL;
+		return (print_error("Failure mallocing space for new_token"), false);
 	new_token->type = type;
+	new_token->value = NULL;
 	new_token->next = NULL;
-	new_token->value = ft_strdup(value); // valgrind issue happens here?? //TODO
+	new_token->value = ft_strdup(value);
 	if (!new_token->value)
-		return (free(new_token));
+		return (free(new_token), print_error("Error: "),
+			print_error("failure ft_strdup in add_token_to_list"), false);
 	if (*token_list == NULL)
 		*token_list = new_token;
 	else
@@ -45,56 +44,66 @@ void    add_token_to_list(t_token **token_list, char *value, t_token_type type)
 			current = current->next;
 		current->next = new_token;
 	}
+	return (true);
 }
 
-static void    handle_word(char **line, t_token **token_list)
+static bool	handle_word(char **line, t_token **token_list)
 {
-        char    *start;
-        char    *word;
+	char	*start;
+	char	*word;
 
-        start = *line;
-        while (**line && !is_white_space(**line) && !is_special_case(**line))
-                (*line)++;
-        word = ft_strndup(start, *line - start);
-        add_token_to_list(token_list, word, WORD);
-        free(word);
+	if (!line || !token_list)
+		return (print_error("null parameter found for handle_word"), false);
+	start = *line;
+	while (**line && !is_white_space(**line) && !is_special_case(**line))
+		(*line)++;
+	word = ft_strndup(start, *line - start);
+	add_token_to_list(token_list, word, WORD);
+	free(word);
+	return (true);
 }
 
-static void     handle_special_case(char **line, t_token **token_list)
+static bool	handle_special_case(char **line, t_token **token_list)
 {
-        if (**line == '\'' || **line == '\"')
-                handle_quoted_str(line, token_list);
-        else if (**line == '|')
-        {
-                add_token_to_list(token_list, "|", PIPE);
-                (*line)++;
-        }
-        else if (**line == '<' || **line == '>')
-        {
-                handle_redirect(line, token_list);
-        }
-		/*
-        else if (**line == '$')
-        {
-                handle_var(line, token_list);
-        }
-		*/
+	if (**line == '\'' || **line == '\"')
+	{
+		if (!handle_quoted_str(line, token_list))
+			return (false);
+	}
+	else if (**line == '|')
+	{
+		if (add_token_to_list(token_list, "|", PIPE))
+			(*line)++;
+		else
+			return (false);
+	}
+	else if (**line == '<' || **line == '>')
+	{
+		if (!handle_redirect(line, token_list))
+			return (false);
+	}
+	return (true);
 }
 
-void	lexer(char *line, t_token **token_list)
+bool	lexer(char *line, t_token **token_list)
 {
 	if (!line)
 	{
 		print_error("Invalid line pointer in lexer");
-		return ;
+		return (false);
 	}
 	while (*line)
 	{
 		if (is_white_space(*line))
 			line++;
 		else if (is_special_case(*line))
-			handle_special_case(&line, token_list);
+		{
+			if (!handle_special_case(&line, token_list))
+				return (false);
+		}
 		else
-			handle_word(&line, token_list);
+			if (!handle_word(&line, token_list))
+				return (false);
 	}
+	return (true);
 }

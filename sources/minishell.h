@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:36:00 by yde-rudd          #+#    #+#             */
-/*   Updated: 2025/01/08 13:28:31 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/01/08 16:00:42 by yde-rudd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,11 +86,11 @@ typedef struct s_ast
 void				set_root_ast(t_ast *node, t_ast *root);
 
 // *** LEXER & HANDLER ***
-void				lexer(char *line, t_token **token_list);
+bool				lexer(char *line, t_token **token_list);
 void				handle_var(char **line, t_token **token_list);
-void				handle_redirect(char **line, t_token **token_list);
-void				handle_quoted_str(char **line, t_token **token_list);
-void				add_token_to_list(t_token **token_list, char *value,
+bool				handle_redirect(char **line, t_token **token_list);
+bool				handle_quoted_str(char **line, t_token **token_list);
+bool				add_token_to_list(t_token **token_list, char *value,
 						t_token_type type);
 bool				validate_token_sequence(t_token *tokens);
 bool				is_valid_command(t_token *token);
