@@ -30,14 +30,15 @@
 # define BOLD_GREEN "\033[32m"
 # define RESET "\033[0m"
 
+# define ARG_SIZE 8;
+
 # ifndef DEBUG
 #  define DEBUG 0
 # endif
 
-# define ARG_SIZE 8;
-
 extern volatile int	g_exit_status;
 
+/*
 typedef enum e_token_type
 {
 	WORD,
@@ -49,6 +50,19 @@ typedef enum e_token_type
 	VARIABLE,             // $VAR
 	QUOTED_STRING,        // '...'
 	DOUBLE_QUOTED_STRING, // "..."
+}					t_token_type;
+*/
+typedef enum e_token_type
+{
+	WORD,
+	PIPE,
+	REDIRECT_IN,
+	REDIRECT_OUT,
+	APPEND,
+	HEREDOC,
+	VARIABLE,
+	QUOTED_STRING,
+	DOUBLE_QUOTED_STRING,
 }					t_token_type;
 
 typedef enum e_command_type
@@ -71,6 +85,7 @@ typedef struct s_token
 	struct s_token	*next;
 }					t_token;
 
+/*
 typedef struct s_ast
 {
 	t_token_type	type;
@@ -81,6 +96,18 @@ typedef struct s_ast
 	struct s_ast *root;  // for free in exution
 	int fd_in;           // for heredocs
 	int fd_out;          // for heredocs
+}					t_ast;
+*/
+typedef struct s_ast
+{
+	t_token_type	type;
+	char			**args;
+	char			*file;
+	struct s_ast	*left;
+	struct s_ast	*right;
+	struct s_ast	*root;
+	int				fd_in;
+	int				fd_out;
 }					t_ast;
 
 void				set_root_ast(t_ast *node, t_ast *root);

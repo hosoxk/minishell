@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 10:22:45 by kvanden-          #+#    #+#             */
-/*   Updated: 2025/01/07 13:34:46 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/01/08 15:58:04 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,12 @@ void	kobe_expander(t_token *token_list, char **env)
 	{
 		if (token_list->type == VARIABLE || token_list->type == WORD
 			|| token_list->type == DOUBLE_QUOTED_STRING)
+		{
 			expend_token(token_list, env);
+			token_list->type = WORD;
+		}
+		else if (token_list->type == QUOTED_STRING)
+			token_list->type = WORD;
 		token_list = token_list->next;
 	}
 }
