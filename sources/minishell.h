@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:36:00 by yde-rudd          #+#    #+#             */
-/*   Updated: 2025/01/07 16:57:19 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/01/08 12:29:50 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,8 @@ typedef struct s_ast
 	struct s_ast *left;  // left child (for pipes and redirects)
 	struct s_ast *right; // right child
 	struct s_ast *root;  // for free in exution
+	int fd_in;           // for heredocs
+	int fd_out;          // for heredocs
 }					t_ast;
 
 void				set_root_ast(t_ast *node, t_ast *root);
@@ -144,7 +146,7 @@ void				unset(char ***env, char **argv);
 void				my_cd(char **env, char **argv);
 void				my_pwd(void);
 
-void				init_heredoc(t_ast *ast_root);
+bool				init_heredoc(t_ast *ast_root);
 
 // *** ENVIRONMENT ***
 char				*getenv_stript(char *name, char **env);

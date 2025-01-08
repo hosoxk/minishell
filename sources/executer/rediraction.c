@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 12:59:33 by kvanden-          #+#    #+#             */
-/*   Updated: 2025/01/07 13:57:27 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/01/08 12:31:53 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,37 +23,39 @@ int	open_file(char *file, t_token_type mode)
 	if (mode == APPEND)
 		ret = open(file, O_WRONLY | O_CREAT | O_APPEND, 0666);
 	if (ret == -1)
-	{
-		perror("Perror");
-		ft_putendl_fd(file, STDERR_FILENO);
-	}
+		perror(file);
 	return (ret);
 }
 
-void	init_redirection(t_ast *ast_root)
+static bool	init_redirection(t_ast *ast_root)
 {
 	int	fd;
 
 	fd = open_file(ast_root->file, ast_root->type);
+	if (fd == -1)
+		return (false);
 	if (ast_root->type == REDIRECT_IN)
 		dup2(fd, STDIN_FILENO);
 	else
 		dup2(fd, STDOUT_FILENO);
 	close(fd);
+	return (true);
 }
 
 void	do_redirection(t_ast *ast_root, char ***env, pid_t *pids, bool is_first)
 {
 	int	fd_in;
 	int	fd_out;
+	bool can_execute;
 
 	fd_in = dup(STDIN_FILENO);
 	fd_out = dup(STDOUT_FILENO);
 	if (ast_root->type == HEREDOC)
-		init_heredoc(ast_root);
+		can_execute = init_heredoc(ast_root);
 	else
-		init_redirection(ast_root);
-	execute(ast_root->left, env, pids, is_first);
+		can_execute = init_redirection(ast_root);
+	if (can_execute)
+		execute(ast_root->left, env, pids, is_first);
 	dup2(fd_in, STDIN_FILENO);
 	dup2(fd_out, STDOUT_FILENO);
 	close(fd_in);

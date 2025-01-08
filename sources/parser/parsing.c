@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 18:12:13 by yde-rudd          #+#    #+#             */
-/*   Updated: 2025/01/07 16:57:30 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/01/08 12:07:03 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,11 @@ void set_root_ast(t_ast *node, t_ast *root)
 {
 	if (!node)
 		return ;
+	if (node == root)
+		{
+			node->fd_in = dup(STDIN_FILENO);
+			node->fd_out = dup(STDOUT_FILENO);
+		}
 	set_root_ast(node->left, root);	
 	set_root_ast(node->right, root);
 	node->root = root;
@@ -77,6 +82,8 @@ t_ast	*create_ast_node(t_token_type type)
 	node->file = NULL;
 	node->left = NULL;
 	node->right = NULL;
+	node->fd_in = -1;
+	node->fd_out = -1;
 	printf("Created AST node: type = %d\n", type);
 	return (node);
 }

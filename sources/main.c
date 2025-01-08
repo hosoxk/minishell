@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:38:48 by yde-rudd          #+#    #+#             */
-/*   Updated: 2025/01/07 13:21:27 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/01/08 12:15:50 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,34 @@ static char	*handle_line(char **env)
 	return (line);
 }
 
+void move_cmds(t_ast **node)
+{
+	t_ast	*cmd;
+	t_ast	*first_red;
+	t_ast	*cur_red;
+	t_ast	*next_red;
+
+	if (!(*node))
+		return ;
+	cmd = *node;
+	first_red = cmd->left;
+	if (cmd->type == WORD && first_red && (first_red->type >= REDIRECT_IN && first_red->type <= HEREDOC))
+	{
+		next_red = first_red->right;
+		cur_red = first_red;
+		while (next_red && next_red->type >= REDIRECT_IN && next_red->type <= HEREDOC)
+		{
+			cur_red = next_red;
+			next_red = cur_red->right;
+		}
+		cmd->left = cur_red->left;
+		*node = first_red;
+		cur_red->left = cmd;
+	}
+	move_cmds(&(*node)->left);
+	move_cmds(&(*node)->right);
+} 
+
 static void parse_token(char *line, t_token **token_list, char ***env)
 {
 	t_ast	*ast_root;
@@ -64,18 +92,19 @@ static void parse_token(char *line, t_token **token_list, char ***env)
 	free (line);
 	print_tokens(token_list);
 	kobe_expander(*token_list, *env);
-	print_tokens(token_list);
 	temp = *token_list;
 	if (validate_token_sequence(*token_list))
 	{
 		if ((ast_root = parse_ast(&temp)))
 		{
+			move_cmds(&ast_root); /////////////
 			set_root_ast(ast_root, ast_root);
+			
 			printf(BOLD_MAGENTA"\nAbstract Syntax Tree:\n"RESET);
 			print_ast(ast_root, 0);
 		//	printf(BOLD_MAGENTA"\noutput:\n"RESET);
 			free_token_list(token_list);
-		//	executor(ast_root, env);
+			executor(ast_root, env);
 		//	printf(BOLD_MAGENTA"end output\n"RESET);
 			free_ast(ast_root);
 		}
@@ -131,5 +160,6 @@ int	main(int argc, char **argv, char **envp)
 				parse_token(line, &token_list, &env);
 		}
 	}
+	// rl_clear_line();
 	return (g_exit_status);
 }

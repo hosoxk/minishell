@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 18:12:50 by yde-rudd          #+#    #+#             */
-/*   Updated: 2025/01/07 09:20:29 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/01/08 12:06:35 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,17 @@ void	free_token_list(t_token **token_list)
 
 void	free_ast(t_ast *node)
 {
+		int i;
+
 	if (!node)
 		return ;
+	if (node == node->root)
+	{
+		close(node->fd_in);
+		close(node->fd_out);
+	}
 	if (node->args)
 	{
-		int	i;
-
 		i = 0;
 		while (node->args[i])
 			free(node->args[i++]);
@@ -55,7 +60,6 @@ void	free_program(t_token *token_list, t_ast *ast_root)
 	// while (ast_root)
 	// {
 	// 	t_ast	*temp;
-
 	// 	temp = ast_root;
 	// 	ast_root = ast_root->right;
 	// 	free_ast(temp);
