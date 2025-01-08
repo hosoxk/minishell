@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:38:48 by yde-rudd          #+#    #+#             */
-/*   Updated: 2025/01/08 13:58:09 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/01/08 15:13:32 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ void move_cmds(t_ast **node)
 		cur_red = first_red;
 		while (next_red && next_red->type >= REDIRECT_IN && next_red->type <= HEREDOC)
 		{
+			cur_red->left = cur_red->right;
+			cur_red->right = NULL;
 			cur_red = next_red;
 			next_red = cur_red->right;
 		}
