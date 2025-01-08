@@ -3,7 +3,8 @@
 static bool	check_pipe(t_token *token, t_token *prev_token)
 {
 	if (!prev_token)
-		return (print_error("Syntax error: unexpected pipe at the beginning"), false);
+		return (print_error("Syntax error: unexpected pipe at the beginning"),
+			false);
 	if (!token->next || token->next->type == PIPE)
 		return (print_error("Syntax error: invalid pipe sequence"), false);
 	if (!token->next || token->next->type != WORD)
@@ -14,7 +15,8 @@ static bool	check_pipe(t_token *token, t_token *prev_token)
 static bool	check_redir(t_token *token)
 {
 	if (!token->next || token->next->type != WORD)
-		return (print_error("Syntax error: missing target for redirection"), false);
+		return (print_error("Syntax error: missing target for redirection"),
+			false);
 	return (true);
 }
 
@@ -31,10 +33,10 @@ bool	validate_token_sequence(t_token *tokens)
 				return (false);
 		}
 		else if (tokens->type == REDIRECT_IN || tokens->type == REDIRECT_OUT ||
-			tokens->type == APPEND || tokens->type == HEREDOC)
+					tokens->type == APPEND || tokens->type == HEREDOC)
 			if (!check_redir(tokens))
 				return (false);
-	/*	if (tokens->type == WORD)
+		/*	if (tokens->type == WORD)
 			is_valid_command(tokens);
 	*/
 		prev_token = tokens;
@@ -63,7 +65,7 @@ static void	get_command_type(t_token *token)
 
 bool	is_valid_command(t_token *token)
 {
-	int		i;
+	int			i;
 	const char	*valid_commands[8];
 
 	i = 0;
