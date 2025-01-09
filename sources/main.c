@@ -55,63 +55,20 @@ void	move_cmds(t_ast **node)
 	move_cmds(&(*node)->right);
 } 
 
-static bool	parse_token(char *line, t_token **token_list, char ***env)
-{
-	t_ast	*ast_root;
-	t_token	*temp;
-
-	ast_root = NULL;
-	temp = NULL;
-	if (!line)
-		return (false);
-	if (!lexer(line, token_list))
-		return (false);
-	free(line);
-	//print_tokens(token_list);
-	kobe_expander(*token_list, *env);
-	temp = *token_list;
-	if (validate_token_sequence(*token_list))
-	{
-		if ((ast_root = parse_ast(&temp)))
-		{
-		//	print_ast(ast_root, 0);
-			move_cmds(&ast_root); /////////////
-			set_root_ast(ast_root, ast_root);
-			printf(BOLD_MAGENTA"\nAbstract Syntax Tree:\n"RESET);
-		//	print_ast(ast_root, 0);
-		//	printf(BOLD_MAGENTA"\noutput:\n"RESET);
-			free_token_list(token_list);
-			executor(ast_root, env);
-		//	printf(BOLD_MAGENTA"end output\n"RESET);
-			free_ast(ast_root);
-		}
-	}
-	else
-		return (false);
-	return (true);
-}
-
-static void	excecute_test(char *line, t_token **token_list, char ***env)
-{
-	*token_list = NULL;
-	if (line)
-		parse_token(line, token_list, env);
-}
-
-/*	Checks paramters when running ./minishell
+/*	Checks parameters when running ./minishell
+ *	Checks if STDIN_FILENO is connected to the terminal and sets up signals
  *	Reads input and tokenizes it
  *	After tokenizing, parses the token_list
  *	Gets expanded and executed
- *	If debug = 0, run program normally
- *	If debug = 1, run program, when input == test
- *	--> runs tests
  */
 
 int	main(int argc, char **argv, char **envp)
 {
 	char	*line;
-	t_token	*token_list;
 	char	**env;
+	t_token	*token_list;
+	t_token	*temp;
+	t_ast	*ast_root;
 
 	(void)argv;
 	env = envp;
@@ -122,36 +79,44 @@ int	main(int argc, char **argv, char **envp)
 		return (print_error("Failure copying envp into env"), 1);
 	if (isatty(STDIN_FILENO))
 		setup_signals();
+	else
+		return (print_error("Non-interactive mode is not supported"), 1);
 	while (1)
 	{
-		token_list = NULL;
 		line = NULL;
+		token_list = NULL;
+		temp = NULL;
+		ast_root = NULL;
 		if (!(line = handle_line(env)))
 		{
 			printf("exit\n");
-			exit(g_exit_status);
+		       	exit(g_exit_status);
 		}
 		if (ft_strcmp(line, "exit") == 0)
 			return (free(line), ft_free_tab(env), 0);
-		if (DEBUG == 0)
+		if (!lexer(line, &token_list))
+			return (free(line), g_exit_status);
+		free(line);
+		//print_tokens(token_list);
+		kobe_expander(token_list, env);
+		temp = token_list;
+		if (validate_token_sequence(token_list))
 		{
-			if (!parse_token(line, &token_list, &env))
-				return (free_token_list(&token_list), 1);
-		}
-		else if (DEBUG == 1)
-		{
-			if (ft_strcmp("test", line) == 0)
+			if ((ast_root = parse_ast(&temp)))
 			{
-				excecute_test(ft_strdup("> t1"), &token_list, &env);
-				excecute_test(ft_strdup("cat > t1"), &token_list, &env);
-				excecute_test(ft_strdup("cat > t1 > t2"), &token_list, &env);
-				excecute_test(ft_strdup("> t1 cat > t2"), &token_list, &env);
+				move_cmds(&ast_root);
+				set_root_ast(ast_root, ast_root);
+			//	printf(BOLD_MAGENTA"\nAbstract Syntax Tree:\n"RESET);
+			//	print_ast(ast_root, 0);
+			//	printf(BOLD_MAGENTA"\noutput:\n"RESET);
+				free_token_list(&token_list);
+				executor(ast_root, &env);
+			//	printf(BOLD_MAGENTA"end output\n"RESET);
+				free_ast(ast_root);
 			}
-			else
-				if (!parse_token(line, &token_list, &env))
-					return (free_token_list(&token_list), 1);
 		}
+		else
+			return (1);
 	}
-	// rl_clear_line();
-	return (g_exit_status);
+	return (0);
 }
