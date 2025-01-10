@@ -104,13 +104,16 @@ int	main(int argc, char **argv, char **envp)
 		if (!(line = handle_line(env)))
 		{
 			printf("exit\n");
-			free_program(token_list, ast_root, env);
+			free_program(token_list, ast_root, env); // free(line)
 			exit(g_exit_status);
 		}
 		if (ft_strcmp(line, "exit") == 0)
 			return (free_program(token_list, ast_root, env), 0);
 		if (!lexer(line, &token_list))
-			return (free_program(token_list, ast_root, env), g_exit_status);
+		{
+			free_program(token_list, ast_root, NULL);
+			continue ;
+		}
 		free(line);
 		//print_tokens(token_list);
 		kobe_expander(token_list, env);
@@ -131,7 +134,10 @@ int	main(int argc, char **argv, char **envp)
 			}
 		}
 		else
+		{
 			free_program(token_list, ast_root, NULL);
+			continue ;
+		}
 	}
 	return (g_exit_status);
 }
