@@ -146,7 +146,8 @@ void				print_error(char *str);
 // *** CLEAN ***
 void				free_token_list(t_token **token_list);
 void				free_ast(t_ast *node);
-void				free_program(t_token *token_list, t_ast *ast_root);
+void				free_env(char **env);
+void				free_program(t_token *token_list, t_ast *ast_root, char **env);
 void				exit_clean(t_ast *node, char **env, int exit_status);
 
 // *** EXPANDER ***

@@ -12,6 +12,21 @@
 
 #include "../minishell.h"
 
+void	free_env(char **env)
+{
+	int	i;
+
+	i = 0;
+	if (!env)
+		return ;
+	while (env[i])
+	{
+		free(env[i]);
+		i++;
+	}
+	free(env);
+}
+
 void	free_token_list(t_token **token_list)
 {
 	t_token	*tmp;
@@ -54,15 +69,12 @@ void	free_ast(t_ast *node)
 	free(node);
 }
 
-void	free_program(t_token *token_list, t_ast *ast_root)
+void	free_program(t_token *token_list, t_ast *ast_root, char **env)
 {
-	free_token_list(&token_list); // al gedaan voor execute
-	// while (ast_root)
-	// {
-	// 	t_ast	*temp;
-	// 	temp = ast_root;
-	// 	ast_root = ast_root->right;
-	// 	free_ast(temp);
-	// }
-	free_ast(ast_root);
+	if (token_list)
+		free_token_list(&token_list); // al gedaan voor execute
+	if (ast_root)
+		free_ast(ast_root);
+	if (env)
+		free_env(env);
 }
