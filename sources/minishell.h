@@ -85,19 +85,6 @@ typedef struct s_token
 	struct s_token	*next;
 }					t_token;
 
-/*
-typedef struct s_ast
-{
-	t_token_type	type;
-	char **args;         // array of arguments for commands
-	char *file;          // file name for redirection
-	struct s_ast *left;  // left child (for pipes and redirects)
-	struct s_ast *right; // right child
-	struct s_ast *root;  // for free in exution
-	int fd_in;           // for heredocs
-	int fd_out;          // for heredocs
-}					t_ast;
-*/
 typedef struct s_ast
 {
 	t_token_type	type;
@@ -138,6 +125,7 @@ t_ast				*create_command_node(t_ast *command_node, t_token **tokens,
 void				setup_signals(void);
 
 // *** UTILS ***
+void				exit_status(int exit_status);
 bool				is_special_case(char c);
 void				print_tokens(t_token **token_list);
 void				print_ast(t_ast *node, int depth);

@@ -12,6 +12,11 @@
 
 #include "../minishell.h"
 
+void	exit_status(int exit_status)
+{
+	g_exit_status = exit_status;
+}
+
 void	print_error(char *str)
 {
 	ft_putstr_fd(BOLD_RED, STDERR_FILENO);

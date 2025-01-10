@@ -12,10 +12,18 @@
 
 #include "minishell.h"
 
-/*	Valid commands: should reflect the command's return code
- *	Syntax error: 258
- *	Process gets terminated ->SIGINT: 130
- *	Nonexistent command: 127
+/*	Succesfull execution: 0
+ *	Syntax errors: 258
+ *	Command not found: 127
+ *	If command exists but is not executable: 126
+ *	Malloc fails: 1
+ *	Execution errors: 1
+ *	Build-in errors: 1
+ *	File not found or permission denied: 1
+ *	Process gets terminated -> SIGINT: 130
+ *							-> SIGQUIT: 131
+ *	Pipeline failure: last command exit_status
+ *	Non-interactive unsupported: 1
  */
 
 volatile int	g_exit_status = 0;
@@ -23,12 +31,11 @@ volatile int	g_exit_status = 0;
 static bool	check_input(int argc, char **envp)
 {
 	if (argc != 1)
-	{
-		g_exit_status = 1;
-		return (print_error("Correct usage: ./minishell"), false);
-	}
+		return (print_error("Correct usage: ./minishell"),
+			exit_status(1), false);
 	if (!envp)
-		return (print_error("Failure locating envp"), false);
+		return (print_error("Failure locating envp"),
+			exit_status(1), false);
 	return (true);
 }
 
@@ -90,7 +97,7 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	env = envp;
 	if (!check_input(argc, envp))
-		return (1);
+		return (g_exit_status);
 	env = ft_copy_tab(envp);
 	if (!env)
 		return (print_error("Failure copying envp into env"), 1);
@@ -102,11 +109,7 @@ int	main(int argc, char **argv, char **envp)
 	{
 		init_minishell(&line, &token_list, &temp, &ast_root);
 		if (!(line = handle_line(env)))
-		{
-			printf("exit\n");
-			free_program(token_list, ast_root, env); // free(line)
-			exit(g_exit_status);
-		}
+			return (free_program(token_list, ast_root, env), g_exit_status);
 		if (ft_strcmp(line, "exit") == 0)
 			return (free_program(token_list, ast_root, env), 0);
 		if (!lexer(line, &token_list))

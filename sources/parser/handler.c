@@ -41,7 +41,9 @@ bool	handle_quoted_str(char **line, t_token **token_list)
 		(*line)++;
 	}
 	else
+	{
 		return (print_error("Error: unmatched quote"), false);
+	}
 	return (true);
 }
 
@@ -51,8 +53,6 @@ bool	handle_redirect(char **line, t_token **token_list)
 
 	if (!line || !(*line))
 		return (print_error("Handler received a null line pointer"), false);
-	if (!(*line + 1) || !*(*line + 1))
-		return (print_error("Handler exprected target for redirection"), false);
 	special[0] = **line;
 	special[1] = '\0';
 	special[2] = '\0';
