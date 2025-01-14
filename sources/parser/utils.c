@@ -6,11 +6,16 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 15:15:46 by yde-rudd          #+#    #+#             */
-/*   Updated: 2025/01/08 16:00:01 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/01/14 09:01:53 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+void	exit_status(int exit_status)
+{
+	g_exit_status = exit_status;
+}
 
 void	print_error(char *str)
 {

@@ -32,11 +32,16 @@ bool	validate_token_sequence(t_token *tokens)
 		if (tokens->type == PIPE)
 		{
 			if (!check_pipe(tokens, prev_token))
+			{
+				g_exit_status = 258;
 				return (false);
+			}
 		}
 		else if (tokens->type == REDIRECT_IN || tokens->type == REDIRECT_OUT ||
 					tokens->type == APPEND || tokens->type == HEREDOC)
 			if (!check_redir(tokens))
+			{
+				g_exit_status = 258;
 				return (false);
 		if (tokens->type == PARENTHESES_OPEN)
 			depth++;

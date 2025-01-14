@@ -6,20 +6,36 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:38:48 by yde-rudd          #+#    #+#             */
-/*   Updated: 2025/01/08 17:20:02 by yde-rudd         ###   ########.fr       */
+/*   Updated: 2025/01/14 08:43:47 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+/*	Succesfull execution: 0
+ *	Syntax errors: 258
+ *	Command not found: 127
+ *	If command exists but is not executable: 126
+ *	Malloc fails: 1
+ *	Execution errors: 1
+ *	Build-in errors: 1
+ *	File not found or permission denied: 1
+ *	Process gets terminated -> SIGINT: 130
+ *							-> SIGQUIT: 131
+ *	Pipeline failure: last command exit_status
+ *	Non-interactive unsupported: 1
+ */
 
 volatile int	g_exit_status = 0;
 
 static bool	check_input(int argc, char **envp)
 {
 	if (argc != 1)
-		return (print_error("Correct usage: ./minishell"), false);
+		return (print_error("Correct usage: ./minishell"),
+			exit_status(1), false);
 	if (!envp)
-		return (print_error("Failure locating envp"), false);
+		return (print_error("Failure locating envp"),
+			exit_status(1), false);
 	return (true);
 }
 

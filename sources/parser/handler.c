@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handler.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yde-rudd <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 16:56:36 by yde-rudd          #+#    #+#             */
-/*   Updated: 2025/01/08 16:06:01 by yde-rudd         ###   ########.fr       */
+/*   Updated: 2025/01/14 08:48:00 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,10 @@ bool	handle_quoted_str(char **line, t_token **token_list)
 	char	*start;
 	char	*quoted_str;
 
+
+	if (!line || !token_list)
+		return (print_error("null parameter found for handle_quoted_str"),
+			false);
 	if (!line || !token_list)
 		return (print_error("null parameter found for handle_quoted_str"),
 			false);
@@ -63,6 +67,10 @@ bool	handle_redirect(char **line, t_token **token_list)
 			(*line) += 2;
 		else
 			return (false);
+		if (add_token_to_list(token_list, special, **line == '<' ? HEREDOC : APPEND))
+			(*line) += 2;
+		else
+			return (false);
 	}
 	else
 	{
@@ -70,9 +78,15 @@ bool	handle_redirect(char **line, t_token **token_list)
 			(*line)++;
 		else
 			return (false);
+		if (add_token_to_list(token_list, special, **line == '<' ? REDIRECT_IN : REDIRECT_OUT))
+			(*line)++;
+		else
+			return (false);
 	}
 	return (true);
+	return (true);
 }
+/*
 /*
 void     handle_var(char **line, t_token **token_list)
 {
@@ -86,4 +100,5 @@ void     handle_var(char **line, t_token **token_list)
 	add_token_to_list(token_list, variable, VARIABLE);
 	free(variable);
 }
+*/
 */

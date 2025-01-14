@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 18:12:50 by yde-rudd          #+#    #+#             */
-/*   Updated: 2025/01/08 12:06:35 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/01/14 08:46:09 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,15 +61,12 @@ void	free_ast(t_ast *node)
 	free(node);
 }
 
-void	free_program(t_token *token_list, t_ast *ast_root)
+void	free_program(t_token *token_list, t_ast *ast_root, char **env)
 {
-	free_token_list(&token_list); // al gedaan voor execute
-	// while (ast_root)
-	// {
-	// 	t_ast	*temp;
-	// 	temp = ast_root;
-	// 	ast_root = ast_root->right;
-	// 	free_ast(temp);
-	// }
-	free_ast(ast_root);
+	if (token_list)
+		free_token_list(&token_list); // al gedaan voor execute
+	if (ast_root)
+		free_ast(ast_root);
+	if (env)
+		free_env(env);
 }
