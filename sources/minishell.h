@@ -163,6 +163,7 @@ void	exit_clean(t_ast *node, char **env, int exit_status);
 void	expand_ast(t_ast *node, char **env);
 void	kobe_expander(t_token *token_list, char **env);
 bool	expand_wildcard(t_token *token);
+void	sort_linkt_list(t_token *list);
 
 // *** EXECUTION ***
 void	execute(t_ast *ast_root, char ***env, pid_t *pids, bool is_first);

@@ -27,3 +27,19 @@ int	ft_strcmp(const char *s1, const char *s2)
 		i++;
 	return (s1[i] - s2[i]);
 }
+
+int	ft_strcasecmp(const char *s1, const char *s2)
+{
+	int	i;
+
+	if (s1 == NULL && s2 == NULL)
+		return (0);
+	if (s1 == NULL)
+		return ((int)*s2);
+	if (s2 == NULL)
+		return ((int)*s1);
+	i = 0;
+	while ((ft_toupper(s1[i]) == ft_toupper(s2[i])) && s1[i] && s2[i])
+		i++;
+	return (ft_toupper(s1[i]) - ft_toupper(s2[i]));
+}

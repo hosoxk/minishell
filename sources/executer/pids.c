@@ -14,8 +14,8 @@
 
 static int	get_len_ast(t_ast *ast_root, int len)
 {
-	int i;
-	
+	int	i;
+		
 	if (!ast_root)
 		return (0);
 	if (ast_root->type == WORD)
@@ -30,7 +30,6 @@ pid_t	*get_pid_list(t_ast *ast_root)
 {
 	pid_t	*pids;
 
-	// print_error(ft_itoa(get_len_ast(ast_root, 0)));
 	pids = ft_calloc(sizeof(pid_t), get_len_ast(ast_root, 0) + 1);
 	if (!pids)
 		return (NULL);

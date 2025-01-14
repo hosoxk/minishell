@@ -44,9 +44,9 @@ static bool	init_redirection(t_ast *ast_root)
 
 void	do_redirection(t_ast *ast_root, char ***env, pid_t *pids, bool is_first)
 {
-	int	fd_in;
-	int	fd_out;
-	bool can_execute;
+	int		fd_in;
+	int		fd_out;
+	bool	can_execute;
 
 	fd_in = dup(STDIN_FILENO);
 	fd_out = dup(STDOUT_FILENO);

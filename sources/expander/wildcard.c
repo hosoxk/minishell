@@ -14,8 +14,8 @@
 
 static bool	match_pattern(const char *name, const char *pattern)
 {
-	if (strcmp(name, "..") == 0 || strcmp(name, ".") == 0)
-		return (false);
+	// if (strcmp(name, "..") == 0 || strcmp(name, ".") == 0)
+	// 	return (false);
 	if (name[0] == '.' && !strchr(pattern, '.'))
 		return (false);
 	while (*name || *pattern)
@@ -43,9 +43,9 @@ static bool	match_pattern(const char *name, const char *pattern)
 
 static t_token	*insort_wildcard(const char *name, bool first)
 {
-	static t_token  *new_list = NULL;
-	t_token         *new_token;
-	t_token         *pt;
+	static t_token	*new_list = NULL;
+	t_token			*new_token;
+	t_token			*pt;
 
 	if (first)
 		new_list = NULL;
@@ -72,9 +72,9 @@ static t_token	*insort_wildcard(const char *name, bool first)
 
 static t_token	*get_list(t_token *token, DIR *dir)
 {
-	struct dirent *entry;
-	t_token *list;
-	bool first;
+	struct dirent	*entry;
+	t_token			*list;
+	bool			first;
 
 	first = true;
 	list = NULL;
@@ -95,10 +95,9 @@ static t_token	*get_list(t_token *token, DIR *dir)
 
 bool	expand_wildcard(t_token *token)
 {
-	DIR     *dir;
-	t_token *list;
-	t_token *next;
-	// nog sorteren?
+	DIR		*dir;
+	t_token	*list;
+	t_token	*next;
 	dir = opendir(".");
 	if (!dir)
 		return (perror("opendir"), false);
@@ -106,6 +105,7 @@ bool	expand_wildcard(t_token *token)
 	closedir(dir);
 	if (!list)
 		return (false);
+	sort_linkt_list(list);
 	free(token->value);
 	token->value = list->value;
 	next = token->next;

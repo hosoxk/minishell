@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 09:18:58 by kvanden-          #+#    #+#             */
-/*   Updated: 2025/01/14 09:44:51 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/01/14 09:50:31 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static bool	handle_operator(t_tree **tree, t_token *token_list)
 {
-	t_token *operator_token;
+	t_token	*operator_token;
 
 	operator_token = find_operator(token_list, OR);
 	if (!operator_token)
