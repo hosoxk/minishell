@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:36:00 by yde-rudd          #+#    #+#             */
-/*   Updated: 2025/01/08 15:54:56 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/01/08 16:00:42 by yde-rudd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@
 # include <stdio.h>
 # include <sys/wait.h>
 # include <termios.h>
+# include <sys/types.h>
+# include <dirent.h>
 
 # define BOLD_MAGENTA "\033[35m"
 # define BOLD_RED "\033[31m"
@@ -56,6 +58,10 @@ typedef enum e_token_type
 {
 	WORD,
 	PIPE,
+	OR,
+	AND,
+	PARENTHESES_OPEN,
+	PARENTHESES_CLOSE,
 	REDIRECT_IN,
 	REDIRECT_OUT,
 	APPEND,
@@ -110,14 +116,23 @@ typedef struct s_ast
 	int				fd_out;
 }					t_ast;
 
+
+typedef struct s_tree
+{
+	t_token_type	type;
+	struct s_tree	*left;
+	struct s_tree	*right;
+	t_token			*token_list;
+}					t_tree;
+
 void				set_root_ast(t_ast *node, t_ast *root);
 
 // *** LEXER & HANDLER ***
-void				lexer(char *line, t_token **token_list);
+bool				lexer(char *line, t_token **token_list);
 void				handle_var(char **line, t_token **token_list);
-void				handle_redirect(char **line, t_token **token_list);
-void				handle_quoted_str(char **line, t_token **token_list);
-void				add_token_to_list(t_token **token_list, char *value,
+bool				handle_redirect(char **line, t_token **token_list);
+bool				handle_quoted_str(char **line, t_token **token_list);
+bool				add_token_to_list(t_token **token_list, char *value,
 						t_token_type type);
 bool				validate_token_sequence(t_token *tokens);
 bool				is_valid_command(t_token *token);
@@ -134,6 +149,11 @@ void				attach_redirection_to_command(t_ast *command, t_ast *redir,
 t_ast				*create_command_node(t_ast *command_node, t_token **tokens,
 						int *size, int *count);
 
+void free_token(t_token * token);
+void free_token_tree(t_tree* tree);
+void build_token_tree(t_tree **tree, t_token *token_list);
+void execute_token_tree(t_tree *tree, char ***env);
+void execute_sub_commands(t_token **token_list, char ***env);
 // *** SIGNALS ***
 void				setup_signals(void);
 
@@ -152,6 +172,7 @@ void				exit_clean(t_ast *node, char **env, int exit_status);
 // *** EXPANDER ***
 void				expand_ast(t_ast *node, char **env);
 void				kobe_expander(t_token *token_list, char **env);
+bool 				expand_wildcard(t_token *token);
 
 // *** EXECUTION ***
 void				execute(t_ast *ast_root, char ***env, pid_t *pids,
@@ -190,5 +211,15 @@ char				*handle_line(char **env);
 pid_t				*get_pid_list(t_ast *ast_root);
 void				set_pid(pid_t *pids, pid_t pid);
 int					get_len_pids(pid_t *pids);
+
+
+// *** parentheses ***
+
+bool handle_parentheses_tree(t_tree **tree, t_token *token_list);
+void execute_token_tree(t_tree *tree, char ***env);
+void build_token_tree(t_tree **tree, t_token *token_list);
+t_token *split_before(t_token *list, t_token *target);
+t_token *find_operator(t_token *token, t_token_type type);
+t_tree *get_token_node(t_token_type type, t_token *token_list);
 
 #endif

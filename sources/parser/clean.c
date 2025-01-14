@@ -12,6 +12,15 @@
 
 #include "../minishell.h"
 
+void free_token(t_token *token)
+{
+	if (!token)
+		return ;
+	if (token->value)
+		free(token->value);
+	free(token);	
+}
+
 void	free_token_list(t_token **token_list)
 {
 	t_token	*tmp;
@@ -21,9 +30,7 @@ void	free_token_list(t_token **token_list)
 	while (*token_list)
 	{
 		tmp = (*token_list)->next;
-		if ((*token_list)->value)
-			free((*token_list)->value);
-		free(*token_list);
+		free_token(*token_list);
 		*token_list = tmp;
 	}
 	*token_list = NULL;

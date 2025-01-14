@@ -35,7 +35,7 @@ void	print_tokens(t_token **token_list)
 
 bool	is_special_case(char c)
 {
-	if (c == '|' || c == '<' || c == '>' || c == '\'' || c == '\"') // || c == '$'
+	if (c == '|' || c == '<' || c == '>' || c == '\'' || c == '\"' || c == '(' || c == ')' || c == '&') // || c == '$'
 		return (true);
 	return (false);
 }
@@ -77,8 +77,8 @@ void	print_ast(t_ast *node, int depth)
 		printf("UNKNOWN\n");
 		break ;
 	}
-	//printf(BOLD_BLUE"\nPrinting left child\n"RESET);
+	printf(BOLD_BLUE"\nPrinting left child\n"RESET);
 	print_ast(node->left, depth + 1);
-	//printf(BOLD_BLUE"\nPrinting right child\n"RESET);
+	printf(BOLD_BLUE"\nPrinting right child\n"RESET);
 	print_ast(node->right, depth + 1);
 }

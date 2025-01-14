@@ -6,19 +6,21 @@
 /*   By: yde-rudd <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 16:56:36 by yde-rudd          #+#    #+#             */
-/*   Updated: 2024/12/30 18:23:15 by yde-rudd         ###   ########.fr       */
+/*   Updated: 2025/01/08 16:06:01 by yde-rudd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-
-void     handle_quoted_str(char **line, t_token **token_list)
+bool	handle_quoted_str(char **line, t_token **token_list)
 {
-	char    quote_char;
-	char    *start;
-	char    *quoted_str;
+	char	quote_char;
+	char	*start;
+	char	*quoted_str;
 
+	if (!line || !token_list)
+		return (print_error("null parameter found for handle_quoted_str"),
+			false);
 	quote_char = **line;
 	(*line)++;
 	start = *line;
@@ -28,50 +30,50 @@ void     handle_quoted_str(char **line, t_token **token_list)
 	{
 		quoted_str = ft_strndup(start, *line - start);
 		if (quote_char == '\'' && **line == '\'')
-			add_token_to_list(token_list, quoted_str, QUOTED_STRING);
+		{
+			if (!add_token_to_list(token_list, quoted_str, QUOTED_STRING))
+				return (false);
+		}
 		else
-			add_token_to_list(token_list, quoted_str, DOUBLE_QUOTED_STRING);
+			if (!add_token_to_list(token_list, quoted_str, DOUBLE_QUOTED_STRING))
+				return (false);
 		free(quoted_str);
 		(*line)++;
 	}
 	else
-	{
-		print_error("Error: unmatched quote");
-		return ;
-	}
+		return (print_error("Error: unmatched quote"), false);
+	return (true);
 }
 
-void     handle_redirect(char **line, t_token **token_list)
+bool	handle_redirect(char **line, t_token **token_list)
 {
-	char    special[3];
+	char	special[3];
 
 	if (!line || !(*line))
-	{
-		print_error("Handler received a null line pointer");
-		return ;
-	}
-	if (!(*line + 1) || !*(*line + 1))
-	{
-		print_error("Handler exprected target for redirection");
-		return ;
-	}
+		return (print_error("Handler received a null line pointer"), false);
+	// if (!(*line + 1) || !*(*line + 1))
+	// 	return (print_error("Handler exprected target for redirection"), false);
 	special[0] = **line;
 	special[1] = '\0';
 	special[2] = '\0';
-	if ((**line == '<' && *(*line + 1) == '<') ||
-			(**line == '>' && *(*line + 1) == '>'))
+	if ((**line == '<' && *(*line + 1) == '<') || (**line == '>' && *(*line + 1) == '>'))
 	{
 		special[1] = *(*line + 1);
-		add_token_to_list(token_list, special, **line == '<' ? HEREDOC : APPEND);
-		(*line) += 2;
+		if (add_token_to_list(token_list, special, **line == '<' ? HEREDOC : APPEND))
+			(*line) += 2;
+		else
+			return (false);
 	}
 	else
 	{
-		add_token_to_list(token_list, special, **line == '<' ? REDIRECT_IN : REDIRECT_OUT);
-		(*line)++;
+		if (add_token_to_list(token_list, special, **line == '<' ? REDIRECT_IN : REDIRECT_OUT))
+			(*line)++;
+		else
+			return (false);
 	}
+	return (true);
 }
-
+/*
 void     handle_var(char **line, t_token **token_list)
 {
 	char    *start;
@@ -84,3 +86,4 @@ void     handle_var(char **line, t_token **token_list)
 	add_token_to_list(token_list, variable, VARIABLE);
 	free(variable);
 }
+*/

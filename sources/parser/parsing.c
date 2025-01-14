@@ -29,7 +29,7 @@ void	add_argument(char ***args, int *size, int *count, const char *value)
 			return ;
 		*count = 0;
 	}
-	else if (*count >= *size)
+	else if (*count >= (*size - 1))
 	{
 		// resize the array when full
 		int	old_size;
