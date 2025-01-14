@@ -43,6 +43,7 @@ bool	validate_token_sequence(t_token *tokens)
 			{
 				g_exit_status = 258;
 				return (false);
+			}
 		if (tokens->type == PARENTHESES_OPEN)
 			depth++;
 		if (tokens->type == PARENTHESES_CLOSE)

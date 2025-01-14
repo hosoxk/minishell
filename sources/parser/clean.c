@@ -6,19 +6,19 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 18:12:50 by yde-rudd          #+#    #+#             */
-/*   Updated: 2025/01/14 08:46:09 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/01/14 09:09:16 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void free_token(t_token *token)
+void	free_token(t_token *token)
 {
 	if (!token)
 		return ;
 	if (token->value)
 		free(token->value);
-	free(token);	
+	free(token);
 }
 
 void	free_token_list(t_token **token_list)
@@ -38,7 +38,7 @@ void	free_token_list(t_token **token_list)
 
 void	free_ast(t_ast *node)
 {
-		int i;
+	int	i;
 
 	if (!node)
 		return ;
@@ -59,6 +59,20 @@ void	free_ast(t_ast *node)
 	free_ast(node->left);
 	free_ast(node->right);
 	free(node);
+}
+
+void	free_env(char **env)
+{
+	char	*pt;
+
+	pt = *env;
+	while (*pt)
+	{
+		free(pt);
+		pt++;
+	}
+	free(*env);
+	*env = NULL;
 }
 
 void	free_program(t_token *token_list, t_ast *ast_root, char **env)

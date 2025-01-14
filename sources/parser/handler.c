@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 16:56:36 by yde-rudd          #+#    #+#             */
-/*   Updated: 2025/01/14 08:48:00 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/01/14 09:03:43 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ bool	handle_redirect(char **line, t_token **token_list)
 	return (true);
 	return (true);
 }
-/*
+
 /*
 void     handle_var(char **line, t_token **token_list)
 {
@@ -101,4 +101,4 @@ void     handle_var(char **line, t_token **token_list)
 	free(variable);
 }
 */
-*/
+
