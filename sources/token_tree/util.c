@@ -12,11 +12,11 @@
 
 #include "../minishell.h"
 
-t_tree	*get_token_node(t_token_type type, t_token *token_list)
+t_token_tree	*get_token_node(t_token_type type, t_token *token_list)
 {
-	t_tree	*node;
+	t_token_tree	*node;
 
-	node = malloc(sizeof(t_tree));
+	node = malloc(sizeof(t_token_tree));
 	if (!node)
 		return (NULL);
 	node->left = NULL;

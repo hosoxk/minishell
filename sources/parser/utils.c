@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 15:15:46 by yde-rudd          #+#    #+#             */
-/*   Updated: 2025/01/14 09:01:53 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/01/14 11:49:09 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void	print_tokens(t_token **token_list)
 				current->type);
 		current = current->next;
 	}
+	ft_putendl_fd("", STDOUT_FILENO);
 }
 
 bool	is_special_case(char c)

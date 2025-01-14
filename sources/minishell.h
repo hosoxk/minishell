@@ -43,6 +43,13 @@
 
 extern volatile int g_exit_status;
 
+typedef enum e_token_type t_token_type;
+typedef enum e_command_type t_command_type;
+typedef struct s_free_data t_free_data;
+typedef struct s_token t_token;
+typedef struct s_ast t_ast;
+typedef struct s_token_tree t_token_tree;
+
 /*
 typedef enum e_token_type
 {
@@ -94,6 +101,7 @@ typedef struct s_token
 	struct s_token *next;
 } t_token;
 
+
 typedef struct s_ast
 {
 	t_token_type type;
@@ -104,17 +112,27 @@ typedef struct s_ast
 	struct s_ast *root;
 	int fd_in;
 	int fd_out;
+	t_free_data *free_data;
 } t_ast;
 
-typedef struct s_tree
+typedef struct s_token_tree
 {
 	t_token_type type;
-	struct s_tree *left;
-	struct s_tree *right;
+	struct s_token_tree *left;
+	struct s_token_tree *right;
 	t_token *token_list;
-} t_tree;
+} t_token_tree;
 
-void	set_root_ast(t_ast *node, t_ast *root);
+typedef struct s_free_data
+{
+	t_ast *root;
+	t_token_tree *token_tree;
+
+} t_free_data;
+
+void set_data_to_ast(t_ast *node, t_free_data *data);
+t_ast *get_tast(t_token_tree *tree, t_free_data *data, t_token_tree *token_tree_root);
+
 
 // *** LEXER & HANDLER ***
 bool	lexer(char *line, t_token **token_list);
@@ -138,10 +156,10 @@ t_ast	*create_command_node(t_ast *command_node, t_token **tokens, int *size,
 			int *count);
 
 void	free_token(t_token *token);
-void	free_token_tree(t_tree *tree);
-void	build_token_tree(t_tree **tree, t_token *token_list);
-void	execute_token_tree(t_tree *tree, char ***env);
-void	execute_sub_commands(t_token **token_list, char ***env);
+void	free_token_tree(t_token_tree *tree);
+void	build_token_tree(t_token_tree **tree, t_token *token_list);
+void	execute_token_tree(t_token_tree *tree, char ***env, t_token_tree *root);
+void	execute_sub_commands(t_token_tree *tree, char ***env, t_token_tree *root);
 // *** SIGNALS ***
 void	setup_signals(void);
 
@@ -203,12 +221,11 @@ int	get_len_pids(pid_t *pids);
 
 // *** parentheses ***
 
-bool	handle_parentheses_tree(t_tree **tree, t_token *token_list);
-void	execute_token_tree(t_tree *tree, char ***env);
-void	build_token_tree(t_tree **tree, t_token *token_list);
+bool	handle_parentheses_tree(t_token_tree **tree, t_token *token_list);
+void	build_token_tree(t_token_tree **tree, t_token *token_list);
 t_token	*split_before(t_token *list, t_token *target);
 t_token	*find_operator(t_token *token, t_token_type type);
-t_tree	*get_token_node(t_token_type type, t_token *token_list);
+t_token_tree	*get_token_node(t_token_type type, t_token *token_list);
 t_token	*find_last_operator(t_token *token_list);
 
 #endif

@@ -6,13 +6,13 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 09:18:58 by kvanden-          #+#    #+#             */
-/*   Updated: 2025/01/14 09:50:31 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/01/14 11:25:02 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static bool	handle_operator(t_tree **tree, t_token *token_list)
+static bool	handle_operator(t_token_tree **tree, t_token *token_list)
 {
 	t_token	*operator_token;
 
@@ -36,7 +36,7 @@ static bool	handle_operator(t_tree **tree, t_token *token_list)
 	return (false);
 }
 
-void	free_token_tree(t_tree *tree)
+void	free_token_tree(t_token_tree *tree)
 {
 	if (!tree)
 		return ;
@@ -46,7 +46,7 @@ void	free_token_tree(t_tree *tree)
 	free(tree);
 }
 
-void	build_token_tree(t_tree **tree, t_token *token_list)
+void	build_token_tree(t_token_tree **tree, t_token *token_list)
 {
 	if (!token_list)
 	{
@@ -60,24 +60,24 @@ void	build_token_tree(t_tree **tree, t_token *token_list)
 	*tree = get_token_node(WORD, token_list);
 }
 
-void	execute_token_tree(t_tree *tree, char ***env)
+void	execute_token_tree(t_token_tree *tree, char ***env, t_token_tree *root)
 {
 	if (!tree)
 	{
 		return ;
 	}
 	if (tree->type == WORD)
-		execute_sub_commands(&(tree->token_list), env);
+		execute_sub_commands(tree, env, root);
 	else if (tree->type == AND)
 	{
-		execute_token_tree(tree->left, env);
+		execute_token_tree(tree->left, env, root);
 		if (g_exit_status == 0)
-			execute_token_tree(tree->right, env);
+			execute_token_tree(tree->right, env, root);
 	}
 	else if (tree->type == OR)
 	{
-		execute_token_tree(tree->left, env);
+		execute_token_tree(tree->left, env,root);
 		if (g_exit_status != 0)
-			execute_token_tree(tree->right, env);
+			execute_token_tree(tree->right, env, root);
 	}
 }

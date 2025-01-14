@@ -32,10 +32,10 @@ static t_token	*find_closing_parenthesis(t_token *open_paren)
 	return (NULL);
 }
 
-static void	insort_tree_after(t_tree **tree, t_token *after)
+static void	insort_tree_after(t_token_tree **tree, t_token *after)
 {
 	t_token	*first_op;
-	t_tree	*operator_node;
+	t_token_tree	*operator_node;
 
 	if (!after)
 		return ;
@@ -51,10 +51,10 @@ static void	insort_tree_after(t_tree **tree, t_token *after)
 	}
 }
 
-static void	insort_tree_befor(t_tree **tree, t_token *before, t_tree *subtree)
+static void	insort_tree_befor(t_token_tree **tree, t_token *before, t_token_tree *subtree)
 {
 	t_token	*last_op;
-	t_tree	*operator_node;
+	t_token_tree	*operator_node;
 
 	if (!before)
 	{
@@ -92,9 +92,9 @@ static bool	divade_token_list(t_token *token_list, t_token **before,
 	return (true);
 }
 
-bool	handle_parentheses_tree(t_tree **tree, t_token *token_list)
+bool	handle_parentheses_tree(t_token_tree **tree, t_token *token_list)
 {
-	t_tree	*subtree;
+	t_token_tree	*subtree;
 	t_token	*before;
 	t_token	*inside;
 	t_token	*after;
