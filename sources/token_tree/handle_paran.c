@@ -34,7 +34,7 @@ static t_token	*find_closing_parenthesis(t_token *open_paren)
 
 static void	insort_tree_after(t_token_tree **tree, t_token *after)
 {
-	t_token	*first_op;
+	t_token			*first_op;
 	t_token_tree	*operator_node;
 
 	if (!after)
@@ -51,9 +51,10 @@ static void	insort_tree_after(t_token_tree **tree, t_token *after)
 	}
 }
 
-static void	insort_tree_befor(t_token_tree **tree, t_token *before, t_token_tree *subtree)
+static void	insort_tree_befor(t_token_tree **tree, t_token *before, \
+	t_token_tree *subtree)
 {
-	t_token	*last_op;
+	t_token			*last_op;
 	t_token_tree	*operator_node;
 
 	if (!before)
@@ -95,9 +96,9 @@ static bool	divade_token_list(t_token *token_list, t_token **before,
 bool	handle_parentheses_tree(t_token_tree **tree, t_token *token_list)
 {
 	t_token_tree	*subtree;
-	t_token	*before;
-	t_token	*inside;
-	t_token	*after;
+	t_token			*before;
+	t_token			*inside;
+	t_token			*after;
 
 	if (!divade_token_list(token_list, &before, &inside, &after))
 		return (false);

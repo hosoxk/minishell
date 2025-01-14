@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 15:15:46 by yde-rudd          #+#    #+#             */
-/*   Updated: 2025/01/14 11:49:09 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/01/14 13:24:25 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	print_tokens(t_token **token_list)
 	while (current)
 	{
 		printf(BOLD_BLUE "Token: %s, Type: %d\n" RESET, current->value,
-				current->type);
+			current->type);
 		current = current->next;
 	}
 	ft_putendl_fd("", STDOUT_FILENO);
@@ -41,11 +41,13 @@ void	print_tokens(t_token **token_list)
 
 bool	is_special_case(char c)
 {
-	if (c == '|' || c == '<' || c == '>' || c == '\'' || c == '\"' || c == '(' || c == ')' || c == '&') // || c == '$'
+	if (c == '|' || c == '<' || c == '>' || c == '\'' || c == '\"' || c == '('
+		|| c == ')' || c == '&')
 		return (true);
 	return (false);
 }
 
+/*
 void	print_ast(t_ast *node, int depth)
 {
 	if (!node)
@@ -83,8 +85,9 @@ void	print_ast(t_ast *node, int depth)
 		printf("UNKNOWN\n");
 		break ;
 	}
-	printf(BOLD_BLUE"\nPrinting left child\n"RESET);
+	printf(BOLD_BLUE "\nPrinting left child\n" RESET);
 	print_ast(node->left, depth + 1);
-	printf(BOLD_BLUE"\nPrinting right child\n"RESET);
+	printf(BOLD_BLUE "\nPrinting right child\n" RESET);
 	print_ast(node->right, depth + 1);
 }
+*/

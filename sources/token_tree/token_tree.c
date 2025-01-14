@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 09:18:58 by kvanden-          #+#    #+#             */
-/*   Updated: 2025/01/14 11:25:02 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/01/14 13:04:57 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,12 @@ static bool	handle_operator(t_token_tree **tree, t_token *token_list)
 		*tree = get_token_node(operator_token->type, NULL);
 		if (!*tree)
 		{
-			g_exit_status = 1; /// ?
+			g_exit_status = 1;
 			return (true);
 		}
 		build_token_tree(&(*tree)->right, operator_token->next);
 		build_token_tree(&(*tree)->left, split_before(token_list,
-			operator_token));
+				operator_token));
 		free_token(operator_token);
 		return (true);
 	}
@@ -76,7 +76,7 @@ void	execute_token_tree(t_token_tree *tree, char ***env, t_token_tree *root)
 	}
 	else if (tree->type == OR)
 	{
-		execute_token_tree(tree->left, env,root);
+		execute_token_tree(tree->left, env, root);
 		if (g_exit_status != 0)
 			execute_token_tree(tree->right, env, root);
 	}
