@@ -38,16 +38,16 @@ static void	parent_process(t_ast *ast_root, char ***env, pid_t *pids, int *p_fd)
 	close(fd_in);
 }
 
-void	do_pipe(t_ast *ast_root, char ***env, pid_t *pids)
+bool	do_pipe(t_ast *ast_root, char ***env, pid_t *pids)
 {
 	pid_t	pid;
 	int		p_fd[2];
 
 	if (pipe(p_fd) == -1)
-		exit(1);
+		return (print_error("pipe failed"), false);
 	pid = fork();
 	if (pid == -1)
-		exit(1);
+		return (print_error("fork failed"), false);
 	if (!pid)
 		child_process(ast_root, env, pids, p_fd);
 	else
@@ -55,4 +55,5 @@ void	do_pipe(t_ast *ast_root, char ***env, pid_t *pids)
 		set_pid(pids, pid);
 		parent_process(ast_root, env, pids, p_fd);
 	}
+	return (true);
 }

@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 09:18:58 by kvanden-          #+#    #+#             */
-/*   Updated: 2025/01/14 13:04:57 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/01/14 15:37:16 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,24 +60,29 @@ void	build_token_tree(t_token_tree **tree, t_token *token_list)
 	*tree = get_token_node(WORD, token_list);
 }
 
-void	execute_token_tree(t_token_tree *tree, char ***env, t_token_tree *root)
+bool	execute_token_tree(t_token_tree *tree, char ***env, t_token_tree *root)
 {
+	bool	result;
+
+	result = true;
 	if (!tree)
-	{
-		return ;
-	}
+		return (true);
 	if (tree->type == WORD)
-		execute_sub_commands(tree, env, root);
+	{
+		if (!execute_sub_commands(tree, env, root))
+			return (false);
+	}
 	else if (tree->type == AND)
 	{
-		execute_token_tree(tree->left, env, root);
+		result = execute_token_tree(tree->left, env, root);
 		if (g_exit_status == 0)
-			execute_token_tree(tree->right, env, root);
+			result = execute_token_tree(tree->right, env, root);
 	}
 	else if (tree->type == OR)
 	{
-		execute_token_tree(tree->left, env, root);
+		result = execute_token_tree(tree->left, env, root);
 		if (g_exit_status != 0)
-			execute_token_tree(tree->right, env, root);
+			result = execute_token_tree(tree->right, env, root);
 	}
+	return (result);
 }

@@ -67,7 +67,7 @@ static bool	insert_env(t_token *token, int index, char **env)
 	return (true);
 }
 
-static void	expend_token(t_token *token, char **env)
+static bool	expend_token(t_token *token, char **env)
 {
 	char	*dollar;
 	int		index;
@@ -76,28 +76,30 @@ static void	expend_token(t_token *token, char **env)
 	{
 		if (ft_strchr(token->value, '*'))
 			if (!expand_wildcard(token))
-				return ; ///////
+				return (false);
 		dollar = ft_strchr(token->value, '$');
 		if (!dollar)
-			return ;
+			return (true);
 		index = dollar - token->value + 1;
 		if (!insert_env(token, index, env))
-			return ;
+			return (false);
 	}
 }
 
-void	kobe_expander(t_token *token_list, char **env)
+bool	expander(t_token *token_list, char **env)
 {
 	while (token_list)
 	{
 		if (token_list->type == VARIABLE || token_list->type == WORD
 			|| token_list->type == DOUBLE_QUOTED_STRING)
 		{
-			expend_token(token_list, env);
+			if (!expend_token(token_list, env))
+				return (false);
 			token_list->type = WORD;
 		}
 		else if (token_list->type == QUOTED_STRING)
 			token_list->type = WORD;
 		token_list = token_list->next;
 	}
+	return (true);
 }

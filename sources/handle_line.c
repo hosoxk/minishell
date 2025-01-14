@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   handle_line.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/14 14:16:19 by kvanden-          #+#    #+#             */
+/*   Updated: 2025/01/14 14:16:19 by kvanden-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "minishell.h"
 
@@ -17,7 +28,6 @@ char	*get_shell_input(void)
 	char	buffer[4096];
 	ssize_t	bytes_read;
 
-    printf("wooow");
 	bytes_read = read(STDIN_FILENO, buffer, sizeof(buffer) - 1);
 	if (bytes_read <= 0)
 		return (NULL);
@@ -27,7 +37,7 @@ char	*get_shell_input(void)
 	return (ft_strdup(buffer));
 }
 
-char	*handle_line(char **env)
+char	*get_line(char **env)
 {
 	char	*line;
 	char	*promt;

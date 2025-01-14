@@ -14,8 +14,6 @@
 
 static bool	match_pattern(const char *name, const char *pattern)
 {
-	// if (strcmp(name, "..") == 0 || strcmp(name, ".") == 0)
-	// 	return (false);
 	if (name[0] == '.' && !strchr(pattern, '.'))
 		return (false);
 	while (*name || *pattern)
@@ -98,6 +96,7 @@ bool	expand_wildcard(t_token *token)
 	DIR		*dir;
 	t_token	*list;
 	t_token	*next;
+	
 	dir = opendir(".");
 	if (!dir)
 		return (perror("opendir"), false);

@@ -24,7 +24,10 @@ void	unset(char ***env, char **argv)
 		{
 			temp = ft_strdup("NULL");
 			if (!temp)
+			{
+				g_exit_status = 1;
 				return (print_error("malloc failed"));
+			}
 			free((*env)[i]);
 			(*env)[i] = temp;
 		}

@@ -29,7 +29,7 @@ static bool	is_execute_build_in(t_ast *ast_root, char ***env)
 	return (false);
 }
 
-static void	execute_cmd(t_ast *ast_root, char ***env, pid_t *pids,
+static bool	execute_cmd(t_ast *ast_root, char ***env, pid_t *pids,
 		bool is_first)
 {
 	pid_t	pid;
@@ -38,7 +38,7 @@ static void	execute_cmd(t_ast *ast_root, char ***env, pid_t *pids,
 	{
 		pid = fork();
 		if (pid == -1)
-			return (print_error("fork failed"), exit(1));
+			return (print_error("fork failed"), false);
 		set_pid(pids, pid);
 		if (!pid)
 		{
@@ -53,16 +53,18 @@ static void	execute_cmd(t_ast *ast_root, char ***env, pid_t *pids,
 		if (is_execute_build_in(ast_root, env))
 			exit_clean(ast_root, *env, -1);
 	}
+	return (true);
 }
 
-void	execute(t_ast *ast_root, char ***env, pid_t *pids, bool is_first)
+bool	execute(t_ast *ast_root, char ***env, pid_t *pids, bool is_first)
 {
 	if (ast_root->type == WORD)
-		execute_cmd(ast_root, env, pids, is_first);
+		return (execute_cmd(ast_root, env, pids, is_first));
 	else if (ast_root->type == PIPE)
-		do_pipe(ast_root, env, pids);
+		return (do_pipe(ast_root, env, pids));
 	else if (ast_root->type >= REDIRECT_IN && ast_root->type <= HEREDOC)
-		do_redirection(ast_root, env, pids, is_first);
+		return (do_redirection(ast_root, env, pids, is_first));
+	return (print_error("syntax error"), false);
 }
 
 int	get_exit_code(pid_t *pids)
@@ -87,18 +89,20 @@ int	get_exit_code(pid_t *pids)
 	return (status);
 }
 
-void	executor(t_ast *ast_root, char ***env)
+bool	executor(t_ast *ast_root, char ***env)
 {
 	pid_t	*pids;
 
 	if (execute_custom_cmd(ast_root, env))
-		return ;
+		return (g_exit_status == 0);
 	pids = get_pid_list(ast_root);
 	if (!pids)
 	{
 		print_error("fork failed");
-		exit_clean(ast_root, *env, -1);
+		return (false);
 	}
-	execute(ast_root, env, pids, true);
+	if (!execute(ast_root, env, pids, true))
+		return (false);
 	g_exit_status = get_exit_code(pids);
+	return (true);
 }

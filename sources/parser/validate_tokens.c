@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 13:08:12 by kvanden-          #+#    #+#             */
-/*   Updated: 2025/01/14 13:33:09 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/01/14 15:36:23 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static bool	check_pipe(t_token *token, t_token *prev_token)
 {
 	bool	is_valid;
-	
+
 	is_valid = false;
 	if (!prev_token)
 		print_error("Syntax error: unexpected pipe at the beginning");
@@ -23,6 +23,25 @@ static bool	check_pipe(t_token *token, t_token *prev_token)
 		print_error("Syntax error: invalid pipe sequence");
 	else if (!token->next || token->next->type != WORD)
 		print_error("Syntax error: missing command after pipe");
+	else
+		is_valid = true;
+	if (!is_valid)
+		g_exit_status = 258;
+	return (is_valid);
+}
+
+static bool	check_logic_operators(t_token *token, t_token *prev_token)
+{
+	bool	is_valid;
+
+	is_valid = false;
+	if (!prev_token)
+		print_error("Syntax error: unexpected operator at the beginning");
+	else if (!token->next || token->next->type == AND
+		|| token->next->type == OR)
+		print_error("Syntax error: invalid operator sequence");
+	else if (!token->next || token->next->type != WORD)
+		print_error("Syntax error: missing command after operator");
 	else
 		is_valid = true;
 	if (!is_valid)
@@ -54,9 +73,10 @@ bool	validate_token_sequence(t_token *tokens)
 	{
 		if (tokens->type == PIPE)
 			is_valid = check_pipe(tokens, prev_token);
-		else if (tokens->type == REDIRECT_IN || tokens->type == REDIRECT_OUT || \
-				tokens->type == APPEND || tokens->type == HEREDOC)
+		else if (tokens->type >= REDIRECT_IN && tokens->type <= HEREDOC)
 			is_valid = check_redir(tokens);
+		else if (tokens->type == AND || tokens->type == OR)
+			is_valid = check_logic_operators(tokens, prev_token);
 		if (!is_valid)
 			return (false);
 		if (tokens->type == PARENTHESES_OPEN)

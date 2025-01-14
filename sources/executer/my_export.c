@@ -33,7 +33,7 @@ static char	**expent_env(char **env)
 	size = ft_tab_len(env);
 	new_env = ft_calloc(size * 2, sizeof(char *));
 	if (!new_env)
-		return (print_error("malloc failed"), NULL);
+		return (print_error("malloc failed"), g_exit_status = 1, NULL);
 	i = 0;
 	while (i < ((size * 2) - 1))
 	{
@@ -42,7 +42,7 @@ static char	**expent_env(char **env)
 		{
 			new_env[i] = NULL;
 			ft_free_tab(new_env);
-			return (print_error("malloc failed"), NULL);
+			return (print_error("malloc failed"), g_exit_status = 1, NULL);
 		}
 		new_env[i] = temp;
 		i++;
@@ -63,7 +63,7 @@ static int	get_location(char ***env, char **argv)
 		return (-1);
 	name = ft_substr(argv[1], 0, is_location - argv[1]);
 	if (!name)
-		return (print_error("malloc failed"), -1);
+		return (print_error("malloc failed"), g_exit_status = 1, -1);
 	index = getenv_index(name, *env);
 	free(name);
 	if (index >= 0)
@@ -88,7 +88,10 @@ static void	my_set_var(char ***env, char **argv, int index)
 	else
 		temp = ft_strjoin(argv[1], argv[2]);
 	if (!temp)
+	{
+		g_exit_status = 1;
 		return (print_error("malloc failed"));
+	}
 	free((*env)[index]);
 	(*env)[index] = temp;
 }

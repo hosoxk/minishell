@@ -64,10 +64,10 @@ bool	init_heredoc(t_ast *ast_root)
 	int		temp_exit_status;
 
 	if (pipe(p_fd) == -1)
-		exit(0);
+		return (false);
 	pid = fork();
 	if (pid == -1)
-		exit(0);
+		return (false);
 	if (!pid)
 		here_doc_put_in(ast_root, p_fd);
 	else
@@ -78,5 +78,5 @@ bool	init_heredoc(t_ast *ast_root)
 		waitpid(pid, &temp_exit_status, 0);
 		g_exit_status = temp_exit_status;
 	}
-	return (true); /////
+	return (true);
 }

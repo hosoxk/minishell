@@ -40,13 +40,13 @@ void	my_cd(char **env, char **argv)
 	char	*nwd;
 
 	if (!getcwd(cwd, sizeof(cwd)))
-	{
-		perror("getcwd");
-		return ;
-	}
+		return (g_exit_status = 1, perror("getcwd"));
 	nwd = get_new_dir(cwd, env, argv);
 	if (!nwd)
+	{
+		g_exit_status = 1;
 		return ;
+	}
 	if (chdir(nwd) != 0)
 	{
 		perror("cd");
@@ -56,9 +56,6 @@ void	my_cd(char **env, char **argv)
 	}
 	free(nwd);
 	if (!getcwd(cwd, sizeof(cwd)))
-	{
-		perror("getcwd");
-		return ;
-	}
+		return (g_exit_status = 1, perror("getcwd"));
 	update_env("PWD", cwd, env);
 }

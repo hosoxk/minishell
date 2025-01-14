@@ -1,4 +1,4 @@
-#include "../minishell.h"
+#include "minishell.h"
 
 /*	Process gets terminated -> exit status = 130
  *	Prints new line to terminal

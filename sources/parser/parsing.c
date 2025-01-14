@@ -132,6 +132,8 @@ t_ast *get_tast(t_token_tree *tree, t_free_data *data, t_token_tree *token_tree_
 	temp = tree->token_list;
 
 	root = parse_ast(&temp);
+	if (!root)
+		return (NULL);
 	move_cmds(&root);
 	data->root = root;
 	data->token_tree = token_tree_root;
@@ -163,7 +165,7 @@ t_ast *parse_ast(t_token **tokens)
 		printf(BOLD_MAGENTA"Parsing token: type = %d, value = %s\n"RESET, (*tokens)->type, (*tokens)->value);
 		if ((*tokens)->type == PIPE)
 			return create_pipe_node(left_node, tokens);
-		else if ((*tokens)->type == REDIRECT_IN || (*tokens)->type == REDIRECT_OUT || (*tokens)->type == APPEND || (*tokens)->type == HEREDOC)
+		else if ((*tokens)->type >= REDIRECT_IN && (*tokens)->type <= HEREDOC)
 		{
 			redir_node = create_redirection_node(tokens);
 			if (!redir_node)

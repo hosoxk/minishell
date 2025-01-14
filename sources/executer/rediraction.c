@@ -42,7 +42,7 @@ static bool	init_redirection(t_ast *ast_root)
 	return (true);
 }
 
-void	do_redirection(t_ast *ast_root, char ***env, pid_t *pids, bool is_first)
+bool	do_redirection(t_ast *ast_root, char ***env, pid_t *pids, bool is_first)
 {
 	int		fd_in;
 	int		fd_out;
@@ -55,9 +55,10 @@ void	do_redirection(t_ast *ast_root, char ***env, pid_t *pids, bool is_first)
 	else
 		can_execute = init_redirection(ast_root);
 	if (can_execute)
-		execute(ast_root->left, env, pids, is_first);
+		can_execute = execute(ast_root->left, env, pids, is_first);
 	dup2(fd_in, STDIN_FILENO);
 	dup2(fd_out, STDOUT_FILENO);
 	close(fd_in);
 	close(fd_out);
+	return (can_execute);
 }

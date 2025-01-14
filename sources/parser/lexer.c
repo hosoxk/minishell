@@ -79,11 +79,12 @@ static bool handle_parentheses(char **line, t_token **token_list)
 static bool	handle_special_case(char **line, t_token **token_list)
 {
 	if (**line == '\'' || **line == '\"')
-	{
-		if (!handle_quoted_str(line, token_list))
-			return (false);
-	}
-	else if (**line == '|')
+		return (handle_quoted_str(line, token_list));
+	if (ft_strchr("()", **line))
+		return (handle_parentheses(line, token_list));
+	if (**line == '<' || **line == '>')
+		return (handle_redirect(line, token_list));
+	if (**line == '|')
 	{
 		(*line)++;
 		if (**line == '|')
@@ -94,7 +95,7 @@ static bool	handle_special_case(char **line, t_token **token_list)
 		else
 			return (add_token_to_list(token_list, "|", PIPE));
 	}
-	else if (**line == '&')
+	if (**line == '&')
 	{
 		(*line)++;
 		if (**line == '&')
@@ -103,16 +104,6 @@ static bool	handle_special_case(char **line, t_token **token_list)
 			return (add_token_to_list(token_list, NULL, AND));
 		}
 		else
-			return (false);
-	}
-	else if (ft_strchr("()", **line))
-	{
-		if (!handle_parentheses(line, token_list))
-			return (false);
-	}
-	else if (**line == '<' || **line == '>')
-	{
-		if (!handle_redirect(line, token_list))
 			return (false);
 	}
 	return (true);

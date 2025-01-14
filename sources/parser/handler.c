@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 16:56:36 by yde-rudd          #+#    #+#             */
-/*   Updated: 2025/01/14 09:03:43 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/01/14 15:42:38 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,6 @@ bool	handle_quoted_str(char **line, t_token **token_list)
 	char	*start;
 	char	*quoted_str;
 
-
-	if (!line || !token_list)
-		return (print_error("null parameter found for handle_quoted_str"),
-			false);
 	if (!line || !token_list)
 		return (print_error("null parameter found for handle_quoted_str"),
 			false);
@@ -67,10 +63,6 @@ bool	handle_redirect(char **line, t_token **token_list)
 			(*line) += 2;
 		else
 			return (false);
-		if (add_token_to_list(token_list, special, **line == '<' ? HEREDOC : APPEND))
-			(*line) += 2;
-		else
-			return (false);
 	}
 	else
 	{
@@ -78,12 +70,7 @@ bool	handle_redirect(char **line, t_token **token_list)
 			(*line)++;
 		else
 			return (false);
-		if (add_token_to_list(token_list, special, **line == '<' ? REDIRECT_IN : REDIRECT_OUT))
-			(*line)++;
-		else
-			return (false);
 	}
-	return (true);
 	return (true);
 }
 

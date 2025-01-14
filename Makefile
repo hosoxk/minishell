@@ -49,17 +49,17 @@ SRC_FILES = $(SRC_DIR)/main.c \
 		$(SRC_DIR)/executer/rediraction.c \
 		$(SRC_DIR)/executer/heredoc.c \
 		$(SRC_DIR)/executer/pids.c \
-		$(SRC_DIR)/env_util.c \
-		$(SRC_DIR)/util.c \
-		$(SRC_DIR)/exit.c \
-		$(SRC_DIR)/handle_line.c \
-		$(SRC_DIR)/parser/signals.c \
 		$(SRC_DIR)/token_tree/handle_paran.c \
 		$(SRC_DIR)/token_tree/token_tree.c \
 		$(SRC_DIR)/token_tree/util.c \
 		$(SRC_DIR)/expander/expander.c \
 		$(SRC_DIR)/expander/util.c \
-		$(SRC_DIR)/expander/wildcard.c 
+		$(SRC_DIR)/expander/wildcard.c \
+		$(SRC_DIR)/env_util.c \
+		$(SRC_DIR)/util.c \
+		$(SRC_DIR)/exit.c \
+		$(SRC_DIR)/handle_line.c \
+		$(SRC_DIR)/signals.c
 		
 OBJ_FILES        = $(SRC_FILES:.c=.o)
 DEBUG_OBJ_FILES  = $(SRC_FILES:.c=.debug.o)
