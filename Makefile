@@ -36,25 +36,29 @@ SRC_FILES = $(SRC_DIR)/main.c \
 		$(SRC_DIR)/parser/clean.c \
 		$(SRC_DIR)/parser/create_nodes.c \
 		$(SRC_DIR)/parser/validate_tokens.c \
+		\
+		$(SRC_DIR)/executer/build_ins/my_echo.c \
+		$(SRC_DIR)/executer/build_ins/my_env.c \
+		$(SRC_DIR)/executer/build_ins/my_unset.c \
+		$(SRC_DIR)/executer/build_ins/my_export.c \
+		$(SRC_DIR)/executer/build_ins/my_pwd.c \
+		$(SRC_DIR)/executer/build_ins/my_cd.c \
 		$(SRC_DIR)/executer/execute_build_in_cmd.c \
 		$(SRC_DIR)/executer/execute_custom_cmd.c \
 		$(SRC_DIR)/executer/executer.c \
-		$(SRC_DIR)/executer/my_echo.c \
-		$(SRC_DIR)/executer/my_env.c \
-		$(SRC_DIR)/executer/my_unset.c \
-		$(SRC_DIR)/executer/my_export.c \
-		$(SRC_DIR)/executer/my_pwd.c \
-		$(SRC_DIR)/executer/my_cd.c \
 		$(SRC_DIR)/executer/pipe.c \
 		$(SRC_DIR)/executer/rediraction.c \
 		$(SRC_DIR)/executer/heredoc.c \
 		$(SRC_DIR)/executer/pids.c \
+		\
 		$(SRC_DIR)/token_tree/handle_paran.c \
 		$(SRC_DIR)/token_tree/token_tree.c \
 		$(SRC_DIR)/token_tree/util.c \
+		\
 		$(SRC_DIR)/expander/expander.c \
 		$(SRC_DIR)/expander/util.c \
 		$(SRC_DIR)/expander/wildcard.c \
+		\
 		$(SRC_DIR)/env_util.c \
 		$(SRC_DIR)/util.c \
 		$(SRC_DIR)/exit.c \

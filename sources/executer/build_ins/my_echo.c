@@ -1,36 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   my_unset.c                                         :+:      :+:    :+:   */
+/*   my_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/30 14:54:12 by kvanden-          #+#    #+#             */
-/*   Updated: 2025/01/06 11:31:42 by kvanden-         ###   ########.fr       */
+/*   Created: 2024/12/30 13:06:20 by kvanden-          #+#    #+#             */
+/*   Updated: 2024/12/30 17:35:03 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../../minishell.h"
 
-void	unset(char ***env, char **argv)
+void	my_echo(char **argv)
 {
 	int		i;
-	char	*temp;
+	bool	is_print_end;
 
-	i = 0;
-	while ((*env)[i])
+	i = 1;
+	is_print_end = true;
+	if (ft_strcmp(argv[1], "-n") == 0)
 	{
-		if (ft_strncmp((*env)[i], argv[1], ft_strlen(argv[1])) == 0)
-		{
-			temp = ft_strdup("NULL");
-			if (!temp)
-			{
-				g_exit_status = 1;
-				return (print_error("malloc failed"));
-			}
-			free((*env)[i]);
-			(*env)[i] = temp;
-		}
+		is_print_end = false;
+		i = 2;
+	}
+	while (argv[i])
+	{
+		ft_putstr_fd(argv[i], 1);
+		ft_putchar_fd(' ', 1);
 		i++;
 	}
+	if (is_print_end)
+		ft_putchar_fd('\n', 1);
 }

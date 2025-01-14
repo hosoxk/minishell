@@ -1,35 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   my_pwd.c                                           :+:      :+:    :+:   */
+/*   my_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/30 17:59:25 by kvanden-          #+#    #+#             */
-/*   Updated: 2025/01/02 11:22:24 by kvanden-         ###   ########.fr       */
+/*   Created: 2024/12/30 14:47:19 by kvanden-          #+#    #+#             */
+/*   Updated: 2024/12/30 17:34:55 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../../minishell.h"
 
-void	my_pwd(void)
+void	my_env(char **env)
 {
-	char	cwd[PATH_MAX];
-
-	if (getcwd(cwd, sizeof(cwd)) != NULL)
+	while (*env)
 	{
-		printf("%s\n", cwd);
-	}
-	else
-	{
-		perror("getcwd");
+		if (ft_strcmp(*env, "NULL") != 0)
+			ft_putendl_fd(*env, 1);
+		env++;
 	}
 }
-
-// void	my_pwd(char **env)
-// {
-// 	char	*pwd;
-
-// 	pwd = getenv_stript("PWD", env);
-// 	ft_putendl_fd(pwd, STDOUT_FILENO);
-// }
