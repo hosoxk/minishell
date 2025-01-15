@@ -48,10 +48,10 @@ static void	here_doc_put_in(t_ast *ast_root, int *p_fd, char **env, pid_t *pids)
 		{
 			print_error("warning: here-document is delimited by \
 				end-of-file! :o");
-			break;
+			break ;
 		}
 		if (ft_strcmp(ret, ast_root->file) == 0)
-			break;
+			break ;
 		ft_putendl_fd(ret, p_fd[1]);
 		free(ret);
 	}

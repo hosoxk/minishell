@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:38:48 by yde-rudd          #+#    #+#             */
-/*   Updated: 2025/01/15 11:36:29 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/01/15 13:19:51 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ bool	execute_sub_commands(t_token_tree *tree, char ***env,
 	root = get_ast(tree, &data, token_tree_root);
 	if (!root)
 		return (false);
-	print_ast(root, 0);
+	// print_ast(root, 0);
 	if (!executor(root, env))
 	{
 		free_ast(root);
@@ -122,9 +122,9 @@ int	main(int argc, char **argv, char **envp)
 	{
 		line = get_line(env);
 		if (!line)
-			return (ft_free_tab(env), 1);
+			return (ft_free_tab(env), rl_clear_history(), 1);
 		if (ft_strcmp(line, "exit") == 0)
-			return (free(line), ft_free_tab(env), 0);
+			return (free(line), ft_free_tab(env), rl_clear_history(), 0);
 		if (!execute_line(line, &env))
 			return (g_exit_status);
 	}

@@ -14,8 +14,8 @@
 
 static bool	child_process(t_ast *ast_root, char ***env, pid_t *pids, int *p_fd)
 {
-	int	fd_out;
-	bool return_value;
+	int		fd_out;
+	bool	return_value;
 
 	fd_out = dup(STDOUT_FILENO);
 	add_fd(ast_root, fd_out);
@@ -30,8 +30,8 @@ static bool	child_process(t_ast *ast_root, char ***env, pid_t *pids, int *p_fd)
 
 static bool	parent_process(t_ast *ast_root, char ***env, pid_t *pids, int *p_fd)
 {
-	int	fd_in;
-	bool return_value;
+	int		fd_in;
+	bool	return_value;
 
 	fd_in = dup(STDIN_FILENO);
 	add_fd(ast_root, fd_in);
@@ -48,7 +48,7 @@ bool	do_pipe(t_ast *ast_root, char ***env, pid_t *pids)
 {
 	pid_t	pid;
 	int		p_fd[2];
-	bool return_value;
+	bool	return_value;
 
 	if (pipe(p_fd) == -1)
 		return (print_error("pipe failed"), false);

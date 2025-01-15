@@ -206,7 +206,6 @@ bool			execute_custom_cmd_after_fork(char *name, char **argv, \
 					char ***env,
 					t_command_type type);
 bool			execute_custom_cmd(t_ast *ast_root, char ***env);
-
 bool			do_pipe(t_ast *ast_root, char ***env, pid_t *pids);
 bool			do_redirection(t_ast *ast_root, char ***env, pid_t *pids,
 					bool is_first);
