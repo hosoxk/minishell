@@ -5,44 +5,34 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/14 14:16:19 by kvanden-          #+#    #+#             */
-/*   Updated: 2025/01/14 14:16:19 by kvanden-         ###   ########.fr       */
+/*   Created: 2025/01/15 14:30:26 by kvanden-          #+#    #+#             */
+/*   Updated: 2025/01/15 14:30:26 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-#include <time.h>
 #include <fcntl.h>
-#include <unistd.h>
 #include <stdio.h>
 #include <string.h>
+#include <time.h>
+#include <unistd.h>
 
 void	save_cmd(char *line)
 {
 	int		fd;
 	time_t	now;
-	char	timestamp[20]; // Buffer voor tijdstempel (bijv. "2025-01-15 14:30:00\n")
+	char	timestamp[20];
 
 	if (!line)
 		return ;
-
-	// Open het bestand
 	fd = open("minishell_history.txt", O_WRONLY | O_CREAT | O_APPEND, 0666);
 	if (fd == -1)
 		return ;
-
-	// Haal de huidige tijd op en formatteer deze
 	now = time(NULL);
-	if (strftime(timestamp, sizeof(timestamp), "%Y-%m-%d %H:%M:%S", localtime(&now))) {
-		// Schrijf tijdstempel naar bestand
+	if (strftime(timestamp, sizeof(timestamp), "%Y-%m-%d %H:%M:%S",
+			localtime(&now)))
 		dprintf(fd, "[%s] ", timestamp);
-	}
-
-	// Schrijf de ingevoerde lijn naar het bestand
 	ft_putendl_fd(line, fd);
-
-	// Sluit het bestand
 	close(fd);
 }
 

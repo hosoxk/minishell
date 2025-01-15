@@ -138,7 +138,7 @@ typedef struct s_free_data
 	int				*fds;
 }	t_free_data;
 
-char	*get_next_line(int fd);
+char			*get_next_line(int fd);
 
 void			set_data_to_ast(t_ast *node, t_free_data *data);
 t_ast			*get_ast(t_token_tree *tree, t_free_data *data, \
