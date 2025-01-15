@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:38:48 by yde-rudd          #+#    #+#             */
-/*   Updated: 2025/01/15 13:19:51 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/01/15 13:45:47 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ bool	execute_sub_commands(t_token_tree *tree, char ***env,
 	if (!expander(tree->token_list, *env))
 		return (false);
 	g_exit_status = 0;
-	print_tokens(&tree->token_list);
+	print_tokens(&tree->token_list); //// 
 	if (!validate_token_sequence(tree->token_list))
 		return (true);
 	root = get_ast(tree, &data, token_tree_root);
@@ -115,9 +115,9 @@ int	main(int argc, char **argv, char **envp)
 	// update_env("SHLVL", "2", env); ///
 	if (isatty(STDIN_FILENO))
 		setup_signals();
-	else
-		return (print_error("Non-interactive mode is not supported"), 1);
-		/////////
+	// else
+	// 	return (print_error("Non-interactive mode is not supported"), 1);
+	// 	///////
 	while (1)
 	{
 		line = get_line(env);

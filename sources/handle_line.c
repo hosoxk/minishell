@@ -48,16 +48,13 @@ void	save_cmd(char *line)
 
 char	*get_shell_input(void)
 {
-	char	buffer[4096];
-	ssize_t	bytes_read;
+	char	*line;
 
-	bytes_read = read(STDIN_FILENO, buffer, sizeof(buffer) - 1);
-	if (bytes_read <= 0)
+	line = get_next_line(STDIN_FILENO);
+	if (!line)
 		return (NULL);
-	buffer[bytes_read] = '\0';
-	if (bytes_read > 0 && buffer[bytes_read - 1] == '\n')
-		buffer[bytes_read - 1] = '\0';
-	return (ft_strdup(buffer));
+	line[ft_strlen(line) - 1] = '\0';
+	return (line);
 }
 
 static char	*get_prompt(char **env)
@@ -94,8 +91,8 @@ char	*get_line(char **env)
 	char	*line;
 	char	*promt;
 
-	// if (!isatty(STDIN_FILENO))
-	// 	return (get_shell_input());
+	if (!isatty(STDIN_FILENO))
+		return (get_shell_input());
 	promt = get_prompt(env);
 	if (!promt)
 		return (print_error("Failure getting prompt"), NULL);

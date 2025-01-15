@@ -15,6 +15,7 @@
 
 # include <stdlib.h>
 # include <unistd.h>
+# include "../../libft.h"
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 1024
@@ -26,8 +27,8 @@ char	*line_from_buffer(char *buffer);
 char	*handle_line(char *line, char *buffer, int allocate_length);
 char	*update_buffer(char *buffer);
 char	*free_buffer(char *buffer, char *buf);
-char	*ft_strjoin(char const *s1, char const *s2);
-char	*ft_strchr(const char *string, int character);
+// char	*ft_strjoin(char const *s1, char const *s2);
+// char	*ft_strchr(const char *string, int character);
 void	ft_bzero(void *s, size_t n);
 void	*ft_calloc(size_t elementCount, size_t elementSize);
 size_t	ft_strlen(const char *str);

@@ -32,43 +32,43 @@ char	*handle_line(char *line, char *buffer, int allocate_length)
 	return (line);
 }
 
-char	*ft_strjoin(char const *s1, char const *s2)
-{
-	int		sizetotal;
-	char	*newstr;
-	int		i;
-	int		j;
+// char	*ft_strjoin(char const *s1, char const *s2)
+// {
+// 	int		sizetotal;
+// 	char	*newstr;
+// 	int		i;
+// 	int		j;
 
-	i = 0;
-	sizetotal = ft_strlen(s1) + ft_strlen(s2);
-	newstr = malloc(sizeof(char) * (sizetotal + 1));
-	if (!newstr || !s1 || !s2)
-		return (NULL);
-	while (s1[i] != 0)
-	{
-		newstr[i] = s1[i];
-		i++;
-	}
-	j = 0;
-	while (s2[j] != 0)
-	{
-		newstr[i] = s2[j];
-		i++;
-		j++;
-	}
-	newstr[sizetotal] = 0;
-	return (newstr);
-}
+// 	i = 0;
+// 	sizetotal = ft_strlen(s1) + ft_strlen(s2);
+// 	newstr = malloc(sizeof(char) * (sizetotal + 1));
+// 	if (!newstr || !s1 || !s2)
+// 		return (NULL);
+// 	while (s1[i] != 0)
+// 	{
+// 		newstr[i] = s1[i];
+// 		i++;
+// 	}
+// 	j = 0;
+// 	while (s2[j] != 0)
+// 	{
+// 		newstr[i] = s2[j];
+// 		i++;
+// 		j++;
+// 	}
+// 	newstr[sizetotal] = 0;
+// 	return (newstr);
+// }
 
-char	*ft_strchr(const char *string, int character )
-{
-	char	*str;
+// char	*ft_strchr(const char *string, int character )
+// {
+// 	char	*str;
 
-	str = (char *)string;
-	while (*str != (char)character && *str != 0)
-		str++;
-	if (*str == (char)character)
-		return (str);
-	else
-		return (NULL);
-}
+// 	str = (char *)string;
+// 	while (*str != (char)character && *str != 0)
+// 		str++;
+// 	if (*str == (char)character)
+// 		return (str);
+// 	else
+// 		return (NULL);
+// }
