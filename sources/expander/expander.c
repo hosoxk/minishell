@@ -48,9 +48,9 @@ static int	find_length(char *str)
 {
 	int	len;
 
-	len = 0;
+	len = 0; ///////
 	while (str[len] && (ft_isalnum(str[len]) || str[len] == '_'
-			|| str[len] == '-' || str[len] == '?'))
+			|| str[len] == '-' || str[len] == '?' || str[len] == '*'))
 		len++;
 	return (len);
 }
@@ -124,6 +124,8 @@ static bool	expend_token(t_token *token, char **env)
 				return (false);
 		dollar = ft_strchr(token->value, '$');
 		if (!dollar)
+			return (true);
+		if (token->value[ft_strlen(token->value) - 1] == '$')
 			return (true);
 		index = dollar - token->value + 1;
 		if (!insert_env(token, index, env))

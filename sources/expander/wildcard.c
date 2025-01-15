@@ -116,6 +116,8 @@ static t_token	*get_list(t_token *token, DIR *dir)
 		}
 		entry = readdir(dir);
 	}
+	if (!list)
+		list = insort_wildcard(token->value, first);
 	return (list);
 }
 
