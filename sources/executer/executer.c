@@ -38,7 +38,7 @@ static bool	execute_cmd(t_ast *ast_root, char ***env, pid_t *pids,
 	{
 		pid = fork();
 		if (pid == -1)
-			return (print_error("fork failed"), false);
+			return (print_error("fork failed"), false);	
 		set_pid(pids, pid);
 		if (!pid)
 		{
@@ -102,7 +102,7 @@ bool	executor(t_ast *ast_root, char ***env)
 		return (false);
 	}
 	if (!execute(ast_root, env, pids, true))
-		return (false);
+		return (free(pids), false);
 	g_exit_status = get_exit_code(pids);
 	return (true);
 }

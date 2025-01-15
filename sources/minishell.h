@@ -217,7 +217,7 @@ void			unset(char ***env, char **argv);
 void			my_cd(char **env, char **argv);
 void			my_pwd(void);
 
-bool			init_heredoc(t_ast *ast_root);
+bool	init_heredoc(t_ast *ast_root, char **env, pid_t *pids);
 
 // *** ENVIRONMENT ***
 char			*getenv_stript(char *name, char **env);

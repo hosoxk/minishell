@@ -19,6 +19,8 @@ static void	cleanup_heredoc(int *p_fd, char *line, int fd_in, int fd_out)
 	close(p_fd[1]);
 	dup2(fd_out, STDOUT_FILENO);
 	dup2(fd_in, STDIN_FILENO);
+	close(fd_in);
+	close(fd_out);
 }
 
 static void	setup(int *p_fd, t_ast *ast_root, int *fd_in, int *fd_out)
@@ -28,9 +30,11 @@ static void	setup(int *p_fd, t_ast *ast_root, int *fd_in, int *fd_out)
 	*fd_out = dup(STDOUT_FILENO);
 	dup2(ast_root->free_data->fd_out, STDOUT_FILENO);
 	dup2(ast_root->free_data->fd_in, STDIN_FILENO);
+	close(ast_root->free_data->fd_out);
+	close(ast_root->free_data->fd_in);
 }
 
-static void	here_doc_put_in(t_ast *ast_root, int *p_fd)
+static void	here_doc_put_in(t_ast *ast_root, int *p_fd, char **env, pid_t *pids)
 {
 	char	*ret;
 	int		fd_in;
@@ -42,22 +46,21 @@ static void	here_doc_put_in(t_ast *ast_root, int *p_fd)
 		ret = readline("> ");
 		if (!ret)
 		{
-			cleanup_heredoc(p_fd, ret, fd_in, fd_out);
 			print_error("warning: here-document is delimited by \
 				end-of-file! :o");
-			exit(0);
+			break;
 		}
 		if (ft_strcmp(ret, ast_root->file) == 0)
-		{
-			cleanup_heredoc(p_fd, ret, fd_in, fd_out);
-			exit(0);
-		}
+			break;
 		ft_putendl_fd(ret, p_fd[1]);
 		free(ret);
 	}
+	cleanup_heredoc(p_fd, ret, fd_in, fd_out);
+	free(pids);
+	exit_clean(ast_root, env, 0);
 }
 
-bool	init_heredoc(t_ast *ast_root)
+bool	init_heredoc(t_ast *ast_root, char **env, pid_t *pids)
 {
 	int		p_fd[2];
 	pid_t	pid;
@@ -69,7 +72,7 @@ bool	init_heredoc(t_ast *ast_root)
 	if (pid == -1)
 		return (false);
 	if (!pid)
-		here_doc_put_in(ast_root, p_fd);
+		here_doc_put_in(ast_root, p_fd, env, pids);
 	else
 	{
 		close(p_fd[1]);

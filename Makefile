@@ -134,7 +134,9 @@ fclean: clean
 	@$(MAKE) -C $(LIBFT_DIR) fclean
 	@echo "$(GREEN)Executables removed!$(RESET)"
 
-re: fclean all
+re: 
+	make . fclean
+	make . all
 
 # Build both non-debug and debug
 both: all debug

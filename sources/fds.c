@@ -9,7 +9,11 @@ static int get_len(t_ast *tree)
 	if (!tree)
 		return (0);
 	if (tree->type == PIPE)
-		return (4);
+		i= 2;
+    else if (tree->type == HEREDOC)
+		i= 5; ///
+	else if (tree->type >= REDIRECT_IN && tree->type <= APPEND)
+        i = 3;
 	i += get_len(tree->left);
 	i += get_len(tree->right);
 	return (i);

@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 15:15:46 by yde-rudd          #+#    #+#             */
-/*   Updated: 2025/01/14 13:24:25 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/01/15 11:37:04 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ bool	is_special_case(char c)
 	return (false);
 }
 
-/*
+
 void	print_ast(t_ast *node, int depth)
 {
 	if (!node)
@@ -90,4 +90,3 @@ void	print_ast(t_ast *node, int depth)
 	printf(BOLD_BLUE "\nPrinting right child\n" RESET);
 	print_ast(node->right, depth + 1);
 }
-*/

@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:38:48 by yde-rudd          #+#    #+#             */
-/*   Updated: 2025/01/15 09:59:03 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/01/15 11:36:29 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ bool	execute_sub_commands(t_token_tree *tree, char ***env,
 	root = get_ast(tree, &data, token_tree_root);
 	if (!root)
 		return (false);
+	print_ast(root, 0);
 	if (!executor(root, env))
 	{
 		free_ast(root);
