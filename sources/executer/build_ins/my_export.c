@@ -12,6 +12,16 @@
 
 #include "../../minishell.h"
 
+/**
+ * @brief Return a copy of the i-th element of the given environment array or
+ *        "NULL" if i is out of bounds.
+ *
+ * @param i The index to retrieve from the environment array.
+ * @param size The size of the environment array.
+ * @param env The environment array.
+ * @return A dynamically allocated string containing a copy of the i-th
+ *         element of the environment array or "NULL" if i is out of bounds.
+ */
 static char	*get_new_env(int i, int size, char **env)
 {
 	char	*temp;
@@ -51,6 +61,21 @@ static char	**expent_env(char **env)
 	return (new_env);
 }
 
+/**
+ * @brief Retrieves the index of the given environment variable name in the
+ *        environment array. If the variable does not exist, it adds a new
+ *        environment variable with the given name and returns its index.
+ *
+ * @details
+ * Retrieves the index of the given environment variable name in the
+ * environment array. If the variable does not exist, it adds a new
+ * environment variable with the given name and returns its index.
+ *
+ * @param env The environment array.
+ * @param argv The command line arguments for the export command.
+ * @return The index of the given environment variable name in the
+ *         environment array, or -1 if an error occurs during processing.
+ */
 static int	get_location(char ***env, char **argv)
 {
 	char	*name;
@@ -79,6 +104,17 @@ static int	get_location(char ***env, char **argv)
 	return (index);
 }
 
+/**
+ * @brief Updates or sets a new environment variable.
+ *
+ * @param env The list of environment variables.
+ * @param argv The arguments passed to the export command.
+ * @param index The location of the variable in the list.
+ *
+ * This function updates a variable if the variable already exists, or sets a
+ * new variable if the variable does not exist. If the variable does not exist
+ * and the argument does not end with '=', a new variable is created.
+ */
 static void	my_set_var(char ***env, char **argv, int index)
 {
 	char	*temp;
@@ -96,6 +132,16 @@ static void	my_set_var(char ***env, char **argv, int index)
 	(*env)[index] = temp;
 }
 
+/**
+ * @brief Exports or updates an environment variable.
+ *
+ * @param env The list of environment variables.
+ * @param argv The arguments passed to the export command.
+ *
+ * This function first finds the location of the environment variable in the
+ * list. If the variable already exists, it updates the value of the variable.
+ * If the variable does not exist, it creates a new environment variable.
+ */
 void	export(char ***env, char **argv)
 {
 	int	index;

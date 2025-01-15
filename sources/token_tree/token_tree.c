@@ -6,12 +6,23 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 09:18:58 by kvanden-          #+#    #+#             */
-/*   Updated: 2025/01/15 09:27:53 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/01/15 15:41:15 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+/**
+ * Handles the creation of an operator node in the token tree.
+ * Searches for the first OR or AND operator in the token list.
+ * If an operator is found, it creates a new operator node and updates the tree.
+ * The right subtree is built from tokens after the operator,
+ * and the left subtree is built from tokens before the operator.
+ * 
+ * @param tree Pointer to the token tree where the operator node will be added.
+ * @param token_list The list of tokens to search for operators.
+ * @return true if an operator node was created, otherwise false.
+ */
 static bool	handle_operator(t_token_tree **tree, t_token *token_list)
 {
 	t_token	*operator_token;
@@ -36,6 +47,11 @@ static bool	handle_operator(t_token_tree **tree, t_token *token_list)
 	return (false);
 }
 
+/**
+ * Frees a token tree and all its nodes.
+ *
+ * @param tree Pointer to the token tree to free.
+ */
 void	free_token_tree(t_token_tree *tree)
 {
 	if (!tree)
@@ -46,6 +62,18 @@ void	free_token_tree(t_token_tree *tree)
 	free(tree);
 }
 
+/**
+ * Builds a token tree from a token list.
+ * Handles the construction of an operator node in the token tree.
+ * Searches for the first OR or AND operator in the token list.
+ * If an operator is found, it creates a new operator node and updates the tree.
+ * The right subtree is built from tokens after the operator,
+ * and the left subtree is built from tokens before the operator.
+ * If no operator is found, the subtree is built from the entire token list.
+ *
+ * @param tree Pointer to the token tree where the operator node will be added.
+ * @param token_list The list of tokens to search for operators.
+ */
 void	build_token_tree(t_token_tree **tree, t_token *token_list)
 {
 	if (!token_list)
@@ -60,6 +88,19 @@ void	build_token_tree(t_token_tree **tree, t_token *token_list)
 	*tree = get_token_node(WORD, token_list);
 }
 
+/**
+ * Executes a token tree.
+ * If the tree is a command, it executes it.
+ * If the tree is an AND or OR operator, it executes the left subtree
+ * and if the exit status is 0 (for AND) or non-zero (for OR), it executes
+ * the right subtree.
+ * If the tree is null, it returns true.
+ *
+ * @param tree The token tree to execute.
+ * @param env The environment variables.
+ * @param root The root of the token tree.
+ * @return true if the tree was executed successfully, otherwise false.
+ */
 bool	execute_token_tree(t_token_tree *tree, char ***env, t_token_tree *root)
 {
 	bool	result;

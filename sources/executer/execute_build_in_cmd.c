@@ -12,6 +12,23 @@
 
 #include "../minishell.h"
 
+/**
+ * @brief Searches for the full executable path of a command within the 
+ * system's PATH environment variable.
+ *
+ * @details
+ * This function splits the PATH environment variable into individual
+ * directories, iterates through each directory, and constructs a potential
+ * full path for the provided command. The constructed path is checked for 
+ * existence and execution permissions. 
+ * If a valid path is found, it is returned. 
+ * Otherwise, the function returns NULL.
+ *
+ * @param cmd The command to search for in the system's PATH.
+ * @param env The environment variables array used to retrieve the PATH variable.
+ * @return A dynamically allocated string containing the full path to the
+ * executable, or NULL if the executable is not found or is not accessible.
+ */
 static char	*get_path(char *cmd, char **env)
 {
 	int		i;
@@ -37,11 +54,31 @@ static char	*get_path(char *cmd, char **env)
 	return (NULL);
 }
 
-void	execute_build_in_cmd(char *name, char **argv, char **env)
+/**
+ * @brief Execute a command by looking up its full path in the system's PATH
+ * environment variable.
+ *
+ * @details
+ * This function first looks up the full path of the given command by
+ * splitting the PATH environment variable into individual directories,
+ * iterating through each directory, and constructing a potential full path
+ * for the provided command. If the constructed path is valid (i.e., the file
+ * exists and has execution permissions), it is executed with the provided
+ * command line arguments and environment variables.
+ * If no valid path is found, the command is executed directly with the
+ * provided command line arguments and environment variables.
+ *
+ * @param argv The command line arguments for the command to execute.
+ * @param env The environment variables array used to retrieve the PATH
+ * variable and to pass to the executed command.
+ */
+void	execute_build_in_cmd(char **argv, char **env)
 {
 	char	*path;
+	char	*name;
 
-	if (!name || !argv[0])
+	name = argv[0];
+	if (!name)
 	{
 		ft_putendl_fd("pipex: command not found: ", STDERR_FILENO);
 		exit(127);

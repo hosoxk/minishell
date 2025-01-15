@@ -36,7 +36,14 @@ void	save_cmd(char *line)
 	close(fd);
 }
 
-char	*get_shell_input(void)
+/**
+ * @brief Reads a line of input from the standard input using get_next_line,
+ *        removes the trailing newline character, and returns the line.
+ *
+ * @return A pointer to the line read from standard input, or NULL if an error
+ *         occurs or end-of-file is reached.
+ */
+static char	*get_shell_input(void)
 {
 	char	*line;
 
@@ -47,6 +54,21 @@ char	*get_shell_input(void)
 	return (line);
 }
 
+/**
+ * @brief Constructs a shell prompt string based on the current working directory
+ *        and the exit status of the last executed command.
+ *
+ * The function retrieves the current working directory from the environment
+ * variable "PWD" and extracts the directory name to be included in the prompt.
+ * Based on the global exit status, the prompt's color changes to indicate
+ * whether the last command was successful. The prompt format is:
+ * - "➜  <directory_name> $minishell: " (in red) if the exit status is not zero.
+ * - "➜  <directory_name> $minishell " (in green) if the exit status is zero.
+ *
+ * @param env The environment variables array used to retrieve the "PWD".
+ * @return A dynamically allocated string containing the prompt, or NULL if an
+ *         error occurs during processing.
+ */
 static char	*get_prompt(char **env)
 {
 	char	*prompt;
@@ -76,6 +98,15 @@ static char	*get_prompt(char **env)
 	return (prompt);
 }
 
+/**
+ * @brief Gets a line of input from the user. If STDIN is not a terminal, it
+ * reads from STDIN. Otherwise, it gets a prompt from get_prompt, reads a line
+ * using readline, adds the line to the history, saves the line to the history
+ * file, and returns the line.
+ *
+ * @param env The environment variables.
+ * @return The line read from the user.
+ */
 char	*get_line(char **env)
 {
 	char	*line;

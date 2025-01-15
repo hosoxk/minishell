@@ -12,6 +12,14 @@
 
 #include "../../minishell.h"
 
+/**
+ * Prints the environment variables to the standard output.
+ * 
+ * @param env A NULL-terminated array of strings representing the environment
+ *            variables. Each element in the array is a string of the format
+ *            "KEY=VALUE". The function will print each non-"NULL" string on
+ *            a new line.
+ */
 void	my_env(char **env)
 {
 	while (*env)

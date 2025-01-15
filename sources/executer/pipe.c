@@ -12,6 +12,17 @@
 
 #include "../minishell.h"
 
+/**
+ * Handles the child process of the pipe.
+ * Duplicates the original stdout and replaces it with the write end of the pipe.
+ * Executes the left command of the pipe.
+ * Replaces stdout with the original stdout.
+ * @param ast_root The AST node of the pipe.
+ * @param env The environment variables.
+ * @param pids The process IDs.
+ * @param p_fd The pipe.
+ * @return true on success, false on failure.
+ */
 static bool	child_process(t_ast *ast_root, char ***env, pid_t *pids, int *p_fd)
 {
 	int		fd_out;
@@ -28,6 +39,17 @@ static bool	child_process(t_ast *ast_root, char ***env, pid_t *pids, int *p_fd)
 	return (return_value);
 }
 
+/**
+ * Handles the parent process of the pipe.
+ * Duplicates the original stdin and replaces it with the read end of the pipe.
+ * Executes the right command of the pipe.
+ * Replaces stdin with the original stdin.
+ * @param ast_root The AST node of the pipe.
+ * @param env The environment variables.
+ * @param pids The process IDs.
+ * @param p_fd The pipe.
+ * @return true on success, false on failure.
+ */
 static bool	parent_process(t_ast *ast_root, char ***env, pid_t *pids, int *p_fd)
 {
 	int		fd_in;
@@ -44,6 +66,17 @@ static bool	parent_process(t_ast *ast_root, char ***env, pid_t *pids, int *p_fd)
 	return (return_value);
 }
 
+/**
+ * Handles a pipe command.
+ * Creates a pipe and forks the process. The child process is responsible for
+ * writing to the pipe and executing the left command of the pipe. The parent
+ * process is responsible for reading from the pipe and executing the right 
+ * command of the pipe.
+ * @param ast_root The AST node of the pipe.
+ * @param env The environment variables.
+ * @param pids The process IDs.
+ * @return true on success, false on failure.
+ */
 bool	do_pipe(t_ast *ast_root, char ***env, pid_t *pids)
 {
 	pid_t	pid;

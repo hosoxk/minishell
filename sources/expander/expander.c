@@ -12,6 +12,16 @@
 
 #include "minishell.h"
 
+/**
+ * @brief Allocates a new string and copies the value of a token into it with the
+ *      substring from index to index + len replaced with the value of env_value.
+ *
+ * @param token The token whose value is being copied.
+ * @param index The index at which the substring should be replaced.
+ * @param env_value The value to replace the substring with.
+ * @param len The length of the substring to be replaced.
+ * @return The new string with the replaced substring.
+ */
 static char	*make_new_value(t_token *token, int index, char *env_value, int len)
 {
 	char	*new_value;
@@ -27,6 +37,13 @@ static char	*make_new_value(t_token *token, int index, char *env_value, int len)
 	return (new_value);
 }
 
+/**
+ * @brief Returns the length of a substring in a string that only contains
+ *        alphanumeric characters, '_', '-', and '?'.
+ *
+ * @param str The string in which to find the substring.
+ * @return The length of the substring.
+ */
 static int	find_length(char *str)
 {
 	int	len;
@@ -38,6 +55,18 @@ static int	find_length(char *str)
 	return (len);
 }
 
+/**
+ * @brief Inserts the value of an environment variable into a token.
+ *
+ * @param token The token into which to insert the environment variable.
+ * @param index The index of the first character of the environment variable
+ *              name in the token's value.
+ * @param env The environment array.
+ * @return true if the operation was successful, false otherwise.
+ *
+ * If the environment variable is not found, the token's value is not modified.
+ * If the environment variable is '?', the exit status is inserted instead.
+ */
 static bool	insert_env(t_token *token, int index, char **env)
 {
 	int		len;
@@ -67,6 +96,22 @@ static bool	insert_env(t_token *token, int index, char **env)
 	return (true);
 }
 
+/**
+ * @brief Expands a token by replacing '*' with the result of wildcard expansion
+ *        and replacing '$' with the value of the environment variable that
+ *        follows.
+ *
+ * @param token The token to expand.
+ * @param env The environment array.
+ * @return true if the operation was successful, false otherwise.
+ *
+ * This function expands a token by replacing '*' with the result of wildcard
+ * expansion and replacing '$' with the value of the environment variable that
+ * follows. If the environment variable is not found, the token's value is not
+ * modified. If the environment variable is '?', the exit status is inserted
+ * instead. If the token contains no '*' or '$', the function returns true
+ * without modifying the token.
+ */
 static bool	expend_token(t_token *token, char **env)
 {
 	char	*dollar;
@@ -86,6 +131,24 @@ static bool	expend_token(t_token *token, char **env)
 	}
 }
 
+/**
+ * @brief Expands all tokens in a linked list of tokens, replacing '*' with the
+ *        result of wildcard expansion and replacing '$' with the value of the
+ *        environment variable that follows.
+ *
+ * @param token_list The linked list of tokens to expand.
+ * @param env The environment array.
+ * @return true if the operation was successful, false otherwise.
+ *
+ * This function goes through a linked list of tokens and expands each token that
+ * contains '*' or '$' characters. If the token contains '*', the function
+ * replaces it with the result of wildcard expansion. If the token contains '$',
+ * the function replaces it with the value of the environment variable that
+ * follows. If the environment variable is not found, the token's value is not
+ * modified. If the token contains no '*' or '$', the function returns true
+ * without modifying the token. The function also changes the type of the
+ * tokens to WORD after expansion is done.
+ */
 bool	expander(t_token *token_list, char **env)
 {
 	while (token_list)

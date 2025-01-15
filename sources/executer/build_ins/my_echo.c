@@ -12,6 +12,14 @@
 
 #include "../../minishell.h"
 
+/**
+ * @brief The echo command prints its arguments to the standard output
+ *        followed by a newline.
+ *
+ * @param argv The arguments given to the echo command.
+ *
+ * If the first argument is "-n", the trailing newline is not printed.
+ */
 void	my_echo(char **argv)
 {
 	int		i;

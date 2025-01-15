@@ -12,6 +12,17 @@
 
 #include "../../minishell.h"
 
+/**
+ * @brief Remove a variable from the environment.
+ *
+ * @details
+ * This function takes the name of a variable as argument and removes it from
+ * the environment. If the variable does not exist, no action is taken.
+ *
+ * @param env The environment variables array.
+ * @param argv The command line arguments for the unset command.
+ * @return Nothing.
+ */
 void	unset(char ***env, char **argv)
 {
 	int		i;

@@ -12,6 +12,13 @@
 
 #include "../minishell.h"
 
+/**
+ * Open a file according to the given mode, and return the file descriptor.
+ * If the file could not be opened, print an error message and return -1.
+ * Mode can be one of REDIRECT_IN, REDIRECT_OUT, or APPEND.
+ * The file is created if it does not exist, and truncated if it does exist.
+ * The permissions of the created file are 0666.
+ */
 int	open_file(char *file, t_token_type mode)
 {
 	int	ret;
@@ -27,6 +34,12 @@ int	open_file(char *file, t_token_type mode)
 	return (ret);
 }
 
+/**
+ * Initialize a redirection by opening the file and duplicating the
+ * correct file descriptor to the correct standard file descriptor.
+ * If the file could not be opened, return false.
+ * If the redirection is successful, return true.
+ */
 static bool	init_redirection(t_ast *ast_root)
 {
 	int	fd;
@@ -42,6 +55,21 @@ static bool	init_redirection(t_ast *ast_root)
 	return (true);
 }
 
+/**
+ * Handle a redirection by executing the left side of the redirection.
+ * This function saves the original stdin and stdout, and replaces them
+ * with the file descriptors of the redirection file.
+ * If the redirection is a heredoc, it calls init_heredoc to handle it.
+ * If the redirection is a simple redirection, it calls init_redirection.
+ * If the left side of the redirection can be executed, it calls execute
+ * to execute it.
+ * After executing the left side, it restores the original stdin and stdout.
+ * @param ast_root The AST node of the redirection.
+ * @param env The environment variables.
+ * @param pids The process IDs.
+ * @param is_first Whether this is the first command of a pipe.
+ * @return true if the redirection was successful, false otherwise.
+ */
 bool	do_redirection(t_ast *ast_root, char ***env, pid_t *pids, bool is_first)
 {
 	int		fd_in;

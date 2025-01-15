@@ -12,6 +12,14 @@
 
 #include "../../minishell.h"
 
+/**
+ * @brief Prints the current working directory.
+ *
+ * @details
+ * Uses the getcwd() POSIX function to retrieve the current working directory.
+ * If getcwd() fails, prints an error message using perror() with the string
+ * "getcwd".
+ */
 void	my_pwd(void)
 {
 	char	cwd[PATH_MAX];

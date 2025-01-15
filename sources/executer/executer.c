@@ -12,23 +12,36 @@
 
 #include "../minishell.h"
 
-static bool	is_execute_build_in(t_ast *ast_root, char ***env)
+/**
+ * @brief Execute a command (only if it's not a built-in nor a redirection nor a
+ * pipe).
+ * @param ast_root The root of the AST.
+ * @param env The environment variables.
+ * @param pids An array of pids (not used).
+ */
+static void	do_cmd(t_ast *ast_root, char ***env, int *pids)
 {
-	char			*name;
-	t_command_type	type;
-
-	name = ast_root->args[0];
-	type = CMD_NONE;
-	if (!execute_custom_cmd_after_fork(name, ast_root->args, env, type))
+	free(pids);
+	if (!execute_custom_cmd_after_fork(ast_root->args, env))
 	{
-		execute_build_in_cmd(name, ast_root->args, *env);
-		perror(name);
-		return (true);
+		execute_build_in_cmd(ast_root->args, *env);
+		perror(ast_root->args[0]);
+		exit_clean(ast_root, *env, -1);
+		return ;
 	}
 	exit_clean(ast_root, *env, 0);
-	return (false);
 }
 
+/**
+ * @brief Execute a command (only if it's not a built-in nor a redirection nor a
+ * pipe). If is_first is true, fork a new process and execute the command in it.
+ * Otherwise, execute the command in the current process.
+ * @param ast_root The root of the AST.
+ * @param env The environment variables.
+ * @param pids An array of pids (not used).
+ * @param is_first Whether to fork a new process or not.
+ * @return true if the command was executed successfully, false otherwise.
+ */
 static bool	execute_cmd(t_ast *ast_root, char ***env, pid_t *pids,
 		bool is_first)
 {
@@ -41,20 +54,27 @@ static bool	execute_cmd(t_ast *ast_root, char ***env, pid_t *pids,
 			return (print_error("fork failed"), false);
 		set_pid(pids, pid);
 		if (!pid)
-		{
-			free(pids);
-			if (is_execute_build_in(ast_root, env))
-				exit_clean(ast_root, *env, -1);
-		}
+			do_cmd(ast_root, env, pids);
 	}
 	else
-	{
-		free(pids);
-		if (is_execute_build_in(ast_root, env))
-			exit_clean(ast_root, *env, -1);
-	}
+		do_cmd(ast_root, env, pids);
 	return (true);
 }
+
+/**
+ * @brief Executes a command based on the type of AST node.
+ * 
+ * This function handles the execution of different command types represented
+ * by the abstract syntax tree (AST). It determines the type of operation to 
+ * perform (WORD, PIPE, REDIRECTION, HEREDOC) and calls the corresponding 
+ * function to execute the command.
+ * 
+ * @param ast_root The root of the AST representing the command.
+ * @param env The environment variables.
+ * @param pids An array to store process IDs for forked processes.
+ * @param is_first Indicates whether this is the first command in a sequence.
+ * @return true if the command was executed successfully, false otherwise.
+ */
 
 bool	execute(t_ast *ast_root, char ***env, pid_t *pids, bool is_first)
 {
@@ -67,6 +87,18 @@ bool	execute(t_ast *ast_root, char ***env, pid_t *pids, bool is_first)
 	return (print_error("syntax error"), false);
 }
 
+/**
+ * @brief Collects the exit statuses of all processes in the pids array and
+ *        returns the last one.
+ *
+ * @param pids An array of process IDs.
+ * @return The last exit status collected.
+ *
+ * This function waits for all processes in the pids array to finish and
+ * collects their exit statuses. If a process terminates normally, its exit
+ * status is returned unchanged. If a process terminates due to a signal, the
+ * exit status is set to the signal number plus 128.
+ */
 int	get_exit_code(pid_t *pids)
 {
 	int	status;
@@ -89,6 +121,19 @@ int	get_exit_code(pid_t *pids)
 	return (status);
 }
 
+/**
+ * @brief Execute a command represented by an abstract syntax tree (AST).
+ * 
+ * This function is the main entry point for command execution. It checks if the
+ * command is a custom command and executes it if it is. Otherwise,
+ * it gets a list of process IDs for the command, executes the command,
+ * gets the exit code of the last process, and returns true if the command was
+ * executed successfully, false otherwise.
+ * 
+ * @param ast_root The root of the AST representing the command.
+ * @param env The environment variables.
+ * @return true if the command was executed successfully, false otherwise.
+ */
 bool	executor(t_ast *ast_root, char ***env)
 {
 	pid_t	*pids;

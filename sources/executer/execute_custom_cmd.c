@@ -12,6 +12,12 @@
 
 #include "../minishell.h"
 
+/**
+ * @brief Execute a custom command (export, unset, cd)
+ * @param ast_root
+ * @param env
+ * @return true if the command was executed successfully, false otherwise
+ */
 bool	execute_custom_cmd(t_ast *ast_root, char ***env)
 {
 	char	*name;
@@ -30,15 +36,20 @@ bool	execute_custom_cmd(t_ast *ast_root, char ***env)
 	return (true);
 }
 
-bool	execute_custom_cmd_after_fork(char *name, char **argv, char ***env,
-		t_command_type type)
+/**
+ * @brief Execute a custom command that needs to be executed in a forked process
+ * (echo, env, pwd)
+ * @param argv The command line arguments.
+ * @param env The environment variables.
+ * @return true if the command was executed successfully, false otherwise
+ */
+bool	execute_custom_cmd_after_fork(char **argv, char ***env)
 {
-	(void)type;
-	if (ft_strcmp(name, "echo") == 0)
+	if (ft_strcmp(argv[0], "echo") == 0)
 		my_echo(argv);
-	else if (ft_strcmp(name, "env") == 0)
+	else if (ft_strcmp(argv[0], "env") == 0)
 		my_env(*env);
-	else if (ft_strcmp(name, "pwd") == 0)
+	else if (ft_strcmp(argv[0], "pwd") == 0)
 		my_pwd();
 	else
 		return (false);
