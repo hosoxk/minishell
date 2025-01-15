@@ -96,7 +96,7 @@ bool	expand_wildcard(t_token *token)
 	DIR		*dir;
 	t_token	*list;
 	t_token	*next;
-	
+
 	dir = opendir(".");
 	if (!dir)
 		return (perror("opendir"), false);

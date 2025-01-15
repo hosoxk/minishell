@@ -113,6 +113,16 @@ typedef struct s_ast
 	t_free_data		*free_data;
 }	t_ast;
 
+typedef struct s_parse_vars
+{
+	t_ast	*left_node;
+	t_ast	*redir_node;
+	t_ast	*current_command;
+	int		size;
+	int		count;
+	bool	is_prefix;
+}	t_parse_vars;
+
 typedef struct s_token_tree
 {
 	t_token_type		type;
@@ -137,6 +147,9 @@ bool			lexer(char *line, t_token **token_list);
 void			handle_var(char **line, t_token **token_list);
 bool			handle_redirect(char **line, t_token **token_list);
 bool			handle_quoted_str(char **line, t_token **token_list);
+bool			handle_pipe(char **line, t_token **token_list);
+bool			handle_parentheses(char **line, t_token **token_list);
+bool			handle_ampersand(char **line, t_token **token_list);
 bool			add_token_to_list(t_token **token_list, char *value,
 					t_token_type type);
 bool			validate_token_sequence(t_token *tokens);

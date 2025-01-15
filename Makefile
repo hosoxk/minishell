@@ -30,9 +30,13 @@ LIBFT_DIR    = ./sources/libft
 # source and object files
 SRC_FILES = $(SRC_DIR)/main.c \
 		$(SRC_DIR)/parser/lexer.c \
-		$(SRC_DIR)/parser/handler.c \
+		$(SRC_DIR)/parser/create_token.c \
+		$(SRC_DIR)/parser/handler_lexer.c \
+		$(SRC_DIR)/parser/handler_lexer2.c \
 		$(SRC_DIR)/parser/utils.c \
 		$(SRC_DIR)/parser/parsing.c \
+		$(SRC_DIR)/parser/argument.c \
+		$(SRC_DIR)/parser/navigate.c \
 		$(SRC_DIR)/parser/clean.c \
 		$(SRC_DIR)/parser/create_nodes.c \
 		$(SRC_DIR)/parser/validate_tokens.c \

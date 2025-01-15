@@ -15,7 +15,7 @@
 static int	get_len_ast(t_ast *ast_root, int len)
 {
 	int	i;
-		
+
 	if (!ast_root)
 		return (0);
 	if (ast_root->type == WORD)

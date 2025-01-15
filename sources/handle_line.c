@@ -14,7 +14,7 @@
 
 static void	save_cmd(char *line) //////////
 {
-	static int fd = -1;
+	static int	fd = -1;
 
 	if (!line)
 		return ;

@@ -78,7 +78,7 @@ void	free_env(char **env)
 void	free_program(t_token *token_list, t_ast *ast_root, char **env)
 {
 	if (token_list)
-		free_token_list(&token_list); // al gedaan voor execute
+		free_token_list(&token_list);
 	if (ast_root)
 		free_ast(ast_root);
 	if (env)
