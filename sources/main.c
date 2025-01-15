@@ -48,6 +48,10 @@ static bool	check_input(int argc, char **envp)
  *	Gets expanded and executed
  */
 
+//	printf(BOLD_MAGENTA"\nAbstract Syntax Tree:\n"RESET);
+//	print_ast(ast_root, 0);
+//	printf(BOLD_MAGENTA"\noutput:\n"RESET);
+
 bool	execute_sub_commands(t_token_tree *tree, char ***env,
 		t_token_tree *token_tree_root)
 {
@@ -63,15 +67,11 @@ bool	execute_sub_commands(t_token_tree *tree, char ***env,
 	root = get_ast(tree, &data, token_tree_root);
 	if (!root)
 		return (false);
-	//	printf(BOLD_MAGENTA"\nAbstract Syntax Tree:\n"RESET);
-	//	print_ast(ast_root, 0);
-	//	printf(BOLD_MAGENTA"\noutput:\n"RESET);
 	if (!executor(root, env))
 	{
 		free_ast(root);
 		return (false);
 	}
-	//	printf(BOLD_MAGENTA"end output\n"RESET);
 	free_ast(root);
 	return (true);
 }
@@ -88,6 +88,7 @@ static bool	execute_line(char *line, char ***env)
 	if (!lexer(line, &token_list))
 		return (free(line), ft_free_tab(*env), false);
 	free(line);
+<<<<<<< HEAD
 	print_tokens(&token_list); /////////
 	tree = NULL;
 	build_token_tree(&tree, token_list);
@@ -97,6 +98,20 @@ static bool	execute_line(char *line, char ***env)
 	if (!execute_token_tree(tree, env, tree))
 		return (free_token_tree(tree), ft_free_tab(*env), false);
 	free_token_tree(tree);
+=======
+	print_tokens(&token_list);
+	if (validate_token_sequence(token_list))
+	{
+		tree = NULL;
+		build_token_tree(&tree, token_list);
+		if (g_exit_status)
+			return (free_token_tree(tree), false);
+		g_exit_status = exit_code;
+		if (!execute_token_tree(tree, env, tree))
+			return (free_token_tree(tree), false);
+		free_token_tree(tree);
+	}
+>>>>>>> 7ba8178a21380a28f1ed76ac48dba96031b0a570
 	return (true);
 }
 
@@ -123,7 +138,7 @@ int	main(int argc, char **argv, char **envp)
 		if (!line)
 			return (ft_free_tab(env), 1);
 		if (ft_strcmp(line, "exit") == 0)
-			return (printf("exit\n"), free(line), ft_free_tab(env), 0);
+			return (free(line), ft_free_tab(env), 0);
 		if (!execute_line(line, &env))
 			return (g_exit_status);
 	}

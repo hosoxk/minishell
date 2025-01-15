@@ -12,41 +12,6 @@
 
 #include "../minishell.h"
 
-/*	Allocate space for a new t_token, if token_list is present,
- *	token iterates to the end of the list
- */
-
-bool	add_token_to_list(t_token **token_list, char *value, t_token_type type)
-{
-	t_token	*new_token;
-	t_token	*current;
-
-	if (!token_list) //  || !value
-		return (print_error("null parameter found for add_token_to_list"),
-			false);
-	current = NULL;
-	new_token = malloc(sizeof (t_token));
-	if (!new_token)
-		return (print_error("Failure mallocing space for new_token"), false);
-	new_token->type = type;
-	new_token->value = NULL;
-	new_token->next = NULL;
-	new_token->value = ft_strdup(value);
-	if (!new_token->value && value)
-		return (free(new_token), print_error("Error: "),
-			print_error("failure ft_strdup in add_token_to_list"), false);
-	if (*token_list == NULL)
-		*token_list = new_token;
-	else
-	{
-		current = *token_list;
-		while (current->next)
-			current = current->next;
-		current->next = new_token;
-	}
-	return (true);
-}
-
 static bool	handle_word(char **line, t_token **token_list)
 {
 	char	*start;
@@ -58,22 +23,10 @@ static bool	handle_word(char **line, t_token **token_list)
 	while (**line && !is_white_space(**line) && !is_special_case(**line))
 		(*line)++;
 	word = ft_strndup(start, *line - start);
-	add_token_to_list(token_list, word, WORD);
+	if (!add_token_to_list(token_list, word, WORD))
+		return (free(word), false);
 	free(word);
 	return (true);
-}
-
-static bool handle_parentheses(char **line, t_token **token_list)
-{
-	bool return_val;
-
-	if (**line == '(')
-		return_val = add_token_to_list(token_list, NULL, PARENTHESES_OPEN);
-	else
-		return_val = add_token_to_list(token_list, NULL, PARENTHESES_CLOSE);
-	if (return_val)
-		(*line)++;
-	return (return_val);
 }
 
 static bool	handle_special_case(char **line, t_token **token_list)
@@ -85,27 +38,9 @@ static bool	handle_special_case(char **line, t_token **token_list)
 	if (**line == '<' || **line == '>')
 		return (handle_redirect(line, token_list));
 	if (**line == '|')
-	{
-		(*line)++;
-		if (**line == '|')
-		{
-			(*line)++;
-			return (add_token_to_list(token_list, NULL, OR));
-		}
-		else
-			return (add_token_to_list(token_list, "|", PIPE));
-	}
+		return (handle_pipe(line, token_list));
 	if (**line == '&')
-	{
-		(*line)++;
-		if (**line == '&')
-		{
-			(*line)++;
-			return (add_token_to_list(token_list, NULL, AND));
-		}
-		else
-			return (false);
-	}
+		return (handle_ampersand(line, token_list));
 	return (true);
 }
 
