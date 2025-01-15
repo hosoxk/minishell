@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 18:12:50 by yde-rudd          #+#    #+#             */
-/*   Updated: 2025/01/14 11:37:11 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/01/15 10:55:00 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,11 @@ void	free_ast(t_ast *node)
 
 	if (!node)
 		return ;
-	if (node == node->free_data->root)
+	if (node->free_data && node == node->free_data->root)
 	{
-		close(node->fd_in);
-		close(node->fd_out);
+		close(node->free_data->fd_in);
+		close(node->free_data->fd_out);
+		clear_fds(node->free_data->fds);
 	}
 	if (node->args)
 	{

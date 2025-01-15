@@ -19,13 +19,9 @@
 #include <string.h>
 void	save_cmd(char *line)
 {
-<<<<<<< HEAD
 	int		fd;
 	time_t	now;
 	char	timestamp[20]; // Buffer voor tijdstempel (bijv. "2025-01-15 14:30:00\n")
-=======
-	static int	fd = -1;
->>>>>>> 7ba8178a21380a28f1ed76ac48dba96031b0a570
 
 	if (!line)
 		return ;

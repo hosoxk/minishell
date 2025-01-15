@@ -4,11 +4,6 @@ void	set_data_to_ast(t_ast *node, t_free_data *data)
 {
 	if (!node)
 		return ;
-	if (node == data->root)
-	{
-		node->fd_in = dup(STDIN_FILENO);
-		node->fd_out = dup(STDOUT_FILENO);
-	}
 	set_data_to_ast(node->left, data);
 	set_data_to_ast(node->right, data);
 	node->free_data = data;
@@ -49,7 +44,9 @@ void	move_cmds(t_ast **node)
 	move_cmds(&(*node)->right);
 }
 
-t_ast	*get_tast(t_token_tree *tree, t_free_data *data,
+
+
+t_ast	*get_ast(t_token_tree *tree, t_free_data *data,
 	t_token_tree *token_tree_root)
 {
 	t_ast	*root;
@@ -62,6 +59,11 @@ t_ast	*get_tast(t_token_tree *tree, t_free_data *data,
 	move_cmds(&root);
 	data->root = root;
 	data->token_tree = token_tree_root;
+	data->fd_in = dup(STDIN_FILENO);
+	data->fd_out = dup(STDOUT_FILENO);
+	data->fds = get_fds(root);
+	if (!data->fds)
+		return (free_ast(root), NULL);
 	set_data_to_ast(root, data);
 	return (root);
 }

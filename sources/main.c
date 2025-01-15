@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:38:48 by yde-rudd          #+#    #+#             */
-/*   Updated: 2025/01/15 08:38:10 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/01/15 09:59:03 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,6 @@ static bool	execute_line(char *line, char ***env)
 	if (!lexer(line, &token_list))
 		return (free(line), ft_free_tab(*env), false);
 	free(line);
-<<<<<<< HEAD
 	print_tokens(&token_list); /////////
 	tree = NULL;
 	build_token_tree(&tree, token_list);
@@ -98,20 +97,6 @@ static bool	execute_line(char *line, char ***env)
 	if (!execute_token_tree(tree, env, tree))
 		return (free_token_tree(tree), ft_free_tab(*env), false);
 	free_token_tree(tree);
-=======
-	print_tokens(&token_list);
-	if (validate_token_sequence(token_list))
-	{
-		tree = NULL;
-		build_token_tree(&tree, token_list);
-		if (g_exit_status)
-			return (free_token_tree(tree), false);
-		g_exit_status = exit_code;
-		if (!execute_token_tree(tree, env, tree))
-			return (free_token_tree(tree), false);
-		free_token_tree(tree);
-	}
->>>>>>> 7ba8178a21380a28f1ed76ac48dba96031b0a570
 	return (true);
 }
 

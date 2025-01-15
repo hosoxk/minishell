@@ -66,6 +66,7 @@ SRC_FILES = $(SRC_DIR)/main.c \
 		$(SRC_DIR)/env_util.c \
 		$(SRC_DIR)/exit.c \
 		$(SRC_DIR)/handle_line.c \
+		$(SRC_DIR)/fds.c \
 		$(SRC_DIR)/signals.c
 		
 OBJ_FILES        = $(SRC_FILES:.c=.o)

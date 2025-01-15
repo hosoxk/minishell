@@ -26,8 +26,8 @@ static void	setup(int *p_fd, t_ast *ast_root, int *fd_in, int *fd_out)
 	close(p_fd[0]);
 	*fd_in = dup(STDIN_FILENO);
 	*fd_out = dup(STDOUT_FILENO);
-	dup2(ast_root->root->fd_out, STDOUT_FILENO);
-	dup2(ast_root->root->fd_in, STDIN_FILENO);
+	dup2(ast_root->free_data->fd_out, STDOUT_FILENO);
+	dup2(ast_root->free_data->fd_in, STDIN_FILENO);
 }
 
 static void	here_doc_put_in(t_ast *ast_root, int *p_fd)

@@ -108,8 +108,6 @@ typedef struct s_ast
 	struct s_ast	*left;
 	struct s_ast	*right;
 	struct s_ast	*root;
-	int				fd_in;
-	int				fd_out;
 	t_free_data		*free_data;
 }	t_ast;
 
@@ -135,7 +133,9 @@ typedef struct s_free_data
 {
 	t_ast			*root;
 	t_token_tree	*token_tree;
-
+	int				fd_in;
+	int				fd_out;
+	int				*fds;
 }	t_free_data;
 
 void			set_data_to_ast(t_ast *node, t_free_data *data);
@@ -242,5 +242,12 @@ t_token			*split_before(t_token *list, t_token *target);
 t_token			*find_operator(t_token *token, t_token_type type);
 t_token_tree	*get_token_node(t_token_type type, t_token *token_list);
 t_token			*find_last_operator(t_token *token_list);
+
+// *** FDS ***
+
+int				*get_fds(t_ast *tree);
+void			clear_fds(int *fds);
+void			add_fd(t_ast *tree, int fd);
+void			pop_fd(t_ast *tree);
 
 #endif

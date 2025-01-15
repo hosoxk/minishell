@@ -18,12 +18,13 @@ static bool	child_process(t_ast *ast_root, char ***env, pid_t *pids, int *p_fd)
 	bool return_value;
 
 	fd_out = dup(STDOUT_FILENO);
+	add_fd(ast_root, fd_out);
 	close(p_fd[0]);
 	dup2(p_fd[1], STDOUT_FILENO);
 	close(p_fd[1]);
 	return_value = execute(ast_root->left, env, pids, false);
 	dup2(fd_out, STDOUT_FILENO);
-	close(fd_out);
+	pop_fd(ast_root);
 	return (return_value);
 }
 
@@ -33,12 +34,13 @@ static bool	parent_process(t_ast *ast_root, char ***env, pid_t *pids, int *p_fd)
 	bool return_value;
 
 	fd_in = dup(STDIN_FILENO);
+	add_fd(ast_root, fd_in);
 	close(p_fd[1]);
 	dup2(p_fd[0], STDIN_FILENO);
 	close(p_fd[0]);
 	return_value = execute(ast_root->right, env, pids, true);
 	dup2(fd_in, STDIN_FILENO);
-	close(fd_in);
+	pop_fd(ast_root);
 	return (return_value);
 }
 
