@@ -124,7 +124,7 @@ void	move_cmds(t_ast **node)
 	move_cmds(&(*node)->right);
 } 
 
-t_ast *get_tast(t_token_tree *tree, t_free_data *data, t_token_tree *token_tree_root)
+t_ast *get_ast(t_token_tree *tree, t_free_data *data, t_token_tree *token_tree_root)
 {
 	t_ast	*root;
 	t_token *temp;

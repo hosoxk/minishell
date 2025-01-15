@@ -60,7 +60,6 @@ SRC_FILES = $(SRC_DIR)/main.c \
 		$(SRC_DIR)/expander/wildcard.c \
 		\
 		$(SRC_DIR)/env_util.c \
-		$(SRC_DIR)/util.c \
 		$(SRC_DIR)/exit.c \
 		$(SRC_DIR)/handle_line.c \
 		$(SRC_DIR)/signals.c

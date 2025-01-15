@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:38:48 by yde-rudd          #+#    #+#             */
-/*   Updated: 2025/01/14 15:13:35 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/01/15 08:38:10 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ bool	execute_sub_commands(t_token_tree *tree, char ***env,
 	print_tokens(&tree->token_list);
 	if (!validate_token_sequence(tree->token_list))
 		return (true);
-	root = get_tast(tree, &data, token_tree_root);
+	root = get_ast(tree, &data, token_tree_root);
 	if (!root)
 		return (false);
 	//	printf(BOLD_MAGENTA"\nAbstract Syntax Tree:\n"RESET);
@@ -88,14 +88,14 @@ static bool	execute_line(char *line, char ***env)
 	if (!lexer(line, &token_list))
 		return (free(line), ft_free_tab(*env), false);
 	free(line);
-	print_tokens(&token_list);
+	print_tokens(&token_list); /////////
 	tree = NULL;
 	build_token_tree(&tree, token_list);
 	if (g_exit_status)
-		return (free_token_tree(tree), false);
+		return (free_token_tree(tree), ft_free_tab(*env), false);
 	g_exit_status = exit_code;
 	if (!execute_token_tree(tree, env, tree))
-		return (free_token_tree(tree), false);
+		return (free_token_tree(tree), ft_free_tab(*env), false);
 	free_token_tree(tree);
 	return (true);
 }
@@ -106,7 +106,6 @@ int	main(int argc, char **argv, char **envp)
 	char	**env;
 
 	(void)argv;
-	env = envp;
 	if (!check_input(argc, envp))
 		return (1);
 	env = ft_copy_tab(envp);
@@ -122,7 +121,7 @@ int	main(int argc, char **argv, char **envp)
 	{
 		line = get_line(env);
 		if (!line)
-			return (printf("exit\n"), ft_free_tab(env), g_exit_status);
+			return (ft_free_tab(env), 1);
 		if (ft_strcmp(line, "exit") == 0)
 			return (printf("exit\n"), free(line), ft_free_tab(env), 0);
 		if (!execute_line(line, &env))

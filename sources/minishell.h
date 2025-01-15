@@ -129,7 +129,7 @@ typedef struct s_free_data
 }	t_free_data;
 
 void			set_data_to_ast(t_ast *node, t_free_data *data);
-t_ast			*get_tast(t_token_tree *tree, t_free_data *data, \
+t_ast			*get_ast(t_token_tree *tree, t_free_data *data, \
 	t_token_tree *token_tree_root);
 
 // *** LEXER & HANDLER ***
@@ -213,7 +213,6 @@ void			update_env(char *name, char *value, char **env);
 char			*get_env_value(t_token *token, int index, int len, char **env);
 
 // *** UTILS ***
-char			*get_prompt(char **env);
 char			*get_line(char **env);
 
 // *** pids ***

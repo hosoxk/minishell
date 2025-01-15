@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 09:18:58 by kvanden-          #+#    #+#             */
-/*   Updated: 2025/01/14 15:37:16 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/01/15 09:27:53 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,10 +68,7 @@ bool	execute_token_tree(t_token_tree *tree, char ***env, t_token_tree *root)
 	if (!tree)
 		return (true);
 	if (tree->type == WORD)
-	{
-		if (!execute_sub_commands(tree, env, root))
-			return (false);
-	}
+		return (execute_sub_commands(tree, env, root));
 	else if (tree->type == AND)
 	{
 		result = execute_token_tree(tree->left, env, root);
