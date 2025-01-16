@@ -107,7 +107,6 @@ typedef struct s_ast
 	char			*file;
 	struct s_ast	*left;
 	struct s_ast	*right;
-	struct s_ast	*root;
 	t_free_data		*free_data;
 }	t_ast;
 

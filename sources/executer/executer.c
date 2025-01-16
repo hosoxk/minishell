@@ -22,7 +22,7 @@
 static void	do_cmd(t_ast *ast_root, char ***env, int *pids)
 {
 	free(pids);
-	if (!execute_custom_cmd_after_fork(ast_root->args, env))
+	if (ft_strlen(ast_root->args[0]) != 0 && !execute_custom_cmd_after_fork(ast_root->args, env))
 	{
 		execute_build_in_cmd(ast_root->args, *env);
 		perror(ast_root->args[0]);
