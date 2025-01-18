@@ -109,10 +109,9 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	if (!check_input(argc, envp))
 		return (1);
-	env = ft_copy_tab(envp);
+	env = create_env(envp);
 	if (!env)
-		return (print_error("Failure copying envp into env"), 1);
-	// update_env("SHLVL", "2", env); ///
+		return (1);
 	if (isatty(STDIN_FILENO))
 		setup_signals();
 	// else
@@ -124,7 +123,7 @@ int	main(int argc, char **argv, char **envp)
 		if (!line)
 			return (ft_free_tab(env), rl_clear_history(), 1);
 		if (ft_strcmp(line, "exit") == 0)
-			return (free(line), ft_free_tab(env), rl_clear_history(), 0);
+			return (free(line), ft_free_tab(env), rl_clear_history(), 0); /////
 		if (!execute_line(line, &env))
 			return (g_exit_status);
 	}

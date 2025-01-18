@@ -63,14 +63,14 @@ static char	*get_new_dir(char *cwd, char **env, char **argv)
  * @param env The environment variables as an array of strings.
  * @param argv The command line arguments for the cd command.
  */
-void	my_cd(char **env, char **argv)
+void	my_cd(char ***env, char **argv)
 {
 	char	cwd[PATH_MAX];
 	char	*nwd;
 
 	if (!getcwd(cwd, sizeof(cwd)))
 		return (g_exit_status = 1, perror("getcwd"));
-	nwd = get_new_dir(cwd, env, argv);
+	nwd = get_new_dir(cwd, *env, argv);
 	if (!nwd)
 	{
 		g_exit_status = 1;

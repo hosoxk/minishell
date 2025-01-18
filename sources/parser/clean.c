@@ -62,6 +62,7 @@ void	free_ast(t_ast *node)
 	free(node);
 }
 
+/*
 void	free_env(char **env)
 {
 	char	*pt;
@@ -85,3 +86,4 @@ void	free_program(t_token *token_list, t_ast *ast_root, char **env)
 	if (env)
 		free_env(env);
 }
+*/

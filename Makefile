@@ -62,8 +62,13 @@ SRC_FILES = $(SRC_DIR)/main.c \
 		$(SRC_DIR)/expander/expander.c \
 		$(SRC_DIR)/expander/util.c \
 		$(SRC_DIR)/expander/wildcard.c \
+		$(SRC_DIR)/expander/expand_var.c \
 		\
-		$(SRC_DIR)/env_util.c \
+		$(SRC_DIR)/env/create.c \
+		$(SRC_DIR)/env/expent.c \
+		$(SRC_DIR)/env/update.c \
+		$(SRC_DIR)/env/util.c \
+		\
 		$(SRC_DIR)/exit.c \
 		$(SRC_DIR)/handle_line.c \
 		$(SRC_DIR)/fds.c \

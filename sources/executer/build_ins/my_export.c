@@ -12,141 +12,44 @@
 
 #include "../../minishell.h"
 
-/**
- * @brief Return a copy of the i-th element of the given environment array or
- *        "NULL" if i is out of bounds.
- *
- * @param i The index to retrieve from the environment array.
- * @param size The size of the environment array.
- * @param env The environment array.
- * @return A dynamically allocated string containing a copy of the i-th
- *         element of the environment array or "NULL" if i is out of bounds.
- */
-static char	*get_new_env(int i, int size, char **env)
-{
-	char	*temp;
-
-	if (i < size)
-		temp = ft_strdup(env[i]);
-	else
-		temp = ft_strdup("NULL");
-	return (temp);
-}
-
-static char	**expent_env(char **env)
-{
-	int		size;
-	int		i;
-	char	**new_env;
-	char	*temp;
-
-	size = ft_tab_len(env);
-	new_env = ft_calloc(size * 2, sizeof(char *));
-	if (!new_env)
-		return (print_error("malloc failed"), g_exit_status = 1, NULL);
-	i = 0;
-	while (i < ((size * 2) - 1))
-	{
-		temp = get_new_env(i, size, env);
-		if (!temp)
-		{
-			new_env[i] = NULL;
-			ft_free_tab(new_env);
-			return (print_error("malloc failed"), g_exit_status = 1, NULL);
-		}
-		new_env[i] = temp;
-		i++;
-	}
-	ft_free_tab(env);
-	return (new_env);
-}
-
-/**
- * @brief Retrieves the index of the given environment variable name in the
- *        environment array. If the variable does not exist, it adds a new
- *        environment variable with the given name and returns its index.
- *
- * @details
- * Retrieves the index of the given environment variable name in the
- * environment array. If the variable does not exist, it adds a new
- * environment variable with the given name and returns its index.
- *
- * @param env The environment array.
- * @param argv The command line arguments for the export command.
- * @return The index of the given environment variable name in the
- *         environment array, or -1 if an error occurs during processing.
- */
-static int	get_location(char ***env, char **argv)
+static char *get_name(char **argv)
 {
 	char	*name;
 	char	*is_location;
-	int		index;
-	char	**new_env;
 
 	is_location = ft_strchr(argv[1], '=');
 	if (!is_location)
-		return (-1);
+		return (NULL);
 	name = ft_substr(argv[1], 0, is_location - argv[1]);
 	if (!name)
-		return (print_error("malloc failed"), g_exit_status = 1, -1);
-	index = getenv_index(name, *env);
-	free(name);
-	if (index >= 0)
-		return (index);
-	index = getenv_index("NULL", *env);
-	if (index >= 0)
-		return (index);
-	index = ft_tab_len(*env);
-	new_env = expent_env(*env);
-	if (!new_env)
-		return (-1);
-	*env = new_env;
-	return (index);
+		(print_error("malloc failed"));
+	return(name);
 }
 
-/**
- * @brief Updates or sets a new environment variable.
- *
- * @param env The list of environment variables.
- * @param argv The arguments passed to the export command.
- * @param index The location of the variable in the list.
- *
- * This function updates a variable if the variable already exists, or sets a
- * new variable if the variable does not exist. If the variable does not exist
- * and the argument does not end with '=', a new variable is created.
- */
-static void	my_set_var(char ***env, char **argv, int index)
+static char* get_value(char **argv, char *name)
 {
-	char	*temp;
+	char	*value;
 
 	if (argv[1][ft_strlen(argv[1]) - 1] != '=')
-		temp = ft_strdup(argv[1]);
+		value = argv[1] + ft_strlen(name) + 1;
 	else
-		temp = ft_strjoin(argv[1], argv[2]);
-	if (!temp)
-	{
-		g_exit_status = 1;
-		return (print_error("malloc failed"));
-	}
-	free((*env)[index]);
-	(*env)[index] = temp;
+		value = argv[2];
+	if (!value)
+		print_error("malloc failed");
+	return (value);
 }
 
-/**
- * @brief Exports or updates an environment variable.
- *
- * @param env The list of environment variables.
- * @param argv The arguments passed to the export command.
- *
- * This function first finds the location of the environment variable in the
- * list. If the variable already exists, it updates the value of the variable.
- * If the variable does not exist, it creates a new environment variable.
- */
 void	export(char ***env, char **argv)
 {
-	int	index;
+	char	*name;
+	char	*value;
 
-	index = get_location(env, argv);
-	if (index >= 0)
-		my_set_var(env, argv, index);
+	name = get_name(argv);
+	if (!name)
+		return ;
+	value = get_value(argv, name);
+	if (!value)
+		return ;
+	update_env(name, value, env);
+	free(name);
 }

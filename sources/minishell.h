@@ -196,6 +196,7 @@ void			exit_clean(t_ast *node, char **env, int exit_status);
 void			expand_ast(t_ast *node, char **env);
 bool			expander(t_token *token_list, char **env);
 bool			expand_wildcard(t_token *token);
+bool			expand_var(t_token *token, char **env);
 void			sort_linkt_list(t_token *list);
 
 // *** EXECUTION ***
@@ -213,14 +214,17 @@ void			my_echo(char **argv);
 void			my_env(char **env);
 void			export(char ***env, char **argv);
 void			unset(char ***env, char **argv);
-void			my_cd(char **env, char **argv);
+void			my_cd(char ***env, char **argv);
 void			my_pwd(void);
 
 // *** ENVIRONMENT ***
 char			*getenv_stript(char *name, char **env);
 int				getenv_index(char *name, char **env);
-void			update_env(char *name, char *value, char **env);
+bool			update_env(char *name, char *value, char ***env);
 char			*get_env_value(t_token *token, int index, int len, char **env);
+char			**create_env(char **envp);
+char			**expent_env(char **env);
+
 
 // *** UTILS ***
 char			*get_line(char **env);

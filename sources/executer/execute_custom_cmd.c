@@ -30,7 +30,7 @@ bool	execute_custom_cmd(t_ast *ast_root, char ***env)
 	else if (ft_strcmp(name, "unset") == 0)
 		unset(env, ast_root->args);
 	else if (ft_strcmp(name, "cd") == 0)
-		my_cd(*env, ast_root->args);
+		my_cd(env, ast_root->args);
 	else
 		return (false);
 	return (true);
