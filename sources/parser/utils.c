@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 15:15:46 by yde-rudd          #+#    #+#             */
-/*   Updated: 2025/01/20 15:02:41 by yde-rudd         ###   ########.fr       */
+/*   Updated: 2025/01/20 16:13:30 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,14 @@ void	print_error(char *str)
 {
 	ft_putstr_fd(BOLD_RED, STDERR_FILENO);
 	ft_putendl_fd(str, STDERR_FILENO);
-	ft_putendl_fd(RESET, STDERR_FILENO);
+	ft_putstr_fd(RESET, STDERR_FILENO);
 }
 
 void	print_error_status(char *str)
 {
 	ft_putstr_fd(BOLD_RED, STDERR_FILENO);
 	ft_putendl_fd(str, STDERR_FILENO);
-	ft_putendl_fd(RESET, STDERR_FILENO);
+	ft_putstr_fd(RESET, STDERR_FILENO);
 	g_exit_status = 1;
 }
 

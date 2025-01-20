@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:38:48 by yde-rudd          #+#    #+#             */
-/*   Updated: 2025/01/20 15:10:10 by yde-rudd         ###   ########.fr       */
+/*   Updated: 2025/01/20 16:55:47 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,33 @@ static bool	execute_line(char *line, char ***env)
 	return (true);
 }
 
+static bool is_exit(char *line)
+{
+	char **list;
+	int exit_code;
+
+	list = ft_split(line, ' ');
+	if (!list)
+		return (false);
+	if (ft_strcmp(list[0], "exit") != 0)
+		{
+			ft_free_tab(list);
+			return (false);
+		}
+	if (list[1] == NULL)
+		return (true);
+
+	exit_code = ft_atoi(list[1]);
+	if (exit_code == 0 && ft_strcmp(list[1], "0") != 0)
+	{
+		exit_code = 2;
+		print_error("exit: numeric argument required");
+	}
+	ft_free_tab(list);
+	g_exit_status = exit_code % 256;
+	return (true);
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	char	*line;
@@ -118,9 +145,8 @@ int	main(int argc, char **argv, char **envp)
 		line = get_line(env);
 		if (!line)
 			return (ft_free_tab(env), rl_clear_history(), 1);
-		if (ft_strcmp(line, "exit") == 0)
-			return (printf("exit\n"), free(line), ft_free_tab(env),
-				rl_clear_history(), 0);
+		if (is_exit(line))
+			return (free(line), ft_free_tab(env), rl_clear_history(), g_exit_status);
 		if (!execute_line(line, &env))
 		{
 			if (g_exit_status != 258)
