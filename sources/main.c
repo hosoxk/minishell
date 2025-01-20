@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:38:48 by yde-rudd          #+#    #+#             */
-/*   Updated: 2025/01/20 16:55:47 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/01/20 17:05:58 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,8 +114,10 @@ static bool is_exit(char *line)
 			return (false);
 		}
 	if (list[1] == NULL)
+	{
+		ft_free_tab(list);
 		return (true);
-
+	}
 	exit_code = ft_atoi(list[1]);
 	if (exit_code == 0 && ft_strcmp(list[1], "0") != 0)
 	{
