@@ -1,9 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   expand_var.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/20 08:21:22 by kvanden-          #+#    #+#             */
+/*   Updated: 2025/01/20 08:22:13 by kvanden-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "minishell.h"
 
 /**
- * @brief Allocates a new string and copies the value of a token into it with the
- *      substring from index to index + len replaced with the value of env_value.
+
+	* @brief Allocates a new string and copies the value of
+	a token into it with the substring from index to index
+	+ len replaced with the value of env_value.
  *
  * @param token The token whose value is being copied.
  * @param index The index at which the substring should be replaced.
@@ -80,25 +93,25 @@ static char	*get_new_var(t_token *token, int index, char **env)
 		return (NULL);
 	if (free_env_value)
 		free(env_value);
-    return (new_value);
+	return (new_value);
 }
 
-static bool insert_var(t_token *token, char *value)
+static bool	insert_var(t_token *token, char *value)
 {
-    t_token * list;
-    t_token * next;
+	t_token	*list;
+	t_token	*next;
 
-    list = NULL;
-    if (!lexer(value, &list))
-        return (free(value), false); ///
-    if (!list)
-    {
-        free(token->value);
-        token->value = value;
-        return (true);
-    }
-    free(value);
-    free(token->value);
+	list = NULL;
+	if (!lexer(value, &list))
+		return (free(value), false); ///
+	if (!list)
+	{
+		free(token->value);
+		token->value = value;
+		return (true);
+	}
+	free(value);
+	free(token->value);
 	token->value = list->value;
 	next = token->next;
 	token->next = list->next;
@@ -111,18 +124,18 @@ static bool insert_var(t_token *token, char *value)
 
 bool	expand_var(t_token *token, char **env)
 {
-    char	*dollar;
-    char	*new_var;
+	char	*dollar;
+	char	*new_var;
 	int		index;
 
-    dollar = ft_strchr(token->value, '$');
-    if (!dollar)
-        return (true);
-    if (token->value[ft_strlen(token->value) - 1] == '$')
-        return (true);
-    index = dollar - token->value + 1;
-    new_var = get_new_var(token, index, env);
-    if (!new_var)
-        return (false);
-    return (insert_var(token, new_var));
+	dollar = ft_strchr(token->value, '$');
+	if (!dollar)
+		return (true);
+	if (token->value[ft_strlen(token->value) - 1] == '$')
+		return (true);
+	index = dollar - token->value + 1;
+	new_var = get_new_var(token, index, env);
+	if (!new_var)
+		return (false);
+	return (insert_var(token, new_var));
 }

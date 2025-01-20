@@ -37,12 +37,13 @@ static char	*get_path(char *cmd, char **env)
 	char	*path;
 
 	i = -1;
-	all_paths = ft_split(getenv_stript("PATH", env), ':');
+	path = getenv_stript("PATH", env);
+	if (!path)
+		return (NULL);
+	all_paths = ft_split(path, ':');
 	while (all_paths && all_paths[++i])
 	{
-		path = ft_strjoin(all_paths[i], "/");
-		exec = ft_strjoin(path, cmd);
-		ft_free((void **)&path);
+		exec = ft_strjoin_multiple(all_paths[i], "/", cmd, NULL);
 		if (access(exec, F_OK | X_OK) == 0)
 		{
 			ft_free_tab(all_paths);

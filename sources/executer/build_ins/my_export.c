@@ -12,7 +12,7 @@
 
 #include "../../minishell.h"
 
-static char *get_name(char **argv)
+static char	*get_name(char **argv)
 {
 	char	*name;
 	char	*is_location;
@@ -23,10 +23,10 @@ static char *get_name(char **argv)
 	name = ft_substr(argv[1], 0, is_location - argv[1]);
 	if (!name)
 		(print_error("malloc failed"));
-	return(name);
+	return (name);
 }
 
-static char* get_value(char **argv, char *name)
+static char	*get_value(char **argv, char *name)
 {
 	char	*value;
 
