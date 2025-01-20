@@ -39,11 +39,26 @@ static char	*get_value(char **argv, char *name)
 	return (value);
 }
 
+static void print_export(char **env)
+{
+	while (*env)
+	{
+		if (ft_strcmp(*env, "NULL") != 0)
+		{
+			ft_putstr_fd("declare -x ", 1);
+			ft_putendl_fd(*env, 1);
+		}
+		env++;
+	}
+}
+
 void	export(char ***env, char **argv)
 {
 	char	*name;
 	char	*value;
 
+	if (!argv[1])
+		return (print_export(*env));
 	name = get_name(argv);
 	if (!name)
 		return ;
