@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 09:18:58 by kvanden-          #+#    #+#             */
-/*   Updated: 2025/01/15 15:41:15 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/01/20 14:56:22 by yde-rudd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,12 @@ void	free_token_tree(t_token_tree *tree)
 {
 	if (!tree)
 		return ;
-	free_token_tree(tree->right);
-	free_token_tree(tree->left);
-	free_token_list(&(tree->token_list));
+	if (tree->right)
+		free_token_tree(tree->right);
+	if (tree->left)
+		free_token_tree(tree->left);
+	if (tree->token_list)
+		free_token_list(&(tree->token_list));
 	free(tree);
 }
 
@@ -76,9 +79,11 @@ void	free_token_tree(t_token_tree *tree)
  */
 void	build_token_tree(t_token_tree **tree, t_token *token_list)
 {
-	if (!token_list)
+	if (!token_list || !validate_token_sequence(token_list))
 	{
+		g_exit_status = 0;
 		*tree = NULL;
+		free_token_list(&token_list);
 		return ;
 	}
 	if (handle_parentheses_tree(tree, token_list))

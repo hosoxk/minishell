@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handler.c                                          :+:      :+:    :+:   */
+/*   handler_lexer2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 16:56:36 by yde-rudd          #+#    #+#             */
-/*   Updated: 2025/01/14 15:42:38 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/01/20 15:06:05 by yde-rudd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ bool	handle_quoted_str(char **line, t_token **token_list)
 		(*line)++;
 	if (**line != quote_char)
 	{
+		g_exit_status = 258;
 		return (print_error("Error: unmatched quote"), false);
 	}
 	quoted_str = ft_strndup(start, *line - start);

@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:38:48 by yde-rudd          #+#    #+#             */
-/*   Updated: 2025/01/16 10:56:25 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/01/20 15:10:10 by yde-rudd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ static bool	check_input(int argc, char **envp)
 //	printf(BOLD_MAGENTA"\nAbstract Syntax Tree:\n"RESET);
 //	print_ast(ast_root, 0);
 //	printf(BOLD_MAGENTA"\noutput:\n"RESET);
+//	print_tokens(&tree->token_list); //// 
 
 bool	execute_sub_commands(t_token_tree *tree, char ***env,
 		t_token_tree *token_tree_root)
@@ -61,13 +62,11 @@ bool	execute_sub_commands(t_token_tree *tree, char ***env,
 	if (!expander(tree->token_list, *env))
 		return (false);
 	g_exit_status = 0;
-	//print_tokens(&tree->token_list); //// 
-	if (!validate_token_sequence(tree->token_list))
-		return (true);
+//	if (!validate_token_sequence(tree->token_list))
+//		return (true);
 	root = get_ast(tree, &data, token_tree_root);
 	if (!root)
 		return (false);
-	// print_ast(root, 0);
 	if (!executor(root, env))
 	{
 		free_ast(root);
@@ -87,16 +86,16 @@ static bool	execute_line(char *line, char ***env)
 	g_exit_status = 0;
 	token_list = NULL;
 	if (!lexer(line, &token_list))
-		return (free(line), ft_free_tab(*env), false);
+		return (free(line), free_token_list(&token_list),
+			false);
 	free(line);
-	//print_tokens(&token_list); /////////
 	tree = NULL;
 	build_token_tree(&tree, token_list);
 	if (g_exit_status)
-		return (free_token_tree(tree), ft_free_tab(*env), false);
+		return (free_token_tree(tree), false);
 	g_exit_status = exit_code;
 	if (!execute_token_tree(tree, env, tree))
-		return (free_token_tree(tree), ft_free_tab(*env), false);
+		return (free_token_tree(tree), false);
 	free_token_tree(tree);
 	return (true);
 }
@@ -114,19 +113,19 @@ int	main(int argc, char **argv, char **envp)
 		return (1);
 	if (isatty(STDIN_FILENO))
 		setup_signals();
-	// else
-	// 	return (print_error("Non-interactive mode is not supported"), 1);
-	// 	///////
 	while (1)
 	{
 		line = get_line(env);
 		if (!line)
 			return (ft_free_tab(env), rl_clear_history(), 1);
 		if (ft_strcmp(line, "exit") == 0)
-			return (free(line), ft_free_tab(env), rl_clear_history(), 0); /////
+			return (printf("exit\n"), free(line), ft_free_tab(env),
+				rl_clear_history(), 0);
 		if (!execute_line(line, &env))
-			return (g_exit_status);
+		{
+			if (g_exit_status != 258)
+				return (ft_free_tab(env), g_exit_status);
+		}
 	}
-	return (0);
+	return (g_exit_status);
 }
-

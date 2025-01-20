@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 14:30:26 by kvanden-          #+#    #+#             */
-/*   Updated: 2025/01/15 14:30:26 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/01/20 13:13:35 by yde-rudd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ char	*get_line(char **env)
 	line = readline(promt);
 	free(promt);
 	if (!line)
-		return (print_error("Failure getting line"), NULL);
+		return (print_error("Exit"), NULL);
 	if (*line)
 		add_history(line);
 	save_cmd(line); //////////

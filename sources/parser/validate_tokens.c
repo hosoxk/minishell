@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 13:08:12 by kvanden-          #+#    #+#             */
-/*   Updated: 2025/01/14 15:36:23 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/01/20 13:05:30 by yde-rudd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static bool	check_pipe(t_token *token, t_token *prev_token)
 	is_valid = false;
 	if (!prev_token)
 		print_error("Syntax error: unexpected pipe at the beginning");
-	else if (!token->next || token->next->type == PIPE)
+	else if (!token->next)
 		print_error("Syntax error: invalid pipe sequence");
 	else if (!token->next || token->next->type != WORD)
 		print_error("Syntax error: missing command after pipe");

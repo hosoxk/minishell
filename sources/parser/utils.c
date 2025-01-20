@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 15:15:46 by yde-rudd          #+#    #+#             */
-/*   Updated: 2025/01/15 13:19:32 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/01/20 15:02:41 by yde-rudd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,13 @@ void	exit_status(int exit_status)
 }
 
 void	print_error(char *str)
+{
+	ft_putstr_fd(BOLD_RED, STDERR_FILENO);
+	ft_putendl_fd(str, STDERR_FILENO);
+	ft_putendl_fd(RESET, STDERR_FILENO);
+}
+
+void	print_error_status(char *str)
 {
 	ft_putstr_fd(BOLD_RED, STDERR_FILENO);
 	ft_putendl_fd(str, STDERR_FILENO);
@@ -46,7 +53,6 @@ bool	is_special_case(char c)
 		return (true);
 	return (false);
 }
-
 /*
 void	print_ast(t_ast *node, int depth)
 {

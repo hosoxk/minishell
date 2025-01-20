@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   argument.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yde-rudd <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/20 13:35:03 by yde-rudd          #+#    #+#             */
+/*   Updated: 2025/01/20 13:36:11 by yde-rudd         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
 static void	allocate_args(char ***args, int *size)
@@ -26,8 +38,6 @@ void	add_argument(char ***args, int *size, int *count, const char *value)
 		print_error("Error: attempting to add NULL argument");
 		return ;
 	}
-	printf("Adding argument: %s (count = %d, size = %d)\n",
-		value, *count, *size);
 	if (!*args)
 		allocate_args(args, size);
 	else if (*count >= (*size - 1))
@@ -40,5 +50,4 @@ void	add_argument(char ***args, int *size, int *count, const char *value)
 	}
 	(*count)++;
 	(*args)[*count] = NULL;
-	printf("Argument added succesfully. total count = %d\n", *count);
 }

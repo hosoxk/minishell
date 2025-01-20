@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 18:12:13 by yde-rudd          #+#    #+#             */
-/*   Updated: 2025/01/08 16:05:22 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/01/20 14:29:02 by yde-rudd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static bool	handle_word_token(t_token **tokens, t_parse_vars *vars)
 static bool	process_token(t_token **tokens, t_parse_vars *vars)
 {
 	if ((*tokens)->type == PIPE)
-		return (create_pipe_node(vars->left_node, tokens, vars)); //////////
+		return (create_pipe_node(vars->left_node, tokens, vars));
 	else if ((*tokens)->type >= REDIRECT_IN && (*tokens)->type <= HEREDOC)
 		return (handle_redirection(tokens, vars));
 	else if ((*tokens)->type == WORD)
@@ -81,7 +81,6 @@ t_ast	*create_ast_node(t_token_type type)
 	node->left = NULL;
 	node->right = NULL;
 	node->free_data = NULL;
-	printf("Created AST node: type = %d\n", type);
 	return (node);
 }
 
