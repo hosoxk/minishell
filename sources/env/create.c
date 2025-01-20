@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 08:18:56 by kvanden-          #+#    #+#             */
-/*   Updated: 2025/01/20 09:05:58 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/01/20 10:32:01 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ static bool set_path(char ***env)
 		return (true);
 	return (update_env("PATH", "/bin:/usr/bin", env));
 }
+
 char	**create_env(char **envp)
 {
 	char	**env;

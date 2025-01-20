@@ -12,17 +12,18 @@
 
 #include "../minishell.h"
 
-t_ast	*create_pipe_node(t_ast *left_node, t_token **tokens)
+bool	create_pipe_node(t_ast *left_node, t_token **tokens, t_parse_vars *vars)
 {
 	t_ast	*pipe_node;
 
 	pipe_node = create_ast_node(PIPE);
 	if (!pipe_node)
-		return (print_error("Failed to allocate memory for PIPE node"), NULL);
+		return (print_error("Failed to allocate memory for PIPE node"), false);
 	pipe_node->left = left_node;
 	*tokens = (*tokens)->next;
 	pipe_node->right = parse_ast(tokens);
-	return (pipe_node);
+	vars->left_node = pipe_node;
+	return (true);
 }
 
 void	attach_redirection_to_command(t_ast *command, t_ast *redir,

@@ -55,7 +55,7 @@ static bool	handle_word_token(t_token **tokens, t_parse_vars *vars)
 static bool	process_token(t_token **tokens, t_parse_vars *vars)
 {
 	if ((*tokens)->type == PIPE)
-		return (create_pipe_node(vars->left_node, tokens));
+		return (create_pipe_node(vars->left_node, tokens, vars)); //////////
 	else if ((*tokens)->type >= REDIRECT_IN && (*tokens)->type <= HEREDOC)
 		return (handle_redirection(tokens, vars));
 	else if ((*tokens)->type == WORD)

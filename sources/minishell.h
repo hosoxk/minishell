@@ -161,7 +161,7 @@ t_ast			*parse_ast(t_token **tokens);
 void			add_argument(char ***args, int *size, int *count, \
 					const char *value);
 t_ast			*create_ast_node(t_token_type type);
-t_ast			*create_pipe_node(t_ast *left_node, t_token **tokens);
+bool			create_pipe_node(t_ast *left_node, t_token **tokens, t_parse_vars *vars);
 t_ast			*create_redirection_node(t_token **tokens);
 void			attach_redirection_to_command(t_ast *command, t_ast *redir,
 					bool is_prefix);
