@@ -6,7 +6,7 @@
 /*   By: yde-rudd <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 13:20:34 by yde-rudd          #+#    #+#             */
-/*   Updated: 2025/01/20 13:20:41 by yde-rudd         ###   ########.fr       */
+/*   Updated: 2025/01/20 18:04:55 by yde-rudd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ bool	handle_ampersand(char **line, t_token **token_list)
 		(*line)++;
 		return (add_token_to_list(token_list, NULL, AND));
 	}
-	else
-		return (false);
+	print_error("Syntax error: unexpected error near &");
+	g_exit_status = 258;
+	return (false);
 }
