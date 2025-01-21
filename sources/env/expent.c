@@ -22,7 +22,7 @@ char	**expent_env(char **env)
 	size = ft_tab_len(env);
 	new_env = ft_calloc(size * 2, sizeof(char *));
 	if (!new_env)
-		return (print_error("malloc failed"), g_exit_status = 1, NULL);
+		return (print_error_status("malloc failed"), NULL);
 	i = 0;
 	while (i < ((size * 2) - 1))
 	{
@@ -31,7 +31,7 @@ char	**expent_env(char **env)
 		{
 			new_env[i] = NULL;
 			ft_free_tab(new_env);
-			return (print_error("malloc failed"), g_exit_status = 1, NULL);
+			return (print_error_status("malloc failed"), NULL);
 		}
 		new_env[i] = temp;
 		i++;

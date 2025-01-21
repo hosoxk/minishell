@@ -116,7 +116,7 @@ char	*get_line(char **env)
 		return (get_shell_input());
 	promt = get_prompt(env);
 	if (!promt)
-		return (print_error("Failure getting prompt"), NULL);  //////////
+		return (print_error_status("Failure getting prompt"), NULL);  //////////
 	line = readline(promt);
 	free(promt);
 	if (!line)

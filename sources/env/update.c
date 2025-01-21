@@ -31,7 +31,7 @@ static int	get_location(char *name, char ***env)
 	index = ft_tab_len(*env);
 	new_env = expent_env(*env);
 	if (!new_env)
-		return (print_error("malloc failed"), -1);
+		return (print_error_status("malloc failed"), -1);
 	*env = new_env;
 	return (index);
 }
@@ -46,7 +46,7 @@ bool	update_env(char *name, char *value, char ***env)
 		return (false);
 	new_env = ft_strjoin_multiple(name, "=", value, NULL);
 	if (!new_env)
-		return (print_error("malloc failed"), false);
+		return (print_error_status("malloc failed"), false);
 	free((*env)[index]);
 	(*env)[index] = new_env;
     return (true);

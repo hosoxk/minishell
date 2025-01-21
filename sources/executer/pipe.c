@@ -84,13 +84,13 @@ bool	do_pipe(t_ast *ast_root, char ***env, pid_t *pids)
 	bool	return_value;
 
 	if (pipe(p_fd) == -1)
-		return (print_error("pipe failed"), false);
+		return (print_error_status("pipe failed"), false);
 	pid = fork();
 	if (pid == -1)
 	{
 		close(p_fd[0]);
 		close(p_fd[1]);
-		return (print_error("fork failed"), false);
+		return (print_error_status("fork failed"), false);
 	}
 	if (!pid)
 		return_value = child_process(ast_root, env, pids, p_fd);

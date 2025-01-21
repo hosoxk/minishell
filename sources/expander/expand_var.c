@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 08:21:22 by kvanden-          #+#    #+#             */
-/*   Updated: 2025/01/20 08:22:13 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/01/21 08:37:16 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static char	*make_new_value(t_token *token, int index, char *env_value, int len)
 	new_value = malloc(sizeof(char) * (ft_strlen(token->value) - len
 				+ ft_strlen(env_value) + 1));
 	if (!new_value)
-		return (print_error("malloc failed"), NULL);
+		return (print_error_status("malloc failed"), NULL);
 	ft_strlcpy(new_value, token->value, index + 1);
 	ft_strcpy(new_value + index - 1, env_value);
 	ft_strcpy(new_value + index - 1 + ft_strlen(env_value), &token->value[index

@@ -22,7 +22,7 @@ static char	*get_name(char **argv)
 		return (NULL);
 	name = ft_substr(argv[1], 0, is_location - argv[1]);
 	if (!name)
-		(print_error("malloc failed"));
+		(print_error_status("malloc failed"));
 	return (name);
 }
 
@@ -32,10 +32,12 @@ static char	*get_value(char **argv, char *name)
 
 	if (argv[1][ft_strlen(argv[1]) - 1] != '=')
 		value = argv[1] + ft_strlen(name) + 1;
+	else if (!argv[2])
+		value = "";
 	else
 		value = argv[2];
 	if (!value)
-		print_error("malloc failed");
+		print_error_status("malloc failed");
 	return (value);
 }
 
@@ -64,7 +66,10 @@ void	export(char ***env, char **argv)
 		return ;
 	value = get_value(argv, name);
 	if (!value)
+	{
+		free(name);
 		return ;
+	}
 	update_env(name, value, env);
 	free(name);
 }

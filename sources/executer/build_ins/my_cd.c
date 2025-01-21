@@ -50,7 +50,7 @@ static char	*get_new_dir(char *cwd, char **env, char **argv)
 	else
 		nwd = ft_strjoin_multiple(cwd, "/", argv[1], NULL);
 	if (!nwd)
-		print_error("malloc failed");
+		print_error_status("malloc failed");
 	return (nwd);
 }
 

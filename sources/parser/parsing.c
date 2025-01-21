@@ -18,7 +18,7 @@ static bool	handle_redirection(t_token **tokens, t_parse_vars *vars)
 
 	redir_node = create_redirection_node(tokens);
 	if (!redir_node)
-		return (print_error("Error: failure creating redirection node"), false);
+		return (print_error_status("Error: failure creating redirection node"), false);
 	if (vars->is_prefix)
 	{
 		if (!vars->current_command)
@@ -72,7 +72,7 @@ t_ast	*create_ast_node(t_token_type type)
 	node = malloc(sizeof (t_ast));
 	if (!node)
 	{
-		print_error("Error: failure mallocing space for new ast_node");
+		print_error_status("Error: failure mallocing space for new ast_node");
 		return (NULL);
 	}
 	node->type = type;

@@ -52,7 +52,7 @@ static bool	execute_cmd(t_ast *ast_root, char ***env, pid_t *pids,
 	{
 		pid = fork();
 		if (pid == -1)
-			return (print_error("fork failed"), false);
+			return (print_error_status("fork failed"), false);
 		set_pid(pids, pid);
 		if (!pid)
 			do_cmd(ast_root, env, pids);
@@ -85,7 +85,7 @@ bool	execute(t_ast *ast_root, char ***env, pid_t *pids, bool is_first)
 		return (do_pipe(ast_root, env, pids));
 	else if (ast_root->type >= REDIRECT_IN && ast_root->type <= HEREDOC)
 		return (do_redirection(ast_root, env, pids, is_first));
-	return (print_error("syntax error"), false);
+	return (print_error_status("syntax error"), false);
 }
 
 /**
@@ -144,7 +144,7 @@ bool	executor(t_ast *ast_root, char ***env)
 	pids = get_pid_list(ast_root);
 	if (!pids)
 	{
-		print_error("fork failed");
+		print_error_status("fork failed");
 		return (false);
 	}
 	if (!execute(ast_root, env, pids, true))

@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 08:18:56 by kvanden-          #+#    #+#             */
-/*   Updated: 2025/01/20 10:32:01 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/01/21 08:35:05 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static bool	incroment_shell_level(char ***env)
 	mod_number = ft_itoa(n);
 	if (!mod_number)
 	{
-		print_error("failure convorting shell level");
+		print_error_status("failure convorting shell level");
 		return (false);
 	}
 	if (!update_env("SHLVL", mod_number, env))
@@ -66,7 +66,7 @@ char	**create_env(char **envp)
 
 	env = ft_copy_tab(envp);
 	if (!env)
-		return (print_error("Failure copying envp into env"), NULL);
+		return (print_error_status("Failure copying envp into env"), NULL);
 	if (!incroment_shell_level(&env))
 		return (ft_free_tab(env), NULL);
 	if (!set_pwd(&env))

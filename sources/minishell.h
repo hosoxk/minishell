@@ -185,6 +185,7 @@ bool			is_special_case(char c);
 void			print_tokens(t_token **token_list);
 void			print_ast(t_ast *node, int depth);
 void			print_error(char *str);
+void			print_error_status(char *str);
 
 // *** CLEAN ***
 void			free_token_list(t_token **token_list);

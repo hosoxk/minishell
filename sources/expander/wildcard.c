@@ -65,11 +65,11 @@ static t_token	*insort_wildcard(const char *name, bool first)
 		new_list = NULL;
 	new_token = malloc(sizeof(t_token));
 	if (!new_token)
-		return (print_error("malloc"), NULL);
+		return (print_error_status("malloc"), NULL);
 	new_token->value = ft_strdup(name);
 	if (!new_token->value)
 		return (free(new_token), free_token_list(&new_list),
-			print_error("malloc"), NULL);
+			print_error_status("malloc"), NULL);
 	new_token->type = WORD;
 	new_token->next = NULL;
 	if (!new_list)

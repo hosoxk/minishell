@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 16:56:36 by yde-rudd          #+#    #+#             */
-/*   Updated: 2025/01/20 15:06:05 by yde-rudd         ###   ########.fr       */
+/*   Updated: 2025/01/21 08:39:17 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ bool	handle_quoted_str(char **line, t_token **token_list)
 	}
 	quoted_str = ft_strndup(start, *line - start);
 	if (!quoted_str)
-		return (print_error("Error: failure malloc in handle_quoted_str"),
+		return (print_error_status("Error: failure malloc in handle_quoted_str"),
 			false);
 	return (add_quoted_token(line, quoted_str, quote_char, token_list));
 }

@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:38:48 by yde-rudd          #+#    #+#             */
-/*   Updated: 2025/01/20 17:05:58 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/01/21 08:34:25 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,10 @@ volatile int	g_exit_status = 0;
 static bool	check_input(int argc, char **envp)
 {
 	if (argc != 1)
-		return (print_error("Correct usage: ./minishell"),
-			exit_status(1),
+		return (print_error_status("Correct usage: ./minishell"),
 			false);
 	if (!envp)
-		return (print_error("Failure locating envp"),
-			exit_status(1),
+		return (print_error_status("Failure locating envp"),
 			false);
 	return (true);
 }

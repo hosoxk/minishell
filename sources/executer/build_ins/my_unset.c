@@ -37,7 +37,7 @@ void	unset(char ***env, char **argv)
 			if (!temp)
 			{
 				g_exit_status = 1;
-				return (print_error("malloc failed"));
+				return (print_error_status("malloc failed"));
 			}
 			free((*env)[i]);
 			(*env)[i] = temp;

@@ -81,7 +81,7 @@ static void	here_doc_put_in(t_ast *ast_root, int *p_fd, char **env, pid_t *pids)
 		ret = readline("> ");
 		if (!ret)
 		{
-			print_error("warning: here-document is delimited by \
+			print_error_status("warning: here-document is delimited by \
 				end-of-file! :o");
 			break ;
 		}

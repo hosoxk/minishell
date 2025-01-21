@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   argument.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yde-rudd <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 13:35:03 by yde-rudd          #+#    #+#             */
-/*   Updated: 2025/01/20 13:36:11 by yde-rudd         ###   ########.fr       */
+/*   Updated: 2025/01/21 08:37:53 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static void	allocate_args(char ***args, int *size)
 	*size = ARG_SIZE;
 	*args = malloc(sizeof (char *) * (*size));
 	if (!*args)
-		print_error("Error: failure allocating arguments array");
+		print_error_status("Error: failure allocating arguments array");
 }
 
 static void	reallocate_args(char ***args, int *size)
@@ -28,7 +28,7 @@ static void	reallocate_args(char ***args, int *size)
 	*size += ARG_SIZE;
 	*args = ft_realloc(*args, old_size, *size * sizeof (char *));
 	if (!*args)
-		print_error("Error: failure reallocating arguments array");
+		print_error_status("Error: failure reallocating arguments array");
 }
 
 void	add_argument(char ***args, int *size, int *count, const char *value)
@@ -45,7 +45,7 @@ void	add_argument(char ***args, int *size, int *count, const char *value)
 	(*args)[*count] = ft_strdup(value);
 	if (!(*args)[*count])
 	{
-		print_error("Error: ft_strdup failed in add_argument\n");
+		print_error_status("Error: ft_strdup failed in add_argument\n");
 		return ;
 	}
 	(*count)++;

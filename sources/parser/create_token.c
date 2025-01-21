@@ -6,14 +6,14 @@ static t_token	*init_token(char *value, t_token_type type)
 
 	new_token = malloc(sizeof (t_token));
 	if (!new_token)
-		return (print_error("Failure mallocing space for new_token"), NULL);
+		return (print_error_status("Failure mallocing space for new_token"), NULL);
 	new_token->type = type;
 	new_token->next = NULL;
 	new_token->value = NULL;
 	new_token->value = ft_strdup(value);
 	if (!new_token->value && value)
 		return (free(new_token), print_error("Error: "),
-			print_error("failure ft_strdup in add_token_to_list"), NULL);
+			print_error_status("failure ft_strdup in add_token_to_list"), NULL);
 	return (new_token);
 }
 
