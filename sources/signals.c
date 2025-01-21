@@ -18,7 +18,6 @@ void	handle_sigint_in_cmd(int sig)
 	printf("\n");
 }
 
-
 /*	Process gets terminated -> exit status = 130
  *	Prints new line to terminal
  */

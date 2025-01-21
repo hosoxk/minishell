@@ -22,6 +22,11 @@
 static void	do_cmd(t_ast *ast_root, char ***env, int *pids)
 {
 	free(pids);
+	if (!ast_root->args || !ast_root->args[0])
+    {
+        exit_clean(ast_root, *env, 0);
+        return;
+    }
 	if (ft_strlen(ast_root->args[0]) != 0 && \
 		!execute_custom_cmd_after_fork(ast_root->args, env))
 	{

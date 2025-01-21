@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:38:48 by yde-rudd          #+#    #+#             */
-/*   Updated: 2025/01/21 12:18:03 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/01/21 15:38:37 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,17 +55,17 @@ bool	execute_token_list(t_token *token_list, char ***env)
 {
 	t_ast		*root;
 	t_free_data	data;
-	bool 		success;
+	bool		success;
 
 	if (!expander(token_list, *env))
 	{
 		free_token_list(&token_list);
 		return (false);
 	}
-	g_exit_status = 0; ////
+	g_exit_status = 0;
 	root = get_ast(token_list, &data);
 	if (!root)
-		return (true); ///////
+		return (true);
 	signal(SIGINT, handle_sigint_in_cmd);
 	success = executor(root, env);
 	signal(SIGINT, handle_sigint);
@@ -92,17 +92,17 @@ static bool	execute_line(char *line, char ***env)
 
 static bool	is_exit(char *line)
 {
-	char **list;
-	int exit_code;
+	char	**list;
+	int		exit_code;
 
 	list = ft_split(line, ' ');
 	if (!list)
 		return (false);
 	if (ft_strcmp(list[0], "exit") != 0)
-		{
-			ft_free_tab(list);
-			return (false);
-		}
+	{
+		ft_free_tab(list);
+		return (false);
+	}
 	if (list[1] == NULL)
 	{
 		ft_free_tab(list);
@@ -138,12 +138,11 @@ int	main(int argc, char **argv, char **envp)
 		if (!line)
 			return (ft_free_tab(env), rl_clear_history(), 0);
 		if (is_exit(line))
-			return (free(line), ft_free_tab(env), rl_clear_history(), g_exit_status);
+			return (free(line), ft_free_tab(env), rl_clear_history(),
+				g_exit_status);
 		if (!execute_line(line, &env))
-		{
 			if (g_exit_status != 258)
 				return (ft_free_tab(env), g_exit_status);
-		}
 	}
 	return (g_exit_status);
 }

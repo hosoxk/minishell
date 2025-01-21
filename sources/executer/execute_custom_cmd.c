@@ -22,6 +22,8 @@ bool	execute_custom_cmd(t_ast *ast_root, char ***env)
 {
 	char	*name;
 
+	if (!ast_root->args)
+		return (false);
 	if (ast_root->type != WORD)
 		return (false);
 	name = ast_root->args[0];

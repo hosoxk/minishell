@@ -84,7 +84,7 @@ bool	do_redirection(t_ast *ast_root, char ***env, pid_t *pids, bool is_first)
 		can_execute = init_heredoc(ast_root, *env, pids);
 	else
 		can_execute = init_redirection(ast_root);
-	if (can_execute)
+	if (can_execute && ast_root->left)
 		can_execute = execute(ast_root->left, env, pids, is_first);
 	if (can_execute)
 	{

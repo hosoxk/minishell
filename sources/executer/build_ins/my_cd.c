@@ -78,8 +78,7 @@ void	my_cd(char ***env, char **argv)
 	}
 	if (chdir(nwd) != 0)
 	{
-		perror("cd");
-		g_exit_status = 1;
+		perror(argv[1]);
 		free(nwd);
 		return ;
 	}
