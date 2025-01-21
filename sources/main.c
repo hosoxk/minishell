@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:38:48 by yde-rudd          #+#    #+#             */
-/*   Updated: 2025/01/21 08:34:25 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/01/21 10:39:35 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,20 +51,20 @@ static bool	check_input(int argc, char **envp)
 //	printf(BOLD_MAGENTA"\noutput:\n"RESET);
 //	print_tokens(&tree->token_list); //// 
 
-bool	execute_sub_commands(t_token_tree *tree, char ***env,
-		t_token_tree *token_tree_root)
+bool	execute_token_list(t_token *token_list, char ***env)
 {
 	t_ast		*root;
 	t_free_data	data;
 
-	if (!expander(tree->token_list, *env))
+	if (!expander(token_list, *env))
+	{
+		free_token_list(&token_list);
 		return (false);
-	g_exit_status = 0;
-//	if (!validate_token_sequence(tree->token_list))
-//		return (true);
-	root = get_ast(tree, &data, token_tree_root);
+	}
+	g_exit_status = 0; ////
+	root = get_ast(token_list, &data);
 	if (!root)
-		return (false);
+		return (true); ///////
 	if (!executor(root, env))
 	{
 		free_ast(root);
@@ -73,29 +73,21 @@ bool	execute_sub_commands(t_token_tree *tree, char ***env,
 	free_ast(root);
 	return (true);
 }
-
 static bool	execute_line(char *line, char ***env)
 {
-	t_token_tree	*tree;
 	t_token			*token_list;
-	int				exit_code;
 
-	exit_code = g_exit_status;
-	g_exit_status = 0;
 	token_list = NULL;
 	if (!lexer(line, &token_list))
 		return (free(line), free_token_list(&token_list),
 			false);
 	free(line);
-	tree = NULL;
-	build_token_tree(&tree, token_list);
-	if (g_exit_status)
-		return (free_token_tree(tree), false);
-	g_exit_status = exit_code;
-	if (!execute_token_tree(tree, env, tree))
-		return (free_token_tree(tree), false);
-	free_token_tree(tree);
-	return (true);
+	if (!validate_token_sequence(token_list))
+	{
+		free_token_list(&token_list);
+		return (true);
+	}
+	return (execute_token_list(token_list, env));
 }
 
 static bool is_exit(char *line)

@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 09:18:58 by kvanden-          #+#    #+#             */
-/*   Updated: 2025/01/20 14:56:22 by yde-rudd         ###   ########.fr       */
+/*   Updated: 2025/01/21 09:26:58 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void	free_token_tree(t_token_tree *tree)
  */
 void	build_token_tree(t_token_tree **tree, t_token *token_list)
 {
-	if (!token_list || !validate_token_sequence(token_list))
+	if (!token_list)
 	{
 		g_exit_status = 0;
 		*tree = NULL;

@@ -28,14 +28,8 @@
  */
 void	exit_clean(t_ast *node, char **env, int exit_status)
 {
-	t_token_tree	*root;
-
 	if (node)
-	{
-		root = node->free_data->token_tree;
 		free_ast(node->free_data->root);
-		free_token_tree(root);
-	}
 	if (env)
 		ft_free_tab(env);
 	if (exit_status != -1)

@@ -50,21 +50,27 @@ static t_token	*find_closing_parenthesis(t_token *open_paren)
  */
 static void	insort_tree_after(t_token_tree **tree, t_token *after)
 {
-	t_token			*first_op;
-	t_token_tree	*operator_node;
+    t_token         *first_op;
+    t_token_tree    *operator_node;
+    t_token         *next_tokens;
 
-	if (!after)
-		return ;
-	first_op = find_operator(after, AND);
-	if (!first_op)
-		first_op = find_operator(after, OR);
-	if (first_op)
-	{
-		operator_node = get_token_node(first_op->type, NULL);
-		operator_node->left = *tree;
-		build_token_tree(&operator_node->right, after);
-		*tree = operator_node;
-	}
+    if (!after)
+        return;
+    first_op = find_operator(after, OR);
+    if (!first_op)
+        first_op = find_operator(after, AND);
+    if (first_op)
+    {
+        operator_node = get_token_node(first_op->type, NULL);
+        operator_node->left = *tree;
+        
+        next_tokens = first_op->next;
+        first_op->next = NULL;
+        
+        build_token_tree(&operator_node->right, next_tokens);
+        *tree = operator_node;
+		free_token(first_op);
+    }
 }
 
 /**
@@ -128,6 +134,8 @@ static bool	divade_token_list(t_token *token_list, t_token **before,
 	if (open_paren != token_list)
 		*before = split_before(token_list, open_paren);
 	*inside = split_before(*inside, close_paren);
+	free_token(close_paren);
+	free_token(open_paren);
 	return (true);
 }
 

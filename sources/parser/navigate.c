@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   navigate.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yde-rudd <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 13:36:21 by yde-rudd          #+#    #+#             */
-/*   Updated: 2025/01/20 13:36:27 by yde-rudd         ###   ########.fr       */
+/*   Updated: 2025/01/21 10:30:52 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,19 +56,18 @@ void	move_cmds(t_ast **node)
 	move_cmds(&(*node)->right);
 }
 
-t_ast	*get_ast(t_token_tree *tree, t_free_data *data,
-	t_token_tree *token_tree_root)
+t_ast	*get_ast(t_token *token_list, t_free_data *data)
 {
 	t_ast	*root;
 	t_token	*temp;
 
-	temp = tree->token_list;
+	temp = token_list;
 	root = parse_ast(&temp);
+	free_token_list(&token_list);
 	if (!root)
 		return (NULL);
 	move_cmds(&root);
 	data->root = root;
-	data->token_tree = token_tree_root;
 	data->fd_in = dup(STDIN_FILENO);
 	data->fd_out = dup(STDOUT_FILENO);
 	data->fds = get_fds(root);

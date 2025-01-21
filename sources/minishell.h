@@ -131,7 +131,6 @@ typedef struct s_token_tree
 typedef struct s_free_data
 {
 	t_ast			*root;
-	t_token_tree	*token_tree;
 	int				fd_in;
 	int				fd_out;
 	int				*fds;
@@ -140,8 +139,8 @@ typedef struct s_free_data
 char			*get_next_line(int fd);
 
 void			set_data_to_ast(t_ast *node, t_free_data *data);
-t_ast			*get_ast(t_token_tree *tree, t_free_data *data, \
-	t_token_tree *token_tree_root);
+t_ast			*get_ast(t_token *token_list, t_free_data *data);
+
 
 // *** LEXER & HANDLER ***
 bool			lexer(char *line, t_token **token_list);
