@@ -5,15 +5,15 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/30 12:10:12 by kvanden-          #+#    #+#             */
-/*   Updated: 2025/01/07 14:03:22 by kvanden-         ###   ########.fr       */
+/*   Created: 2025/01/21 16:32:53 by kvanden-          #+#    #+#             */
+/*   Updated: 2025/01/21 16:32:53 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
 /**
- * @brief Execute a command (only if it's not a built-in nor a redirection nor a
+* @brief Execute a command (only if it's not a built-in nor a redirection nor a
  * pipe).
  * @param ast_root The root of the AST.
  * @param env The environment variables.
@@ -23,12 +23,12 @@ static void	do_cmd(t_ast *ast_root, char ***env, int *pids)
 {
 	free(pids);
 	if (!ast_root->args || !ast_root->args[0])
-    {
-        exit_clean(ast_root, *env, 0);
-        return;
-    }
-	if (ft_strlen(ast_root->args[0]) != 0 && \
-		!execute_custom_cmd_after_fork(ast_root->args, env))
+	{
+		exit_clean(ast_root, *env, 0);
+		return ;
+	}
+	if (ft_strlen(ast_root->args[0]) != 0
+		&& !execute_custom_cmd_after_fork(ast_root->args, env))
 	{
 		execute_build_in_cmd(ast_root->args, *env);
 		perror(ast_root->args[0]);
@@ -39,8 +39,9 @@ static void	do_cmd(t_ast *ast_root, char ***env, int *pids)
 }
 
 /**
- * @brief Execute a command (only if it's not a built-in nor a redirection nor a
- * pipe). If is_first is true, fork a new process and execute the command in it.
+* @brief Execute a command (only if it's not a built-in nor a redirection nor a
+ * pipe). If is_first is true,
+fork a new process and execute the command in it.
  * Otherwise, execute the command in the current process.
  * @param ast_root The root of the AST.
  * @param env The environment variables.
