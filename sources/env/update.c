@@ -1,4 +1,3 @@
-
 #include "../minishell.h"
 
 int	getenv_index(char *name, char **env)

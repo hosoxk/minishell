@@ -12,18 +12,25 @@
 
 #include "minishell.h"
 
+void	handle_sigint_in_cmd(int sig)
+{
+	(void)sig;
+	printf("\n");
+}
+
+
 /*	Process gets terminated -> exit status = 130
  *	Prints new line to terminal
  */
 
-static void	handle_sigint(int sig)
+void	handle_sigint(int sig)
 {
 	(void)sig;
 	g_exit_status = 130;
 	printf("\n");
 	rl_on_new_line();
 	rl_replace_line("", 0);
-	// rl_redisplay();
+	rl_redisplay();
 }
 
 /*	Get current terminal settings with tcgetattr,

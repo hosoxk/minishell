@@ -6,7 +6,8 @@ static t_token	*init_token(char *value, t_token_type type)
 
 	new_token = malloc(sizeof (t_token));
 	if (!new_token)
-		return (print_error_status("Failure mallocing space for new_token"), NULL);
+		return (print_error_status("Failure mallocing space for new_token"),
+			NULL);
 	new_token->type = type;
 	new_token->next = NULL;
 	new_token->value = NULL;

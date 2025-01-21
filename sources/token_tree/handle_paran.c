@@ -1,6 +1,5 @@
 #include "../minishell.h"
 
-
 /**
  * Finds the closing parenthesis for the given opening parenthesis.
  * @param open_paren The opening parenthesis.
