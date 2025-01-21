@@ -41,7 +41,7 @@ static char	*get_value(char **argv, char *name)
 	return (value);
 }
 
-static void print_export(char **env)
+static void	print_export(char **env)
 {
 	while (*env)
 	{

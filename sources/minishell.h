@@ -141,7 +141,6 @@ char			*get_next_line(int fd);
 void			set_data_to_ast(t_ast *node, t_free_data *data);
 t_ast			*get_ast(t_token *token_list, t_free_data *data);
 
-
 // *** LEXER & HANDLER ***
 bool			lexer(char *line, t_token **token_list);
 void			handle_var(char **line, t_token **token_list);

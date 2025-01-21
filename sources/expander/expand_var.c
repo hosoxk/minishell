@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 08:21:22 by kvanden-          #+#    #+#             */
-/*   Updated: 2025/01/21 08:37:16 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/01/21 11:28:32 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static int	find_length(char *str)
 {
 	int	len;
 
-	len = 0; ///////
+	len = 0;
 	while (str[len] && (ft_isalnum(str[len]) || str[len] == '_'
 			|| str[len] == '-' || str[len] == '?' || str[len] == '*'))
 		len++;
@@ -103,7 +103,7 @@ static bool	insert_var(t_token *token, char *value)
 
 	list = NULL;
 	if (!lexer(value, &list))
-		return (free(value), false); ///
+		return (free(value), false);
 	if (!list)
 	{
 		free(token->value);

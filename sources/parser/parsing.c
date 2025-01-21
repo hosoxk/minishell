@@ -18,7 +18,8 @@ static bool	handle_redirection(t_token **tokens, t_parse_vars *vars)
 
 	redir_node = create_redirection_node(tokens);
 	if (!redir_node)
-		return (print_error_status("Error: failure creating redirection node"), false);
+		return (print_error_status("Error: failure creating redirection node")
+			, false);
 	if (vars->is_prefix)
 	{
 		if (!vars->current_command)

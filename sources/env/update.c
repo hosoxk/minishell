@@ -49,5 +49,5 @@ bool	update_env(char *name, char *value, char ***env)
 		return (print_error_status("malloc failed"), false);
 	free((*env)[index]);
 	(*env)[index] = new_env;
-    return (true);
+	return (true);
 }

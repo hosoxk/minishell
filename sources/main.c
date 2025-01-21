@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:38:48 by yde-rudd          #+#    #+#             */
-/*   Updated: 2025/01/21 10:39:35 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/01/21 11:31:16 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ bool	execute_token_list(t_token *token_list, char ***env)
 	free_ast(root);
 	return (true);
 }
+
 static bool	execute_line(char *line, char ***env)
 {
 	t_token			*token_list;
@@ -90,7 +91,7 @@ static bool	execute_line(char *line, char ***env)
 	return (execute_token_list(token_list, env));
 }
 
-static bool is_exit(char *line)
+static bool	is_exit(char *line)
 {
 	char **list;
 	int exit_code;

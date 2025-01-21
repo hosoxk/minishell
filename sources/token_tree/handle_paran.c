@@ -1,16 +1,5 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   handle_paran.c                                     :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/14 09:37:18 by kvanden-          #+#    #+#             */
-/*   Updated: 2025/01/14 09:37:18 by kvanden-         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../minishell.h"
+
 
 /**
  * Finds the closing parenthesis for the given opening parenthesis.
@@ -19,8 +8,8 @@
  */
 static t_token	*find_closing_parenthesis(t_token *open_paren)
 {
-	int			depth;
-	t_token		*current;
+	int		depth;
+	t_token	*current;
 
 	depth = 1;
 	current = open_paren->next;
@@ -46,31 +35,31 @@ static t_token	*find_closing_parenthesis(t_token *open_paren)
  * operator node.
  * 
  * @param tree Pointer to the root of the token tree.
- * @param after Pointer to the token after which the subtree should be inserted.
+
+	* @param after Pointer to the token after which the subtree 
+	should be inserted.
  */
 static void	insort_tree_after(t_token_tree **tree, t_token *after)
 {
-    t_token         *first_op;
-    t_token_tree    *operator_node;
-    t_token         *next_tokens;
+	t_token			*first_op;
+	t_token_tree	*operator_node;
+	t_token			*next_tokens;
 
-    if (!after)
-        return;
-    first_op = find_operator(after, OR);
-    if (!first_op)
-        first_op = find_operator(after, AND);
-    if (first_op)
-    {
-        operator_node = get_token_node(first_op->type, NULL);
-        operator_node->left = *tree;
-        
-        next_tokens = first_op->next;
-        first_op->next = NULL;
-        
-        build_token_tree(&operator_node->right, next_tokens);
-        *tree = operator_node;
+	if (!after)
+		return ;
+	first_op = find_operator(after, OR);
+	if (!first_op)
+		first_op = find_operator(after, AND);
+	if (first_op)
+	{
+		operator_node = get_token_node(first_op->type, NULL);
+		operator_node->left = *tree;
+		next_tokens = first_op->next;
+		first_op->next = NULL;
+		build_token_tree(&operator_node->right, next_tokens);
+		*tree = operator_node;
 		free_token(first_op);
-    }
+	}
 }
 
 /**
@@ -85,8 +74,8 @@ static void	insort_tree_after(t_token_tree **tree, t_token *after)
  * @param before Pointer to the token before the subtree should be inserted.
  * @param subtree The subtree to be inserted.
  */
-static void	insort_tree_befor(t_token_tree **tree, t_token *before, \
-	t_token_tree *subtree)
+static void	insort_tree_befor(t_token_tree **tree, t_token *before,
+		t_token_tree *subtree)
 {
 	t_token			*last_op;
 	t_token_tree	*operator_node;

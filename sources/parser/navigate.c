@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 13:36:21 by yde-rudd          #+#    #+#             */
-/*   Updated: 2025/01/21 10:30:52 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/01/21 10:55:04 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,12 @@ void	set_data_to_ast(t_ast *node, t_free_data *data)
 	node->free_data = data;
 }
 
-static t_ast	*get_next(t_ast *cur_red, t_ast *next_red)
+static t_ast	*get_next(t_ast **cur_red, t_ast *next_red)
 {
-	cur_red->left = cur_red->right;
-	cur_red->right = NULL;
-	cur_red = next_red;
-	return (cur_red->right);
+	(*cur_red)->left = (*cur_red)->right;
+	(*cur_red)->right = NULL;
+	*cur_red = next_red;
+	return ((*cur_red)->right);
 }
 
 void	move_cmds(t_ast **node)
@@ -47,7 +47,7 @@ void	move_cmds(t_ast **node)
 		cur_red = first_red;
 		while (next_red && next_red->type >= REDIRECT_IN
 			&& next_red->type <= HEREDOC)
-			next_red = get_next(cur_red, next_red);
+			next_red = get_next(&cur_red, next_red);
 		cmd->left = cur_red->left;
 		*node = first_red;
 		cur_red->left = cmd;

@@ -18,7 +18,8 @@ bool	create_pipe_node(t_ast *left_node, t_token **tokens, t_parse_vars *vars)
 
 	pipe_node = create_ast_node(PIPE);
 	if (!pipe_node)
-		return (print_error_status("Failed to allocate memory for PIPE node"), false);
+		return (print_error_status("Failed to allocate memory for PIPE node"),
+			false);
 	pipe_node->left = left_node;
 	*tokens = (*tokens)->next;
 	pipe_node->right = parse_ast(tokens);
@@ -60,11 +61,12 @@ t_ast	*create_redirection_node(t_token **tokens)
 	t_ast	*redir_node;
 
 	if (!tokens || !(*tokens))
-		return (print_error("Null token pointer in create_redirection_node"),
-			NULL);
+		return (print_error("Null token pointer in \
+			create_redirection_node"), NULL);
 	redir_node = create_ast_node((*tokens)->type);
 	if (!redir_node)
-		return (print_error_status("Failed to allocate memory for REDIRECTION node"),
+		return (print_error_status("Failed to allocate memory for \
+			REDIRECTION node"),
 			NULL);
 	*tokens = (*tokens)->next;
 	if ((*tokens) && (*tokens)->type == WORD)

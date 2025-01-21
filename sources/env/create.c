@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 08:18:56 by kvanden-          #+#    #+#             */
-/*   Updated: 2025/01/21 08:35:05 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/01/21 10:59:41 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static bool	incroment_shell_level(char ***env)
 	return (true);
 }
 
-static bool set_pwd(char ***env)
+static bool	set_pwd(char ***env)
 {
 	char	cwd[PATH_MAX];
 
@@ -53,7 +53,7 @@ static bool set_pwd(char ***env)
 	return (update_env("PWD", cwd, env));
 }
 
-static bool set_path(char ***env)
+static bool	set_path(char ***env)
 {
 	if (getenv_stript("PATH", *env))
 		return (true);
