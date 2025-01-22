@@ -178,6 +178,7 @@ bool			execute_sub_commands(t_token_tree *tree, char ***env, \
 void			setup_signals(void);
 void			handle_sigint(int sig);
 void			handle_sigint_in_cmd(int sig);
+void			handle_sigint_here(int sig);
 
 // *** UTILS ***
 void			exit_status(int exit_status);

@@ -18,6 +18,16 @@ void	handle_sigint_in_cmd(int sig)
 	printf("\n");
 }
 
+void handle_sigint_here(int sig)
+{
+    (void)sig;
+    printf("");
+	g_exit_status = 130;
+	rl_redisplay();
+    close(STDIN_FILENO);
+    //exit(130);
+}
+
 /*	Process gets terminated -> exit status = 130
  *	Prints new line to terminal
  */
