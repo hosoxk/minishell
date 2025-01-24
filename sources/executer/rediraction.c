@@ -30,7 +30,10 @@ int	open_file(char *file, t_token_type mode)
 	if (mode == APPEND)
 		ret = open(file, O_WRONLY | O_CREAT | O_APPEND, 0666);
 	if (ret == -1)
+	{
+		g_exit_status = 1;
 		perror(file);
+	}
 	return (ret);
 }
 
@@ -93,5 +96,5 @@ bool	do_redirection(t_ast *ast_root, char ***env, pid_t *pids, bool is_first)
 	}
 	pop_fd(ast_root);
 	pop_fd(ast_root);
-	return (can_execute);
+	return (true); ///////////
 }

@@ -112,6 +112,7 @@ int	get_exit_code(pid_t *pids)
 	int	i;
 	int	len;
 
+	status = g_exit_status;
 	len = get_len_pids(pids);
 	i = 0;
 	while (i < len)
