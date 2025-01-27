@@ -54,16 +54,12 @@ static void	setup(int *p_fd, t_ast *ast_root, int *fd_in, int *fd_out)
 	close(ast_root->free_data->fd_out);
 	close(ast_root->free_data->fd_in);
 }
+
 static void sigint_handler(int sig)
 {
     (void)sig;
-    g_exit_status = 130;
-    //write(1, "\n", 1);
-    rl_on_new_line();
-    rl_replace_line("", 0);
-	close(STDIN_FILENO);
 }
-/**
+/*
  * Handles the heredoc side of the pipe.
  * It reads lines from stdin and writes them to the pipe until it reads a line
  * that matches the heredoc delimiter.
@@ -81,12 +77,12 @@ static void	here_doc_put_in(t_ast *ast_root, int *p_fd, char **env, pid_t *pids)
 	int		fd_in;
 	int		fd_out;
 
-	struct sigaction    sa;
+	// struct sigaction    sa;
 
-	sa.sa_handler = sigint_handler;
-    sa.sa_flags = 0;
-    sigemptyset(&sa.sa_mask);
-    sigaction(SIGINT, &sa, NULL);
+	// sa.sa_handler = sigint_handler;
+    // sa.sa_flags = 0;
+    // sigemptyset(&sa.sa_mask);
+    // sigaction(SIGINT, &sa, NULL);
 
 
 	setup(p_fd, ast_root, &fd_in, &fd_out);
@@ -132,11 +128,13 @@ bool	init_heredoc(t_ast *ast_root, char **env, pid_t *pids)
 
 	if (pipe(p_fd) == -1)
 		return (false);
+	signal(SIGINT, sigint_handler);
 	pid = fork();
 	if (pid == -1)
 		return (false);
 	if (!pid)
 	{
+		signal(SIGINT, handle_sigint_here);
 		here_doc_put_in(ast_root, p_fd, env, pids);
 	}
 	else
@@ -151,4 +149,5 @@ bool	init_heredoc(t_ast *ast_root, char **env, pid_t *pids)
     		g_exit_status = 128 + WTERMSIG(temp_exit_status);
 	}
 	return (true);
+	signal(SIGINT, handle_sigint_in_cmd);
 }

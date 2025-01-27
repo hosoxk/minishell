@@ -12,19 +12,22 @@
 
 #include "minishell.h"
 
+
+
 void	handle_sigint_in_cmd(int sig)
 {
 	(void)sig;
-	printf("\n");
+	// printf("\n");
 }
 
 void handle_sigint_here(int sig)
 {
     (void)sig;
-	if (g_exit_status != 130)
-		printf("lol\n");
     g_exit_status = 130;
-    close(STDIN_FILENO);
+    rl_on_new_line();
+    write(1, "\n", 1);
+    //rl_replace_line("", 0);
+	close(STDIN_FILENO);
 }
 
 /*
