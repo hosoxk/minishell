@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/03 16:25:49 by kvanden-          #+#    #+#             */
-/*   Updated: 2025/01/27 16:22:03 by yde-rudd         ###   ########.fr       */
+/*   Created: 2025/01/27 16:30:17 by kvanden-          #+#    #+#             */
+/*   Updated: 2025/01/27 16:30:17 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,11 @@ static void	setup(int *p_fd, t_ast *ast_root, int *fd_in, int *fd_out)
 	close(ast_root->free_data->fd_in);
 }
 
-static void sigint_handler(int sig)
+static void	sigint_handler(int sig)
 {
-    (void)sig;
+	(void)sig;
 }
+
 /*
  * Handles the heredoc side of the pipe.
  * It reads lines from stdin and writes them to the pipe until it reads a line
@@ -77,14 +78,6 @@ static void	here_doc_put_in(t_ast *ast_root, int *p_fd, char **env, pid_t *pids)
 	int		fd_in;
 	int		fd_out;
 
-	// struct sigaction    sa;
-
-	// sa.sa_handler = sigint_handler;
-    // sa.sa_flags = 0;
-    // sigemptyset(&sa.sa_mask);
-    // sigaction(SIGINT, &sa, NULL);
-
-
 	setup(p_fd, ast_root, &fd_in, &fd_out);
 	while (1)
 	{
@@ -92,7 +85,8 @@ static void	here_doc_put_in(t_ast *ast_root, int *p_fd, char **env, pid_t *pids)
 		if (!ret)
 		{
 			if (g_exit_status != 130)
-				print_error_status("here-document is delimited by end-of-file!");
+				print_error_status("here-document is delimited by \
+				end-of-file!");
 			break ;
 		}
 		if (ft_strcmp(ret, ast_root->file) == 0)

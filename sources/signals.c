@@ -17,7 +17,7 @@
 void	handle_sigint_in_cmd(int sig)
 {
 	(void)sig;
-	// printf("\n");
+	printf("\n");
 }
 
 void handle_sigint_here(int sig)
