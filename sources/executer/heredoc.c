@@ -23,7 +23,7 @@
  * @param fd_in The original stdin.
  * @param fd_out The original stdout.
  */
-static void	cleanup_heredoc(int *p_fd, char *line, int fd_in, int fd_out)
+static void	cleanup_heredoc(int *p_fd, int fd_in, int fd_out)
 {
 	close(p_fd[1]);
 	dup2(fd_out, STDOUT_FILENO);
@@ -107,7 +107,7 @@ static void	here_doc_put_in(t_ast *ast_root, int *p_fd, char **env, pid_t *pids)
 		ft_putendl_fd(ret, p_fd[1]);
 		free(ret);
 	}
-	cleanup_heredoc(p_fd, ret, fd_in, fd_out);
+	cleanup_heredoc(p_fd, fd_in, fd_out);
 	free(pids);
 	exit_clean(ast_root, env, g_exit_status);
 }
