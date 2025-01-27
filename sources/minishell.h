@@ -35,7 +35,7 @@
 # define BOLD_GREEN "\033[32m"
 # define RESET "\033[0m"
 
-# define ARG_SIZE 8;
+# define ARG_SIZE 8
 
 # ifndef DEBUG
 #  define DEBUG 0

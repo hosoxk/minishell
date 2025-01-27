@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 13:00:45 by kvanden-          #+#    #+#             */
-/*   Updated: 2025/01/07 12:10:42 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/01/27 16:51:45 by yde-rudd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,5 +91,4 @@ void	execute_build_in_cmd(char **argv, char **env)
 		free(path);
 	}
 	execve(name, argv, env);
-	free(path);
 }

@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 12:59:33 by kvanden-          #+#    #+#             */
-/*   Updated: 2025/01/08 12:31:53 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/01/27 17:24:12 by yde-rudd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,5 +96,5 @@ bool	do_redirection(t_ast *ast_root, char ***env, pid_t *pids, bool is_first)
 	}
 	pop_fd(ast_root);
 	pop_fd(ast_root);
-	return (true); ///////////
+	return (true);
 }

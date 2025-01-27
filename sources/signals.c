@@ -6,13 +6,11 @@
 /*   By: yde-rudd <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 13:46:05 by yde-rudd          #+#    #+#             */
-/*   Updated: 2025/01/27 16:18:10 by yde-rudd         ###   ########.fr       */
+/*   Updated: 2025/01/27 16:46:03 by yde-rudd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-
 
 void	handle_sigint_in_cmd(int sig)
 {
@@ -20,26 +18,14 @@ void	handle_sigint_in_cmd(int sig)
 	printf("\n");
 }
 
-void handle_sigint_here(int sig)
+void	handle_sigint_here(int sig)
 {
-    (void)sig;
-    g_exit_status = 130;
-    rl_on_new_line();
-    write(1, "\n", 1);
-    //rl_replace_line("", 0);
+	(void)sig;
+	g_exit_status = 130;
+	rl_on_new_line();
+	write(1, "\n", 1);
 	close(STDIN_FILENO);
 }
-
-/*
-static void sigint_handler(int sig)
-{
-    (void)sig;
-    g_exit_status = 130;
-    write(1, "\n", 1);
-    rl_on_new_line();
-    rl_replace_line("", 0);
-}
-*/
 
 /*	Process gets terminated -> exit status = 130
  *	Prints new line to terminal
