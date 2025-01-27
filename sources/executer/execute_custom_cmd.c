@@ -50,7 +50,7 @@ bool	execute_custom_cmd_after_fork(char **argv, char ***env)
 	if (ft_strcmp(argv[0], "echo") == 0)
 		my_echo(argv);
 	else if (ft_strcmp(argv[0], "env") == 0)
-		my_env(*env);
+		my_env(*env, argv);
 	else if (ft_strcmp(argv[0], "pwd") == 0)
 		my_pwd();
 	else
