@@ -25,8 +25,6 @@
  */
 static void	cleanup_heredoc(int *p_fd, char *line, int fd_in, int fd_out)
 {
-	if (line)
-		free(line);
 	close(p_fd[1]);
 	dup2(fd_out, STDOUT_FILENO);
 	dup2(fd_in, STDIN_FILENO);
@@ -56,7 +54,15 @@ static void	setup(int *p_fd, t_ast *ast_root, int *fd_in, int *fd_out)
 	close(ast_root->free_data->fd_out);
 	close(ast_root->free_data->fd_in);
 }
-
+static void sigint_handler(int sig)
+{
+    (void)sig;
+    g_exit_status = 130;
+    //write(1, "\n", 1);
+    rl_on_new_line();
+    rl_replace_line("", 0);
+	close(STDIN_FILENO);
+}
 /**
  * Handles the heredoc side of the pipe.
  * It reads lines from stdin and writes them to the pipe until it reads a line
@@ -74,6 +80,14 @@ static void	here_doc_put_in(t_ast *ast_root, int *p_fd, char **env, pid_t *pids)
 	char	*ret;
 	int		fd_in;
 	int		fd_out;
+
+	struct sigaction    sa;
+
+	sa.sa_handler = sigint_handler;
+    sa.sa_flags = 0;
+    sigemptyset(&sa.sa_mask);
+    sigaction(SIGINT, &sa, NULL);
+
 
 	setup(p_fd, ast_root, &fd_in, &fd_out);
 	while (1)
@@ -123,7 +137,6 @@ bool	init_heredoc(t_ast *ast_root, char **env, pid_t *pids)
 		return (false);
 	if (!pid)
 	{
-		signal(SIGINT, handle_sigint_here);
 		here_doc_put_in(ast_root, p_fd, env, pids);
 	}
 	else

@@ -21,12 +21,22 @@ void	handle_sigint_in_cmd(int sig)
 void handle_sigint_here(int sig)
 {
     (void)sig;
-    printf("");
-	g_exit_status = 130;
-	rl_redisplay();
+	if (g_exit_status != 130)
+		printf("lol\n");
+    g_exit_status = 130;
     close(STDIN_FILENO);
-    //exit(130);
 }
+
+/*
+static void sigint_handler(int sig)
+{
+    (void)sig;
+    g_exit_status = 130;
+    write(1, "\n", 1);
+    rl_on_new_line();
+    rl_replace_line("", 0);
+}
+*/
 
 /*	Process gets terminated -> exit status = 130
  *	Prints new line to terminal
