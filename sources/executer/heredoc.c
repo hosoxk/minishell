@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 16:25:49 by kvanden-          #+#    #+#             */
-/*   Updated: 2025/01/08 12:30:29 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/01/27 16:22:03 by yde-rudd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,15 +54,18 @@ static void	setup(int *p_fd, t_ast *ast_root, int *fd_in, int *fd_out)
 	close(ast_root->free_data->fd_out);
 	close(ast_root->free_data->fd_in);
 }
-static void sigint_handler(int sig)
+
+static void	sigint_handler(int sig)
 {
-    (void)sig;
-    g_exit_status = 130;
-    //write(1, "\n", 1);
-    rl_on_new_line();
-    rl_replace_line("", 0);
+	(void)sig;
+	g_exit_status = 130;
+	rl_on_new_line();
+	//rl_replace_line("", 0);
+	//rl_redisplay();
+	write(1, "\n", 1);
 	close(STDIN_FILENO);
 }
+
 /**
  * Handles the heredoc side of the pipe.
  * It reads lines from stdin and writes them to the pipe until it reads a line
@@ -77,18 +80,18 @@ static void sigint_handler(int sig)
  */
 static void	here_doc_put_in(t_ast *ast_root, int *p_fd, char **env, pid_t *pids)
 {
-	char	*ret;
-	int		fd_in;
-	int		fd_out;
-
-	struct sigaction    sa;
+	char				*ret;
+	int					fd_in;
+	int					fd_out;
+/*	
+ 	struct sigaction	sa;
 
 	sa.sa_handler = sigint_handler;
-    sa.sa_flags = 0;
-    sigemptyset(&sa.sa_mask);
-    sigaction(SIGINT, &sa, NULL);
-
-
+	sa.sa_flags = 0;
+	sigemptyset(&sa.sa_mask);
+	sigaction(SIGINT, &sa, NULL);
+	*/
+	signal(SIGINT, sigint_handler);
 	setup(p_fd, ast_root, &fd_in, &fd_out);
 	while (1)
 	{

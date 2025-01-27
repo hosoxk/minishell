@@ -6,7 +6,7 @@
 /*   By: yde-rudd <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 13:46:05 by yde-rudd          #+#    #+#             */
-/*   Updated: 2025/01/20 18:06:37 by yde-rudd         ###   ########.fr       */
+/*   Updated: 2025/01/27 16:18:10 by yde-rudd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,11 @@ void	handle_sigint_in_cmd(int sig)
 
 void handle_sigint_here(int sig)
 {
-    (void)sig;
+	(void)sig;
 	if (g_exit_status != 130)
 		printf("lol\n");
-    g_exit_status = 130;
-    close(STDIN_FILENO);
+	g_exit_status = 130;
+	close(STDIN_FILENO);
 }
 
 /*
