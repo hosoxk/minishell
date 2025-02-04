@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 16:30:17 by kvanden-          #+#    #+#             */
-/*   Updated: 2025/01/27 16:46:15 by yde-rudd         ###   ########.fr       */
+/*   Updated: 2025/02/04 13:15:18 by yde-rudd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ static void	setup(int *p_fd, t_ast *ast_root, int *fd_in, int *fd_out)
 static void	sigint_handler(int sig)
 {
 	(void)sig;
+	disable_signal_chars();
 }
 
 /*
