@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:38:48 by yde-rudd          #+#    #+#             */
-/*   Updated: 2025/01/21 15:38:37 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/02/04 14:15:06 by yde-rudd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,29 +94,31 @@ static bool	is_exit(char *line)
 {
 	char	**list;
 	int		exit_code;
+	int		i;
 
 	list = ft_split(line, ' ');
 	if (!list)
 		return (false);
 	if (ft_strcmp(list[0], "exit") != 0)
-	{
-		ft_free_tab(list);
-		return (false);
-	}
+		return (ft_free_tab(list), false);
+	if (list[2])
+		return (print_error("exit: too many arguments"), ft_free_tab(list), false);
 	if (list[1] == NULL)
-	{
-		ft_free_tab(list);
-		return (true);
-	}
+		return (ft_free_tab(list), true);
 	exit_code = ft_atoi(list[1]);
 	if (exit_code == 0 && ft_strcmp(list[1], "0") != 0)
 	{
+		i = 0;
+		while (list[1][i])
+		{
+			if (ft_isdigit(list[1][i]) != 1)
+				return (ft_free_tab(list), print_error("exit: one numeric argument required"), false);
+			i++;
+		}
 		exit_code = 2;
-		print_error("exit: numeric argument required");
 	}
-	ft_free_tab(list);
 	g_exit_status = exit_code % 256;
-	return (true);
+	return (ft_free_tab(list), true);
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -136,7 +138,7 @@ int	main(int argc, char **argv, char **envp)
 	{
 		line = get_line(env);
 		if (!line)
-			return (ft_free_tab(env), rl_clear_history(), 0);
+			return (ft_free_tab(env), rl_clear_history(), g_exit_status);
 		if (is_exit(line))
 			return (free(line), ft_free_tab(env), rl_clear_history(),
 				g_exit_status);

@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 13:00:45 by kvanden-          #+#    #+#             */
-/*   Updated: 2025/01/27 16:51:45 by yde-rudd         ###   ########.fr       */
+/*   Updated: 2025/02/04 14:05:12 by yde-rudd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,11 @@ void	execute_build_in_cmd(char **argv, char **env)
 	char	*path;
 	char	*name;
 
+	if (!argv || !argv[0])
+	{
+		ft_putendl_fd("minishell: command not found", STDERR_FILENO);
+		return ;
+	}
 	name = argv[0];
 	if (!name)
 	{
@@ -87,8 +92,11 @@ void	execute_build_in_cmd(char **argv, char **env)
 	path = get_path(name, env);
 	if (path)
 	{
+		setup_signals();
 		execve(path, argv, env);
 		free(path);
 	}
 	execve(name, argv, env);
+	ft_putstr_fd("minishell: command not found: ", STDERR_FILENO);
+	ft_putendl_fd(name, STDERR_FILENO);
 }

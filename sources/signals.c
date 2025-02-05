@@ -6,7 +6,7 @@
 /*   By: yde-rudd <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 13:46:05 by yde-rudd          #+#    #+#             */
-/*   Updated: 2025/01/27 16:46:03 by yde-rudd         ###   ########.fr       */
+/*   Updated: 2025/02/04 13:15:35 by yde-rudd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	handle_sigint(int sig)
  *	Apply new settings to terminal
  */
 
-static void	disable_signal_chars(void)
+void	disable_signal_chars(void)
 {
 	struct termios	term;
 

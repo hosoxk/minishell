@@ -50,20 +50,6 @@ typedef struct s_token		t_token;
 typedef struct s_ast		t_ast;
 typedef struct s_token_tree	t_token_tree;
 
-/*
-typedef enum e_token_type
-{
-	WORD,
-	PIPE,                 // ||
-	REDIRECT_IN,          // <
-	REDIRECT_OUT,         // >
-	APPEND,               // >>
-	HEREDOC,              // <<
-	VARIABLE,             // $VAR
-	QUOTED_STRING,        // '...'
-	DOUBLE_QUOTED_STRING, // "..."
-}					t_token_type;
-*/
 typedef enum e_token_type
 {
 	PIPE,
@@ -180,6 +166,7 @@ void			setup_signals(void);
 void			handle_sigint(int sig);
 void			handle_sigint_in_cmd(int sig);
 void			handle_sigint_here(int sig);
+void			disable_signal_chars(void);
 
 // *** UTILS ***
 void			exit_status(int exit_status);
