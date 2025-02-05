@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:38:48 by yde-rudd          #+#    #+#             */
-/*   Updated: 2025/02/04 14:15:06 by yde-rudd         ###   ########.fr       */
+/*   Updated: 2025/02/05 15:19:37 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,10 +101,10 @@ static bool	is_exit(char *line)
 		return (false);
 	if (ft_strcmp(list[0], "exit") != 0)
 		return (ft_free_tab(list), false);
-	if (list[2])
-		return (print_error("exit: too many arguments"), ft_free_tab(list), false);
 	if (list[1] == NULL)
 		return (ft_free_tab(list), true);
+	if (list[2])
+		return (print_error("exit: too many arguments"), ft_free_tab(list), false);
 	exit_code = ft_atoi(list[1]);
 	if (exit_code == 0 && ft_strcmp(list[1], "0") != 0)
 	{

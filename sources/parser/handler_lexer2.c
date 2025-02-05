@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 16:56:36 by yde-rudd          #+#    #+#             */
-/*   Updated: 2025/02/05 15:11:51 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/02/05 15:23:46 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +57,10 @@ bool	handle_quoted_str(char **line, t_token **token_list,
 		return (print_error_status("Error: failure malloc in \
 			handle_quoted_str"),
 			false);
-	if (!((*(*line + 1) == '\0' || *(*line + 1) == ' ')
-			&& (!(absoluut_begin == start || *(start -1) == ' '))))
-		return (add_quoted_token(line, quoted_str, '?', token_list));
-	return (add_quoted_token(line, quoted_str, quote_char, token_list));
+	if ((*(*line + 1) == '\0' || *(*line + 1) == ' ')
+			&& (absoluut_begin == start || *(start -1) == ' '))
+		return (add_quoted_token(line, quoted_str, quote_char, token_list));
+	return (add_quoted_token(line, quoted_str, '?', token_list));
 }
 
 static bool	handle_heredoc_append(char **line, char *special,
