@@ -92,7 +92,6 @@ void	execute_build_in_cmd(char **argv, char **env)
 	path = get_path(name, env);
 	if (path)
 	{
-		setup_signals();
 		execve(path, argv, env);
 		free(path);
 	}
