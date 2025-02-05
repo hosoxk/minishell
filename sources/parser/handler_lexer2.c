@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 16:56:36 by yde-rudd          #+#    #+#             */
-/*   Updated: 2025/01/21 11:26:42 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/02/05 15:11:51 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,14 @@ static bool	add_quoted_token(char **line, char *quoted_str, char quote_char,
 		if (!add_token_to_list(token_list, quoted_str, QUOTED_STRING))
 			return (false);
 	}
-	else
+	else if (quote_char == '\"')
 	{
 		if (!add_token_to_list(token_list, quoted_str, DOUBLE_QUOTED_STRING))
+			return (false);
+	}
+	else
+	{
+		if (!add_token_to_list(token_list, quoted_str, FAKE_QUOTED_STRING))
 			return (false);
 	}
 	free(quoted_str);
@@ -30,7 +35,8 @@ static bool	add_quoted_token(char **line, char *quoted_str, char quote_char,
 	return (true);
 }
 
-bool	handle_quoted_str(char **line, t_token **token_list)
+bool	handle_quoted_str(char **line, t_token **token_list,
+		char *absoluut_begin)
 {
 	char	quote_char;
 	char	*start;
@@ -45,15 +51,15 @@ bool	handle_quoted_str(char **line, t_token **token_list)
 	while (**line && **line != quote_char)
 		(*line)++;
 	if (**line != quote_char)
-	{
-		g_exit_status = 258;
-		return (print_error("Error: unmatched quote"), false);
-	}
+		return (print_error_exit_status("Error: unmatched quote", 258), false);
 	quoted_str = ft_strndup(start, *line - start);
 	if (!quoted_str)
 		return (print_error_status("Error: failure malloc in \
 			handle_quoted_str"),
 			false);
+	if (!((*(*line + 1) == '\0' || *(*line + 1) == ' ')
+			&& (!(absoluut_begin == start || *(start -1) == ' '))))
+		return (add_quoted_token(line, quoted_str, '?', token_list));
 	return (add_quoted_token(line, quoted_str, quote_char, token_list));
 }
 

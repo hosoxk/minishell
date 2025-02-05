@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 08:21:22 by kvanden-          #+#    #+#             */
-/*   Updated: 2025/01/21 11:28:32 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/02/05 15:14:25 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,46 +96,61 @@ static char	*get_new_var(t_token *token, int index, char **env)
 	return (new_value);
 }
 
-static bool	insert_var(t_token *token, char *value)
-{
-	t_token	*list;
-	t_token	*next;
+// static bool	insert_var(t_token *token, char *value)
+// {
+// 	t_token	*list;
+// 	t_token	*next;
 
-	list = NULL;
-	if (!lexer(value, &list))
-		return (free(value), false);
-	if (!list)
-	{
-		free(token->value);
-		token->value = value;
-		return (true);
-	}
-	free(value);
+// 	list = NULL;
+// 	if (!lexer(value, &list))
+// 		return (free(value), false);
+// 	if (!list)
+// 	{
+// 		free(token->value);
+// 		token->value = value;
+// 		return (true);
+// 	}
+// 	free(value);
+// 	free(token->value);
+// 	token->value = list->value;
+// 	next = token->next;
+// 	token->next = list->next;
+// 	free(list);
+// 	while (token->next)
+// 		token = token->next;
+// 	token->next = next;
+// 	return (true);
+// }
+
+static bool	replace_var(t_token *token, char **env, char *dollar)
+{
+	char	*new_var;
+	int		index;
+
+	// if (token->value[ft_strlen(token->value) - 1] == '$')
+	// 	return (true);
+	index = dollar - token->value + 1;
+	new_var = get_new_var(token, index, env);
+	if (!new_var)
+		return (false);
 	free(token->value);
-	token->value = list->value;
-	next = token->next;
-	token->next = list->next;
-	free(list);
-	while (token->next)
-		token = token->next;
-	token->next = next;
+	token->value = new_var;
 	return (true);
 }
 
 bool	expand_var(t_token *token, char **env)
 {
 	char	*dollar;
-	char	*new_var;
-	int		index;
+	bool	return_value;
 
+	return_value = true;
 	dollar = ft_strchr(token->value, '$');
-	if (!dollar)
-		return (true);
-	if (token->value[ft_strlen(token->value) - 1] == '$')
-		return (true);
-	index = dollar - token->value + 1;
-	new_var = get_new_var(token, index, env);
-	if (!new_var)
-		return (false);
-	return (insert_var(token, new_var));
+	while (dollar)
+	{
+		return_value = replace_var(token, env, dollar);
+		if (!return_value)
+			return (false);
+		dollar = ft_strchr(token->value, '$');
+	}
+	return (return_value);
 }

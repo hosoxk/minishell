@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 16:29:34 by kvanden-          #+#    #+#             */
-/*   Updated: 2025/01/27 16:29:35 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/02/04 12:55:59 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	getenv_index(char *name, char **env)
 	len = ft_strlen(name);
 	while (env[i])
 	{
-		if (ft_strncmp(env[i], name, len) == 0)
+		if (ft_strncmp(env[i], name, len) == 0 && env[i][len] == '=')
 			return (i);
 		i++;
 	}

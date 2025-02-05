@@ -66,7 +66,6 @@ typedef enum e_token_type
 */
 typedef enum e_token_type
 {
-	WORD,
 	PIPE,
 	OR,
 	AND,
@@ -76,9 +75,11 @@ typedef enum e_token_type
 	REDIRECT_OUT,
 	APPEND,
 	HEREDOC,
+	WORD,
 	VARIABLE,
-	QUOTED_STRING,
 	DOUBLE_QUOTED_STRING,
+	FAKE_QUOTED_STRING,
+	QUOTED_STRING
 }	t_token_type;
 
 typedef enum e_command_type
@@ -145,7 +146,7 @@ t_ast			*get_ast(t_token *token_list, t_free_data *data);
 bool			lexer(char *line, t_token **token_list);
 void			handle_var(char **line, t_token **token_list);
 bool			handle_redirect(char **line, t_token **token_list);
-bool			handle_quoted_str(char **line, t_token **token_list);
+bool			handle_quoted_str(char **line, t_token **token_list, char *absoluut_begin);
 bool			handle_pipe(char **line, t_token **token_list);
 bool			handle_parentheses(char **line, t_token **token_list);
 bool			handle_ampersand(char **line, t_token **token_list);
@@ -187,6 +188,7 @@ void			print_tokens(t_token **token_list);
 void			print_ast(t_ast *node, int depth);
 void			print_error(char *str);
 void			print_error_status(char *str);
+void			print_error_exit_status(char *str, int exit_status);
 
 // *** CLEAN ***
 void			free_token_list(t_token **token_list);

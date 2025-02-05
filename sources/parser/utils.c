@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 15:15:46 by yde-rudd          #+#    #+#             */
-/*   Updated: 2025/01/20 16:13:30 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/02/05 15:06:50 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,25 +26,29 @@ void	print_error(char *str)
 
 void	print_error_status(char *str)
 {
-	ft_putstr_fd(BOLD_RED, STDERR_FILENO);
-	ft_putendl_fd(str, STDERR_FILENO);
-	ft_putstr_fd(RESET, STDERR_FILENO);
+	print_error(str);
 	g_exit_status = 1;
 }
 
-void	print_tokens(t_token **token_list)
+void	print_error_exit_status(char *str, int exit_status)
 {
-	t_token	*current;
-
-	current = *token_list;
-	while (current)
-	{
-		printf(BOLD_BLUE "Token: %s, Type: %d\n" RESET, current->value,
-			current->type);
-		current = current->next;
-	}
-	ft_putendl_fd("", STDOUT_FILENO);
+	print_error(str);
+	g_exit_status = exit_status;
 }
+
+// void	print_tokens(t_token **token_list)
+// {
+// 	t_token	*current;
+
+// 	current = *token_list;
+// 	while (current)
+// 	{
+// 		printf(BOLD_BLUE "Token: %s, Type: %d\n" RESET, current->value,
+// 			current->type);
+// 		current = current->next;
+// 	}
+// 	ft_putendl_fd("", STDOUT_FILENO);
+// }
 
 bool	is_special_case(char c)
 {
