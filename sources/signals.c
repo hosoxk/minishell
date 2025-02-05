@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-static void	save_terminal_settings(struct termios *orig_termios)
+void	save_terminal_settings(struct termios *orig_termios)
 {
 	if (tcgetattr(STDIN_FILENO, orig_termios) == -1)
 	{
@@ -96,12 +96,11 @@ void	disable_signal_chars(void)
  *	Disables signals that come from keyboard
  */
 
-bool	setup_signals(struct termios *orig_termios)
+bool	setup_signals(void)
 {
 	struct sigaction	sa;
 
-	save_terminal_settings(orig_termios);
-
+	printf(BOLD_RED"Signals being set up ..."RESET);
 	sa.sa_handler = SIG_IGN;
 	sa.sa_flags = 0;
 	sigemptyset(&sa.sa_mask);

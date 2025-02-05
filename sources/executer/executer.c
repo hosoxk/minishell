@@ -154,6 +154,7 @@ bool	executor(t_ast *ast_root, char ***env)
 		print_error_status("fork failed");
 		return (false);
 	}
+	setup_signals();
 	if (!execute(ast_root, env, pids, true))
 		return (free(pids), false);
 	g_exit_status = get_exit_code(pids);

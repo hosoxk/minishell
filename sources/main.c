@@ -12,6 +12,8 @@
 
 #include "minishell.h"
 
+// heredoc, grep have valgrind errors!
+
 volatile int	g_exit_status = 0;
 
 static bool	check_input(int argc, char **envp)
@@ -114,8 +116,9 @@ int	main(int argc, char **argv, char **envp)
 	struct termios	orig_termios;
 
 	(void)argv;
-	if (!setup_signals(&orig_termios))
-		return (restore_terminal_settings(&orig_termios), g_exit_status);
+	save_terminal_settings(&orig_termios);
+//	if (!setup_signals())
+//		return (restore_terminal_settings(&orig_termios), g_exit_status);
 	printf("Original VQUIT: %d\n", orig_termios.c_cc[VQUIT]);
 	if (!check_input(argc, envp))
 		return (1);
@@ -123,7 +126,7 @@ int	main(int argc, char **argv, char **envp)
 	if (!env)
 		return (1);
 	if (isatty(STDIN_FILENO))
-		if (!setup_signals(&orig_termios))
+		if (!setup_signals())
 			return (ft_free_tab(env), rl_clear_history(),
 				restore_terminal_settings(&orig_termios), g_exit_status);
 	while (1)

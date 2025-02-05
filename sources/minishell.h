@@ -162,12 +162,13 @@ bool			execute_token_tree(t_token_tree *tree, char ***env, \
 bool			execute_sub_commands(t_token_tree *tree, char ***env, \
 					t_token_tree *root);
 // *** SIGNALS ***
-bool			setup_signals(struct termios *orig_termios);
+bool			setup_signals(void);
 void			handle_sigint(int sig);
 void			handle_sigint_in_cmd(int sig);
 void			handle_sigint_here(int sig);
 void			disable_signal_chars(void);
 void			restore_terminal_settings(const struct termios *orig_termios);
+void			save_terminal_settings(struct termios *orig_termios);
 
 // *** UTILS ***
 void			exit_status(int exit_status);
