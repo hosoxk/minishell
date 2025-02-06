@@ -6,7 +6,11 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:38:48 by yde-rudd          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2025/02/06 15:25:11 by yde-rudd         ###   ########.fr       */
+=======
+/*   Updated: 2025/02/06 11:45:28 by kvanden-         ###   ########.fr       */
+>>>>>>> 6097ddddadeb578d3f37692c01694377adaad743
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,37 +86,6 @@ static bool	execute_line(char *line, char ***env)
 	return (execute_token_list(token_list, env));
 }
 
-static bool	is_exit(char *line)
-{
-	char	**list;
-	int		exit_code;
-	int		i;
-
-	list = ft_split(line, ' ');
-	if (!list)
-		return (false);
-	if (ft_strcmp(list[0], "exit") != 0)
-		return (ft_free_tab(list), false);
-	if (list[1] == NULL)
-		return (ft_free_tab(list), true);
-	if (list[2])
-		return (print_error("exit: too many arguments"), ft_free_tab(list), false);
-	exit_code = ft_atoi(list[1]);
-	if (exit_code == 0 && ft_strcmp(list[1], "0") != 0)
-	{
-		i = 0;
-		while (list[1][i])
-		{
-			if (ft_isdigit(list[1][i]) != 1)
-				return (ft_free_tab(list), print_error("exit: one numeric argument required"), false);
-			i++;
-		}
-		exit_code = 2;
-	}
-	g_exit_status = exit_code % 256;
-	return (ft_free_tab(list), true);
-}
-
 int	main(int argc, char **argv, char **envp)
 {
 	char			*line;
@@ -137,9 +110,9 @@ int	main(int argc, char **argv, char **envp)
 		if (!line)
 			return (ft_free_tab(env), rl_clear_history(),
 				restore_terminal_settings(&orig_termios), g_exit_status);
-		if (is_exit(line))
-			return (free(line), ft_free_tab(env), rl_clear_history(),
-				restore_terminal_settings(&orig_termios), g_exit_status);
+		// if (is_exit(line))
+		// 	return (free(line), ft_free_tab(env), rl_clear_history(),
+		// 		restore_terminal_settings(&orig_termios), g_exit_status);
 		if (!execute_line(line, &env))
 			if (g_exit_status != 258)
 				return (ft_free_tab(env), restore_terminal_settings(&orig_termios),

@@ -206,6 +206,8 @@ bool			do_redirection(t_ast *ast_root, char ***env, pid_t *pids,
 					bool is_first);
 bool			init_heredoc(t_ast *ast_root, char **env, pid_t *pids);
 void			my_echo(char **argv);
+void			my_exit(char **argv);
+bool			my_exit_normal(char ***env, t_ast *node);
 void			my_env(char **env, char **argv);
 void			export(char ***env, char **argv);
 void			unset(char ***env, char **argv);
