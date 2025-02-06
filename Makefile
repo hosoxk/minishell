@@ -47,6 +47,8 @@ SRC_FILES = $(SRC_DIR)/main.c \
 		$(SRC_DIR)/executer/build_ins/my_export.c \
 		$(SRC_DIR)/executer/build_ins/my_pwd.c \
 		$(SRC_DIR)/executer/build_ins/my_cd.c \
+		$(SRC_DIR)/executer/build_ins/my_exit.c \
+		\
 		$(SRC_DIR)/executer/execute_build_in_cmd.c \
 		$(SRC_DIR)/executer/execute_custom_cmd.c \
 		$(SRC_DIR)/executer/executer.c \
