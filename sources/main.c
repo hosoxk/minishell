@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:38:48 by yde-rudd          #+#    #+#             */
-/*   Updated: 2025/02/06 15:14:38 by yde-rudd         ###   ########.fr       */
+/*   Updated: 2025/02/06 15:25:11 by yde-rudd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,12 +56,11 @@ bool	execute_token_list(t_token *token_list, char ***env)
 		return (true);
 	printf("sigint = handle_sigint_in_cmd\n");
 	signal(SIGINT, handle_sigint_in_cmd);
-	disable_signal_chars();
-	printf("sigquit = handle_sigquit_in_cmd\n");
-//	signal(SIGQUIT, handle_sigquit_in_cmd);
+	signal(SIGQUIT, SIG_DFL);
 	success = executor(root, env);
-	printf("sigint = handle_sigint\n");
-	signal(SIGINT, handle_sigint);
+	signal(SIGQUIT, SIG_DFL);
+	printf("setup_signals() ...\n");
+	setup_signals();
 	free_ast(root);
 	return (success);
 }
