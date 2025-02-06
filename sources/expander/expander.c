@@ -61,7 +61,8 @@ static bool	_expander(t_token *token_list, char **env)
 {
 	while (token_list)
 	{
-		if (token_list->type >= WORD && token_list->type <= FAKE_QUOTED_STRING)
+		if (token_list->type >= WORD
+			&& token_list->type <= FAKE_DOUBLE_QUOTED_STRING)
 		{
 			if (!expend_token(token_list, env))
 				return (false);
@@ -85,7 +86,8 @@ static bool	setup(t_token *token_list, char **env, t_token **token,
 	*previous = NULL;
 	if (!*token)
 		return (true);
-	if ((*token)->type == FAKE_QUOTED_STRING)
+	if ((*token)->type == FAKE_DOUBLE_QUOTED_STRING
+		|| (*token)->type == FAKE_QUOTED_STRING)
 	{
 		(*token)->type = WORD;
 		*previous = *token;
@@ -121,8 +123,11 @@ bool	expander(t_token *token_list, char **env)
 		return (false);
 	while (token)
 	{
-		if (token->type == FAKE_QUOTED_STRING)
-			if (previous->type == WORD)
+		if (token->type == FAKE_QUOTED_STRING
+			|| token->type == FAKE_DOUBLE_QUOTED_STRING)
+			if (previous->type == WORD
+				|| previous->type == QUOTED_STRING
+				|| previous->type == DOUBLE_QUOTED_STRING)
 				if (!marge(&token, &previous))
 					return (false);
 		previous = token;

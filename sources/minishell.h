@@ -64,6 +64,7 @@ typedef enum e_token_type
 	WORD,
 	VARIABLE,
 	DOUBLE_QUOTED_STRING,
+	FAKE_DOUBLE_QUOTED_STRING,
 	FAKE_QUOTED_STRING,
 	QUOTED_STRING
 }	t_token_type;

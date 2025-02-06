@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 16:56:36 by yde-rudd          #+#    #+#             */
-/*   Updated: 2025/02/05 15:23:46 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/02/06 11:01:29 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,13 @@ static bool	add_quoted_token(char **line, char *quoted_str, char quote_char,
 	}
 	else
 	{
-		if (!add_token_to_list(token_list, quoted_str, FAKE_QUOTED_STRING))
+		if ((**line) == '\'')
+		{
+			if (!add_token_to_list(token_list, quoted_str, FAKE_QUOTED_STRING))
+				return (false);
+		}
+		else if (!add_token_to_list(token_list, quoted_str,
+				FAKE_DOUBLE_QUOTED_STRING))
 			return (false);
 	}
 	free(quoted_str);
@@ -35,6 +41,7 @@ static bool	add_quoted_token(char **line, char *quoted_str, char quote_char,
 	return (true);
 }
 
+//(*(*line + 1) == '\0' || *(*line + 1) == ' ')
 bool	handle_quoted_str(char **line, t_token **token_list,
 		char *absoluut_begin)
 {
@@ -57,8 +64,7 @@ bool	handle_quoted_str(char **line, t_token **token_list,
 		return (print_error_status("Error: failure malloc in \
 			handle_quoted_str"),
 			false);
-	if ((*(*line + 1) == '\0' || *(*line + 1) == ' ')
-			&& (absoluut_begin == start || *(start -1) == ' '))
+	if ((absoluut_begin == start || *(start - 2) == ' '))
 		return (add_quoted_token(line, quoted_str, quote_char, token_list));
 	return (add_quoted_token(line, quoted_str, '?', token_list));
 }
