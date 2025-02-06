@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 13:00:45 by kvanden-          #+#    #+#             */
-/*   Updated: 2025/02/04 14:05:12 by yde-rudd         ###   ########.fr       */
+/*   Updated: 2025/02/06 15:11:28 by yde-rudd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ static char	*get_path(char *cmd, char **env)
  * @param env The environment variables array used to retrieve the PATH
  * variable and to pass to the executed command.
  */
+
 void	execute_build_in_cmd(char **argv, char **env)
 {
 	char	*path;
@@ -95,7 +96,10 @@ void	execute_build_in_cmd(char **argv, char **env)
 		execve(path, argv, env);
 		free(path);
 	}
-	execve(name, argv, env);
-	ft_putstr_fd("minishell: command not found: ", STDERR_FILENO);
-	ft_putendl_fd(name, STDERR_FILENO);
+	else
+	{
+		execve(name, argv, env);
+		ft_putstr_fd("minishell: command not found: ", STDERR_FILENO);
+		ft_putendl_fd(name, STDERR_FILENO);
+	}
 }

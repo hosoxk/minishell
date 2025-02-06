@@ -6,7 +6,7 @@
 /*   By: yde-rudd <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 13:46:05 by yde-rudd          #+#    #+#             */
-/*   Updated: 2025/02/04 13:15:35 by yde-rudd         ###   ########.fr       */
+/*   Updated: 2025/02/06 15:09:27 by yde-rudd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,12 @@ void	disable_signal_chars(void)
  *	SIGQUIT gets ignored by the handler SIG_IGN
  *	Disables signals that come from keyboard
  */
+/*
+void	handle_sigquit_in_cmd(int sig)
+{
 
+}
+*/
 bool	setup_signals(void)
 {
 	struct sigaction	sa;

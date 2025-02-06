@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:38:48 by yde-rudd          #+#    #+#             */
-/*   Updated: 2025/02/05 15:19:37 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/02/06 15:14:38 by yde-rudd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,13 @@ bool	execute_token_list(t_token *token_list, char ***env)
 	root = get_ast(token_list, &data);
 	if (!root)
 		return (true);
+	printf("sigint = handle_sigint_in_cmd\n");
 	signal(SIGINT, handle_sigint_in_cmd);
+	disable_signal_chars();
+	printf("sigquit = handle_sigquit_in_cmd\n");
+//	signal(SIGQUIT, handle_sigquit_in_cmd);
 	success = executor(root, env);
+	printf("sigint = handle_sigint\n");
 	signal(SIGINT, handle_sigint);
 	free_ast(root);
 	return (success);
@@ -117,8 +122,6 @@ int	main(int argc, char **argv, char **envp)
 
 	(void)argv;
 	save_terminal_settings(&orig_termios);
-//	if (!setup_signals())
-//		return (restore_terminal_settings(&orig_termios), g_exit_status);
 	printf("Original VQUIT: %d\n", orig_termios.c_cc[VQUIT]);
 	if (!check_input(argc, envp))
 		return (1);

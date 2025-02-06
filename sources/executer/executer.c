@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 16:32:53 by kvanden-          #+#    #+#             */
-/*   Updated: 2025/02/04 14:01:00 by yde-rudd         ###   ########.fr       */
+/*   Updated: 2025/02/06 14:40:45 by yde-rudd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ static bool	execute_cmd(t_ast *ast_root, char ***env, pid_t *pids,
 	if (is_first)
 	{
 		pid = fork();
+		printf("forking ...\n");
 		if (pid == -1)
 			return (print_error_status("fork failed"), false);
 		set_pid(pids, pid);
@@ -154,7 +155,6 @@ bool	executor(t_ast *ast_root, char ***env)
 		print_error_status("fork failed");
 		return (false);
 	}
-	setup_signals();
 	if (!execute(ast_root, env, pids, true))
 		return (free(pids), false);
 	g_exit_status = get_exit_code(pids);
