@@ -148,7 +148,7 @@ bool	executor(t_ast *ast_root, char ***env)
 	pid_t	*pids;
 
 	if (execute_custom_cmd(ast_root, env))
-		return (g_exit_status == 0);
+		return (g_exit_status == 0 || g_exit_status == 1);
 	pids = get_pid_list(ast_root);
 	if (!pids)
 	{

@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 11:30:52 by kvanden-          #+#    #+#             */
-/*   Updated: 2025/02/06 15:46:16 by yde-rudd         ###   ########.fr       */
+/*   Updated: 2025/02/06 15:58:43 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static bool	_my_exit(char **argv)
 		i++;
 	}
 	if (argv[2])
-		return (print_error_exit_status("exit: too many arguments", 2), false);
+		return (print_error_exit_status("exit: too many arguments", 1), false);
 	g_exit_status = ft_atoi(argv[1]);
 	return (true);
 }
@@ -45,8 +45,7 @@ bool	my_exit_normal(char ***env, t_ast *node)
 	if (node != node->free_data->root)
 		return (false);
 	printf("exit\n");
-	if (!_my_exit(node->args))
-		return (false);
-	exit_clean(node, *env, g_exit_status);
+	if (_my_exit(node->args))
+		exit_clean(node, *env, g_exit_status);
 	return (true);
 }
