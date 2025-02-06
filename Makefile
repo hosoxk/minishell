@@ -6,7 +6,7 @@
 #    By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/25 15:08:03 by yde-rudd          #+#    #+#              #
-#    Updated: 2025/01/08 13:28:57 by kvanden-         ###   ########.fr        #
+#    Updated: 2025/02/06 17:40:41 by yde-rudd         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -70,7 +70,8 @@ SRC_FILES = $(SRC_DIR)/main.c \
 		$(SRC_DIR)/exit.c \
 		$(SRC_DIR)/handle_line.c \
 		$(SRC_DIR)/fds.c \
-		$(SRC_DIR)/signals.c
+		$(SRC_DIR)/signals.c \
+		$(SRC_DIR)/terminal.c
 
 # $(SRC_DIR)/token_tree/handle_paran.c \
 # $(SRC_DIR)/token_tree/token_tree.c \
