@@ -12,6 +12,26 @@
 
 #include "minishell.h"
 
+void	save_terminal_settings(struct termios *orig_termios)
+{
+	if (tcgetattr(STDIN_FILENO, orig_termios) == -1)
+	{
+		print_error("tcgetattr");
+		exit(1);
+	}
+}
+
+void	restore_terminal_settings(const struct termios *orig_termios)
+{
+	printf("Restoring terminal settings!\n");
+	if (tcsetattr(STDIN_FILENO, TCSANOW, orig_termios) == -1)
+	{
+		print_error("tcsetattr");
+		exit(1);
+	}
+	printf("Restored VQUIT: %d\n", orig_termios->c_cc[VQUIT]);
+}
+
 void	handle_sigint_in_cmd(int sig)
 {
 	(void)sig;
@@ -49,13 +69,21 @@ void	handle_sigint(int sig)
 void	disable_signal_chars(void)
 {
 	struct termios	term;
+	int				orig_vquit;
 
 	if (tcgetattr(STDIN_FILENO, &term) == -1)
 	{
 		print_error("tcgetattr");
 		exit(1);
 	}
+	orig_vquit = term.c_cc[VQUIT];
 	term.c_cc[VQUIT] = _POSIX_VDISABLE;
+	if (tcsetattr(STDIN_FILENO, TCSANOW, &term) == -1)
+	{
+		print_error("tcsetattr");
+		exit(1);
+	}
+	term.c_cc[VQUIT] = orig_vquit;
 	if (tcsetattr(STDIN_FILENO, TCSANOW, &term) == -1)
 	{
 		print_error("tcsetattr");
@@ -68,22 +96,24 @@ void	disable_signal_chars(void)
  *	Disables signals that come from keyboard
  */
 
-void	setup_signals(void)
+bool	setup_signals(void)
 {
 	struct sigaction	sa;
 
+	printf(BOLD_RED"Signals being set up ..."RESET);
 	sa.sa_handler = SIG_IGN;
 	sa.sa_flags = 0;
 	sigemptyset(&sa.sa_mask);
 	if (signal(SIGINT, handle_sigint) == SIG_ERR)
 	{
 		print_error("Failed to handle SIGINT");
-		exit (1);
+		return (false);
 	}
 	if (sigaction(SIGQUIT, &sa, NULL) == -1)
 	{
 		print_error("Failed to ignore SIGQUIT");
-		exit (1);
+		return (false);
 	}
 	disable_signal_chars();
+	return (true);
 }

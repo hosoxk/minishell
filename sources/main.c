@@ -12,19 +12,7 @@
 
 #include "minishell.h"
 
-/*	Succesfull execution: 0
- *	Syntax errors: 258
- *	Command not found: 127
- *	If command exists but is not executable: 126
- *	Malloc fails: 1
- *	Execution errors: 1
- *	Build-in errors: 1
- *	File not found or permission denied: 1
- *	Process gets terminated -> SIGINT: 130
- *							-> SIGQUIT: 131
- *	Pipeline failure: last command exit_status
- *	Non-interactive unsupported: 1
- */
+// heredoc, grep have valgrind errors!
 
 volatile int	g_exit_status = 0;
 
@@ -123,28 +111,38 @@ static bool	is_exit(char *line)
 
 int	main(int argc, char **argv, char **envp)
 {
-	char	*line;
-	char	**env;
+	char			*line;
+	char			**env;
+	struct termios	orig_termios;
 
 	(void)argv;
+	save_terminal_settings(&orig_termios);
+//	if (!setup_signals())
+//		return (restore_terminal_settings(&orig_termios), g_exit_status);
+	printf("Original VQUIT: %d\n", orig_termios.c_cc[VQUIT]);
 	if (!check_input(argc, envp))
 		return (1);
 	env = create_env(envp);
 	if (!env)
 		return (1);
 	if (isatty(STDIN_FILENO))
-		setup_signals();
+		if (!setup_signals())
+			return (ft_free_tab(env), rl_clear_history(),
+				restore_terminal_settings(&orig_termios), g_exit_status);
 	while (1)
 	{
 		line = get_line(env);
 		if (!line)
-			return (ft_free_tab(env), rl_clear_history(), g_exit_status);
+			return (ft_free_tab(env), rl_clear_history(),
+				restore_terminal_settings(&orig_termios), g_exit_status);
 		if (is_exit(line))
 			return (free(line), ft_free_tab(env), rl_clear_history(),
-				g_exit_status);
+				restore_terminal_settings(&orig_termios), g_exit_status);
 		if (!execute_line(line, &env))
 			if (g_exit_status != 258)
-				return (ft_free_tab(env), g_exit_status);
+				return (ft_free_tab(env), restore_terminal_settings(&orig_termios),
+					g_exit_status);
 	}
+	restore_terminal_settings(&orig_termios);
 	return (g_exit_status);
 }
