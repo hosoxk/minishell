@@ -6,11 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:38:48 by yde-rudd          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2025/02/06 15:25:11 by yde-rudd         ###   ########.fr       */
-=======
-/*   Updated: 2025/02/06 11:45:28 by kvanden-         ###   ########.fr       */
->>>>>>> 6097ddddadeb578d3f37692c01694377adaad743
+/*   Updated: 2025/02/06 15:49:53 by yde-rudd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,12 +54,8 @@ bool	execute_token_list(t_token *token_list, char ***env)
 	root = get_ast(token_list, &data);
 	if (!root)
 		return (true);
-	printf("sigint = handle_sigint_in_cmd\n");
 	signal(SIGINT, handle_sigint_in_cmd);
-	signal(SIGQUIT, SIG_DFL);
 	success = executor(root, env);
-	signal(SIGQUIT, SIG_DFL);
-	printf("setup_signals() ...\n");
 	setup_signals();
 	free_ast(root);
 	return (success);
@@ -110,9 +102,6 @@ int	main(int argc, char **argv, char **envp)
 		if (!line)
 			return (ft_free_tab(env), rl_clear_history(),
 				restore_terminal_settings(&orig_termios), g_exit_status);
-		// if (is_exit(line))
-		// 	return (free(line), ft_free_tab(env), rl_clear_history(),
-		// 		restore_terminal_settings(&orig_termios), g_exit_status);
 		if (!execute_line(line, &env))
 			if (g_exit_status != 258)
 				return (ft_free_tab(env), restore_terminal_settings(&orig_termios),
