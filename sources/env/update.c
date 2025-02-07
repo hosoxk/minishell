@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 16:29:34 by kvanden-          #+#    #+#             */
-/*   Updated: 2025/02/04 12:55:59 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/02/07 12:19:17 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,5 +60,21 @@ bool	update_env(char *name, char *value, char ***env)
 		return (print_error_status("malloc failed"), false);
 	free((*env)[index]);
 	(*env)[index] = new_env;
+	return (true);
+}
+
+int	get_exit_status(char **env)
+{
+	return ((int)*getenv_stript("?", env));
+}
+
+bool set_exit_status(int exit_status, char **env)
+{
+	int		index;
+
+	index = get_location("?", &env);
+	if (index < 0)
+		return (false);
+	env[index][2] = exit_status;
 	return (true);
 }

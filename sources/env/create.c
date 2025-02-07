@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 08:18:56 by kvanden-          #+#    #+#             */
-/*   Updated: 2025/01/21 10:59:41 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/02/07 12:11:06 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,11 @@ static bool	set_path(char ***env)
 	return (update_env("PATH", "/bin:/usr/bin", env));
 }
 
+static bool add_exit_status(char ***env)
+{
+	return (update_env("?", "0", env));
+}
+
 char	**create_env(char **envp)
 {
 	char	**env;
@@ -67,6 +72,8 @@ char	**create_env(char **envp)
 	env = ft_copy_tab(envp);
 	if (!env)
 		return (print_error_status("Failure copying envp into env"), NULL);
+	if (!add_exit_status(&env))
+		return (ft_free_tab(env), NULL);
 	if (!incroment_shell_level(&env))
 		return (ft_free_tab(env), NULL);
 	if (!set_pwd(&env))

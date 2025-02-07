@@ -247,4 +247,7 @@ void			clear_fds(int *fds);
 void			add_fd(t_ast *tree, int fd);
 void			pop_fd(t_ast *tree);
 
+int				get_exit_status(char **env);
+bool			set_exit_status(int exit_status, char **env);
+
 #endif
