@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 08:21:22 by kvanden-          #+#    #+#             */
-/*   Updated: 2025/02/05 15:14:25 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/02/06 17:11:36 by yde-rudd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,14 +121,14 @@ static char	*get_new_var(t_token *token, int index, char **env)
 // 	token->next = next;
 // 	return (true);
 // }
+// if (token->value[ft_strlen(token->value) - 1] == '$')
+// 	return (true);
 
 static bool	replace_var(t_token *token, char **env, char *dollar)
 {
 	char	*new_var;
 	int		index;
 
-	// if (token->value[ft_strlen(token->value) - 1] == '$')
-	// 	return (true);
 	index = dollar - token->value + 1;
 	new_var = get_new_var(token, index, env);
 	if (!new_var)

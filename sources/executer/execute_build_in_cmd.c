@@ -6,13 +6,13 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 13:00:45 by kvanden-          #+#    #+#             */
-/*   Updated: 2025/02/06 15:36:29 by yde-rudd         ###   ########.fr       */
+/*   Updated: 2025/02/06 18:22:09 by yde-rudd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-/**
+/*
  * @brief Searches for the full executable path of a command within the 
  * system's PATH environment variable.
  *
@@ -79,11 +79,6 @@ void	execute_build_in_cmd(char **argv, char **env)
 	char	*path;
 	char	*name;
 
-	if (!argv || !argv[0])
-	{
-		ft_putendl_fd("minishell: command not found", STDERR_FILENO);
-		return ;
-	}
 	name = argv[0];
 	if (!name)
 	{

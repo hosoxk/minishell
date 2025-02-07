@@ -6,21 +6,26 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:38:48 by yde-rudd          #+#    #+#             */
-/*   Updated: 2025/02/06 15:49:53 by yde-rudd         ###   ########.fr       */
+/*   Updated: 2025/02/06 18:25:01 by yde-rudd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// heredoc, grep have valgrind errors!
-
+// valgrind error: 
+// << lol --> ctrl + C --> exits minishell, shouldnt.
 volatile int	g_exit_status = 0;
 
-static bool	check_input(int argc, char **envp)
+static bool	check_input(int argc, char **envp, char **argv)
 {
 	if (argc != 1)
-		return (print_error_status("Correct usage: ./minishell"),
-			false);
+	{
+		printf(BOLD_RED"Incorrect arguments: ");
+		while (*(++argv))
+			printf("%s ", *argv);
+		printf("\n"RESET);
+		return (print_error_status("Correct usage: ./<executable>"), false);
+	}
 	if (!envp)
 		return (print_error_status("Failure locating envp"),
 			false);
@@ -78,24 +83,29 @@ static bool	execute_line(char *line, char ***env)
 	return (execute_token_list(token_list, env));
 }
 
+static bool	setup_terminal_signals(char **env, struct termios *orig_termios)
+{
+	if (isatty(STDIN_FILENO))
+		if (!setup_signals())
+			return (ft_free_tab(env), rl_clear_history(),
+				restore_terminal_settings(orig_termios), false);
+	return (true);
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	char			*line;
 	char			**env;
 	struct termios	orig_termios;
 
-	(void)argv;
 	save_terminal_settings(&orig_termios);
-	printf("Original VQUIT: %d\n", orig_termios.c_cc[VQUIT]);
-	if (!check_input(argc, envp))
+	if (!check_input(argc, envp, argv))
 		return (1);
 	env = create_env(envp);
 	if (!env)
 		return (1);
-	if (isatty(STDIN_FILENO))
-		if (!setup_signals())
-			return (ft_free_tab(env), rl_clear_history(),
-				restore_terminal_settings(&orig_termios), g_exit_status);
+	if (!setup_terminal_signals(env, &orig_termios))
+		return (g_exit_status);
 	while (1)
 	{
 		line = get_line(env);
@@ -104,8 +114,8 @@ int	main(int argc, char **argv, char **envp)
 				restore_terminal_settings(&orig_termios), g_exit_status);
 		if (!execute_line(line, &env))
 			if (g_exit_status != 258)
-				return (ft_free_tab(env), restore_terminal_settings(&orig_termios),
-					g_exit_status);
+				return (ft_free_tab(env),
+					restore_terminal_settings(&orig_termios), g_exit_status);
 	}
 	restore_terminal_settings(&orig_termios);
 	return (g_exit_status);

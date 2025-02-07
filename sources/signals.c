@@ -6,31 +6,11 @@
 /*   By: yde-rudd <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 13:46:05 by yde-rudd          #+#    #+#             */
-/*   Updated: 2025/02/06 15:09:27 by yde-rudd         ###   ########.fr       */
+/*   Updated: 2025/02/06 17:17:25 by yde-rudd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	save_terminal_settings(struct termios *orig_termios)
-{
-	if (tcgetattr(STDIN_FILENO, orig_termios) == -1)
-	{
-		print_error("tcgetattr");
-		exit(1);
-	}
-}
-
-void	restore_terminal_settings(const struct termios *orig_termios)
-{
-	printf("Restoring terminal settings!\n");
-	if (tcsetattr(STDIN_FILENO, TCSANOW, orig_termios) == -1)
-	{
-		print_error("tcsetattr");
-		exit(1);
-	}
-	printf("Restored VQUIT: %d\n", orig_termios->c_cc[VQUIT]);
-}
 
 void	handle_sigint_in_cmd(int sig)
 {
@@ -95,12 +75,7 @@ void	disable_signal_chars(void)
  *	SIGQUIT gets ignored by the handler SIG_IGN
  *	Disables signals that come from keyboard
  */
-/*
-void	handle_sigquit_in_cmd(int sig)
-{
 
-}
-*/
 bool	setup_signals(void)
 {
 	struct sigaction	sa;
