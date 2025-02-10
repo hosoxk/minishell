@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 08:21:22 by kvanden-          #+#    #+#             */
-/*   Updated: 2025/02/06 17:11:36 by yde-rudd         ###   ########.fr       */
+/*   Updated: 2025/02/10 09:27:05 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static char	*make_new_value(t_token *token, int index, char *env_value, int len)
 	new_value = malloc(sizeof(char) * (ft_strlen(token->value) - len
 				+ ft_strlen(env_value) + 1));
 	if (!new_value)
-		return (print_error_status("malloc failed"), NULL);
+		return (print_error("malloc failed"), NULL);
 	ft_strlcpy(new_value, token->value, index + 1);
 	ft_strcpy(new_value + index - 1, env_value);
 	ft_strcpy(new_value + index - 1 + ft_strlen(env_value), &token->value[index
@@ -77,16 +77,17 @@ static char	*get_new_var(t_token *token, int index, char **env)
 	bool	free_env_value;
 
 	len = find_length(&token->value[index]);
-	env_value = get_env_value(token, index, len, env);
 	free_env_value = false;
-	if (!env_value && token->value[index] == '?')
+	if (token->value[index] == '?')
 	{
 		free_env_value = true;
-		env_value = ft_itoa(g_exit_status);
+		env_value = ft_itoa(get_exit_status(env));
 		if (!env_value)
 			return (NULL);
 	}
-	else if (!env_value)
+	else
+		env_value = get_env_value(token, index, len, env);
+	if (!env_value)
 		env_value = "";
 	new_value = make_new_value(token, index, env_value, len);
 	if (!new_value)

@@ -66,6 +66,7 @@ SRC_FILES = $(SRC_DIR)/main.c \
 		$(SRC_DIR)/env/expent.c \
 		$(SRC_DIR)/env/update.c \
 		$(SRC_DIR)/env/util.c \
+		$(SRC_DIR)/env/exit_status.c \
 		\
 		$(SRC_DIR)/exit.c \
 		$(SRC_DIR)/handle_line.c \

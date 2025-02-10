@@ -12,7 +12,7 @@
 
 #include "../minishell.h"
 
-static bool	handle_word(char **line, t_token **token_list, char *absoluut_begin)
+static bool	handle_word(char **line, t_token **token_list, char *absoluut_begin, char **env)
 {
 	char	*start;
 	char	*word;
@@ -25,32 +25,32 @@ static bool	handle_word(char **line, t_token **token_list, char *absoluut_begin)
 	word = ft_strndup(start, *line - start);
 	if (!(absoluut_begin == start || *(start -1) == ' '))
 	{
-		if (!add_token_to_list(token_list, word, FAKE_QUOTED_STRING))
+		if (!add_token_to_list(token_list, word, FAKE_QUOTED_STRING, env))
 			return (free(word), false);
 	}
-	else if (!add_token_to_list(token_list, word, WORD))
+	else if (!add_token_to_list(token_list, word, WORD, env))
 		return (free(word), false);
 	free(word);
 	return (true);
 }
 
 static bool	handle_special_case(char **line, t_token **token_list,
-	char *absoluut_begin)
+	char *absoluut_begin, char **env)
 {
 	if (**line == '\'' || **line == '\"')
-		return (handle_quoted_str(line, token_list, absoluut_begin));
+		return (handle_quoted_str(line, token_list, absoluut_begin, env));
 	if (ft_strchr("()", **line))
-		return (handle_parentheses(line, token_list));
+		return (handle_parentheses(line, token_list, env));
 	if (**line == '<' || **line == '>')
-		return (handle_redirect(line, token_list));
+		return (handle_redirect(line, token_list, env));
 	if (**line == '|')
-		return (handle_pipe(line, token_list));
+		return (handle_pipe(line, token_list, env));
 	if (**line == '&')
-		return (handle_ampersand(line, token_list));
+		return (handle_ampersand(line, token_list, env));
 	return (true);
 }
 
-bool	lexer(char *line, t_token **token_list)
+bool	lexer(char *line, t_token **token_list, char **env)
 {
 	char	*start;
 
@@ -66,10 +66,10 @@ bool	lexer(char *line, t_token **token_list)
 			line++;
 		else if (is_special_case(*line))
 		{
-			if (!handle_special_case(&line, token_list, start))
+			if (!handle_special_case(&line, token_list, start, env))
 				return (false);
 		}
-		else if (!handle_word(&line, token_list, start))
+		else if (!handle_word(&line, token_list, start, env))
 			return (false);
 	}
 	return (true);

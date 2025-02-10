@@ -55,7 +55,7 @@ static bool	match_pattern(const char *name, const char *pattern)
  *
  * @return The new_list with the new token inserted.
  */
-static t_token	*insort_wildcard(const char *name, bool first)
+static t_token	*insort_wildcard(const char *name, bool first, char **env)
 {
 	static t_token	*new_list = NULL;
 	t_token			*new_token;
@@ -65,11 +65,11 @@ static t_token	*insort_wildcard(const char *name, bool first)
 		new_list = NULL;
 	new_token = malloc(sizeof(t_token));
 	if (!new_token)
-		return (print_error_status("malloc"), NULL);
+		return (print_error_status("malloc", env), NULL);
 	new_token->value = ft_strdup(name);
 	if (!new_token->value)
 		return (free(new_token), free_token_list(&new_list),
-			print_error_status("malloc"), NULL);
+			print_error_status("malloc", env), NULL);
 	new_token->type = WORD;
 	new_token->next = NULL;
 	if (!new_list)
@@ -96,7 +96,7 @@ static t_token	*insort_wildcard(const char *name, bool first)
  * @return The new token list with the matching entries, or NULL if the
  *         operation was unsuccessful.
  */
-static t_token	*get_list(t_token *token, DIR *dir)
+static t_token	*get_list(t_token *token, DIR *dir, char **env)
 {
 	struct dirent	*entry;
 	t_token			*list;
@@ -109,7 +109,7 @@ static t_token	*get_list(t_token *token, DIR *dir)
 	{
 		if (match_pattern(entry->d_name, token->value))
 		{
-			list = insort_wildcard(entry->d_name, first);
+			list = insort_wildcard(entry->d_name, first, env);
 			if (!list)
 				return (NULL);
 			first = false;
@@ -117,7 +117,7 @@ static t_token	*get_list(t_token *token, DIR *dir)
 		entry = readdir(dir);
 	}
 	if (!list)
-		list = insort_wildcard(token->value, first);
+		list = insort_wildcard(token->value, first, env);
 	return (list);
 }
 
@@ -135,7 +135,7 @@ static t_token	*get_list(t_token *token, DIR *dir)
  * @return true if the operation was successful and matches were found, 
  *         false otherwise.
  */
-bool	expand_wildcard(t_token *token)
+bool	expand_wildcard(t_token *token, char **env)
 {
 	DIR		*dir;
 	t_token	*list;
@@ -144,7 +144,7 @@ bool	expand_wildcard(t_token *token)
 	dir = opendir(".");
 	if (!dir)
 		return (perror("opendir"), false);
-	list = get_list(token, dir);
+	list = get_list(token, dir, env);
 	closedir(dir);
 	if (!list)
 		return (false);

@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 16:29:34 by kvanden-          #+#    #+#             */
-/*   Updated: 2025/02/07 12:19:17 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/02/10 09:41:31 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	getenv_index(char *name, char **env)
 	return (-1);
 }
 
-static int	get_location(char *name, char ***env)
+int	get_location(char *name, char ***env)
 {
 	int		index;
 	char	**new_env;
@@ -42,7 +42,7 @@ static int	get_location(char *name, char ***env)
 	index = ft_tab_len(*env);
 	new_env = expent_env(*env);
 	if (!new_env)
-		return (print_error_status("malloc failed"), -1);
+		return (print_error_status("malloc failed", *env), -1);
 	*env = new_env;
 	return (index);
 }
@@ -57,24 +57,8 @@ bool	update_env(char *name, char *value, char ***env)
 		return (false);
 	new_env = ft_strjoin_multiple(name, "=", value, NULL);
 	if (!new_env)
-		return (print_error_status("malloc failed"), false);
+		return (print_error_status("malloc failed", *env), false);
 	free((*env)[index]);
 	(*env)[index] = new_env;
-	return (true);
-}
-
-int	get_exit_status(char **env)
-{
-	return ((int)*getenv_stript("?", env));
-}
-
-bool set_exit_status(int exit_status, char **env)
-{
-	int		index;
-
-	index = get_location("?", &env);
-	if (index < 0)
-		return (false);
-	env[index][2] = exit_status;
 	return (true);
 }

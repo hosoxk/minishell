@@ -6,13 +6,13 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 13:08:12 by kvanden-          #+#    #+#             */
-/*   Updated: 2025/01/20 17:57:06 by yde-rudd         ###   ########.fr       */
+/*   Updated: 2025/02/07 12:42:46 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static bool	check_pipe(t_token *token, t_token *prev_token)
+static bool	check_pipe(t_token *token, t_token *prev_token, char **env)
 {
 	bool	is_valid;
 
@@ -26,11 +26,11 @@ static bool	check_pipe(t_token *token, t_token *prev_token)
 	else
 		is_valid = true;
 	if (!is_valid)
-		g_exit_status = 258;
+		set_exit_status(258, env);
 	return (is_valid);
 }
 
-static bool	check_logic_operators(t_token *token, t_token *prev_token)
+static bool	check_logic_operators(t_token *token, t_token *prev_token, char **env)
 {
 	bool	is_valid;
 
@@ -45,22 +45,22 @@ static bool	check_logic_operators(t_token *token, t_token *prev_token)
 	else
 		is_valid = true;
 	if (!is_valid)
-		g_exit_status = 258;
+		set_exit_status(258, env);
 	return (is_valid);
 }
 
-static bool	check_redir(t_token *token)
+static bool	check_redir(t_token *token, char **env)
 {
 	if (!token->next || token->next->type != WORD)
 	{
-		g_exit_status = 258;
+		set_exit_status(258, env);
 		print_error("Syntax error: missing target for redirection");
 		return (false);
 	}
 	return (true);
 }
 
-bool	validate_token_sequence(t_token *tokens)
+bool	validate_token_sequence(t_token *tokens, char **env)
 {
 	t_token	*prev_token;
 	int		depth;
@@ -72,11 +72,11 @@ bool	validate_token_sequence(t_token *tokens)
 	while (tokens)
 	{
 		if (tokens->type == PIPE)
-			is_valid = check_pipe(tokens, prev_token);
+			is_valid = check_pipe(tokens, prev_token, env);
 		else if (tokens->type >= REDIRECT_IN && tokens->type <= HEREDOC)
-			is_valid = check_redir(tokens);
+			is_valid = check_redir(tokens, env);
 		else if (tokens->type == AND || tokens->type == OR)
-			is_valid = check_logic_operators(tokens, prev_token);
+			is_valid = check_logic_operators(tokens, prev_token, env);
 		if (!is_valid)
 			return (false);
 		if (tokens->type == PARENTHESES_OPEN)

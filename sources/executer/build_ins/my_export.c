@@ -12,7 +12,7 @@
 
 #include "../../minishell.h"
 
-static char	*get_name(char **argv)
+static char	*get_name(char **argv, char **env)
 {
 	char	*name;
 	char	*is_location;
@@ -22,11 +22,11 @@ static char	*get_name(char **argv)
 		return (NULL);
 	name = ft_substr(argv[1], 0, is_location - argv[1]);
 	if (!name)
-		(print_error_status("malloc failed"));
+		print_error_status("malloc failed", env);
 	return (name);
 }
 
-static char	*get_value(char **argv, char *name)
+static char	*get_value(char **argv, char *name, char **env)
 {
 	char	*value;
 
@@ -37,7 +37,7 @@ static char	*get_value(char **argv, char *name)
 	else
 		value = argv[2];
 	if (!value)
-		print_error_status("malloc failed");
+		print_error_status("malloc failed", env);
 	return (value);
 }
 
@@ -54,22 +54,24 @@ static void	print_export(char **env)
 	}
 }
 
-void	export(char ***env, char **argv)
+bool	my_export(char ***env, char **argv)
 {
 	char	*name;
 	char	*value;
+	bool	return_val;
 
 	if (!argv[1])
-		return (print_export(*env));
-	name = get_name(argv);
+		return (print_export(*env), true);
+	name = get_name(argv, *env);
 	if (!name)
-		return ;
-	value = get_value(argv, name);
+		return (false);
+	value = get_value(argv, name, *env);
 	if (!value)
 	{
 		free(name);
-		return ;
+		return (false);
 	}
-	update_env(name, value, env);
+	return_val = update_env(name, value, env);
 	free(name);
+	return (return_val);
 }

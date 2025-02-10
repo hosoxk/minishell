@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 08:18:56 by kvanden-          #+#    #+#             */
-/*   Updated: 2025/02/07 12:11:06 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/02/10 09:31:19 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static bool	incroment_shell_level(char ***env)
 	mod_number = ft_itoa(n);
 	if (!mod_number)
 	{
-		print_error_status("failure convorting shell level");
+		print_error_status("failure convorting shell level", *env);
 		return (false);
 	}
 	if (!update_env("SHLVL", mod_number, env))
@@ -46,7 +46,7 @@ static bool	set_pwd(char ***env)
 		return (true);
 	if (!getcwd(cwd, sizeof(cwd)))
 	{
-		g_exit_status = 1;
+		set_exit_status(1, *env);
 		perror("getcwd");
 		return (false);
 	}
@@ -60,9 +60,13 @@ static bool	set_path(char ***env)
 	return (update_env("PATH", "/bin:/usr/bin", env));
 }
 
-static bool add_exit_status(char ***env)
+static bool	add_exit_status(char ***env)
 {
-	return (update_env("?", "0", env));
+	bool return_val;
+	
+	return_val = update_env("?", "?", env);
+	set_exit_status(0, *env);
+	return (return_val);
 }
 
 char	**create_env(char **envp)
@@ -71,7 +75,7 @@ char	**create_env(char **envp)
 
 	env = ft_copy_tab(envp);
 	if (!env)
-		return (print_error_status("Failure copying envp into env"), NULL);
+		return (print_error("Failure copying envp into env"), NULL);
 	if (!add_exit_status(&env))
 		return (ft_free_tab(env), NULL);
 	if (!incroment_shell_level(&env))

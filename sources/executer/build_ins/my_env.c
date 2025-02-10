@@ -20,14 +20,15 @@
  *            "KEY=VALUE". The function will print each non-"NULL" string on
  *            a new line.
  */
-void	my_env(char **env, char **argv)
+bool	my_env(char **env, char **argv)
 {
 	if (ft_tab_len(argv) != 1)
-		return (print_error("env: No such file or directory"));
+		return (print_error("env: No such file or directory"), true);
 	while (*env)
 	{
 		if (ft_strcmp(*env, "NULL") != 0)
 			ft_putendl_fd(*env, 1);
 		env++;
 	}
+	return (true);
 }

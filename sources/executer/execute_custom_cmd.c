@@ -18,10 +18,11 @@
  * @param env
  * @return true if the command was executed successfully, false otherwise
  */
-bool	execute_custom_cmd(t_ast *ast_root, char ***env)
+bool	execute_custom_cmd(t_ast *ast_root, char ***env, bool *status)
 {
 	char	*name;
 
+	*status = true;
 	if (!ast_root->args)
 		return (false);
 	if (ast_root->type != WORD)
@@ -30,11 +31,11 @@ bool	execute_custom_cmd(t_ast *ast_root, char ***env)
 	if (ft_strcmp(name, "exit") == 0)
 		return (my_exit_normal(env, ast_root));
 	if (ft_strcmp(name, "export") == 0)
-		export(env, ast_root->args);
+		*status = my_export(env, ast_root->args);
 	else if (ft_strcmp(name, "unset") == 0)
-		unset(env, ast_root->args);
+		*status = my_unset(env, ast_root->args);
 	else if (ft_strcmp(name, "cd") == 0)
-		my_cd(env, ast_root->args);
+		*status = my_cd(env, ast_root->args);
 	else
 		return (false);
 	return (true);
@@ -56,7 +57,7 @@ bool	execute_custom_cmd_after_fork(char **argv, char ***env)
 	else if (ft_strcmp(argv[0], "pwd") == 0)
 		my_pwd();
 	else if (ft_strcmp(argv[0], "exit") == 0)
-		my_exit(argv);
+		my_exit(argv, *env);
 	else
 		return (false);
 	return (true);

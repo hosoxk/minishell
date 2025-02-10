@@ -19,7 +19,7 @@
  * The file is created if it does not exist, and truncated if it does exist.
  * The permissions of the created file are 0666.
  */
-int	open_file(char *file, t_token_type mode)
+int	open_file(char *file, t_token_type mode, char **env)
 {
 	int	ret;
 
@@ -31,7 +31,7 @@ int	open_file(char *file, t_token_type mode)
 		ret = open(file, O_WRONLY | O_CREAT | O_APPEND, 0666);
 	if (ret == -1)
 	{
-		g_exit_status = 1;
+		set_exit_status(1, env);
 		perror(file);
 	}
 	return (ret);
@@ -43,11 +43,11 @@ int	open_file(char *file, t_token_type mode)
  * If the file could not be opened, return false.
  * If the redirection is successful, return true.
  */
-static bool	init_redirection(t_ast *ast_root)
+static bool	init_redirection(t_ast *ast_root, char **env)
 {
 	int	fd;
 
-	fd = open_file(ast_root->file, ast_root->type);
+	fd = open_file(ast_root->file, ast_root->type, env);
 	if (fd == -1)
 		return (false);
 	if (ast_root->type == REDIRECT_IN)
@@ -86,8 +86,8 @@ bool	do_redirection(t_ast *ast_root, char ***env, pid_t *pids, bool is_first)
 	if (ast_root->type == HEREDOC)
 		can_execute = init_heredoc(ast_root, *env, pids);
 	else
-		can_execute = init_redirection(ast_root);
-	if (can_execute && ast_root->left && g_exit_status != 130)
+		can_execute = init_redirection(ast_root, *env);
+	if (can_execute && ast_root->left && get_exit_status(*env) != 130)
 		can_execute = execute(ast_root->left, env, pids, is_first);
 	if (can_execute)
 	{

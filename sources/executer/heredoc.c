@@ -86,9 +86,9 @@ static void	here_doc_put_in(t_ast *ast_root, int *p_fd, char **env, pid_t *pids)
 		ret = readline("> ");
 		if (!ret)
 		{
-			if (g_exit_status != 130)
+			if (g_event_val != 130)
 				print_error_status("here-document is delimited by \
-				end-of-file!");
+				end-of-file!", env);
 			break ;
 		}
 		if (ft_strcmp(ret, ast_root->file) == 0)
@@ -101,7 +101,7 @@ static void	here_doc_put_in(t_ast *ast_root, int *p_fd, char **env, pid_t *pids)
 	}
 	cleanup_heredoc(p_fd, fd_in, fd_out);
 	free(pids);
-	exit_clean(ast_root, env, g_exit_status);
+	exit_clean(ast_root, env, -1);
 }
 
 /**
@@ -137,9 +137,9 @@ bool	init_heredoc(t_ast *ast_root, char **env, pid_t *pids)
 		close(p_fd[0]);
 		waitpid(pid, &temp_exit_status, 0);
 		if (WIFEXITED(temp_exit_status))
-			g_exit_status = WEXITSTATUS(temp_exit_status);
+			set_exit_status(WEXITSTATUS(temp_exit_status), env);
 		else if (WIFSIGNALED(temp_exit_status))
-			g_exit_status = 128 + WTERMSIG(temp_exit_status);
+			set_exit_status(128 + WTERMSIG(temp_exit_status), env);
 	}
 	return (true);
 	signal(SIGINT, handle_sigint_in_cmd);

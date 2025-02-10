@@ -62,7 +62,7 @@ static char	*get_prompt(char **env)
 				+ 1));
 	if (!dir_name)
 		return (NULL);
-	if (g_exit_status != 0)
+	if (get_exit_status(env) != 0)
 		prompt = ft_strjoin_multiple(BOLD_RED, "➜  ", BOLD_BLUE, dir_name,
 				BOLD_MAGENTA, "$minishell: ", RESET, NULL);
 	else
@@ -92,7 +92,7 @@ char	*get_line(char **env)
 		return (get_shell_input());
 	promt = get_prompt(env);
 	if (!promt)
-		return (print_error_status("Failure getting prompt"), NULL);
+		return (print_error_status("Failure getting prompt", env), NULL);
 	line = readline(promt);
 	free(promt);
 	if (!line)

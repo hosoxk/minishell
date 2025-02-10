@@ -12,17 +12,17 @@
 
 #include "../minishell.h"
 
-bool	create_pipe_node(t_ast *left_node, t_token **tokens, t_parse_vars *vars)
+bool	create_pipe_node(t_ast *left_node, t_token **tokens, t_parse_vars *vars, char **env)
 {
 	t_ast	*pipe_node;
 
 	pipe_node = create_ast_node(PIPE);
 	if (!pipe_node)
-		return (print_error_status("Failed to allocate memory for PIPE node"),
+		return (print_error_status("Failed to allocate memory for PIPE node", env),
 			false);
 	pipe_node->left = left_node;
 	*tokens = (*tokens)->next;
-	pipe_node->right = parse_ast(tokens);
+	pipe_node->right = parse_ast(tokens, env);
 	vars->left_node = pipe_node;
 	return (true);
 }
@@ -56,7 +56,7 @@ void	attach_redirection_to_command(t_ast *command, t_ast *redir,
 	}
 }
 
-t_ast	*create_redirection_node(t_token **tokens)
+t_ast	*create_redirection_node(t_token **tokens, char **env)
 {
 	t_ast	*redir_node;
 
@@ -66,7 +66,7 @@ t_ast	*create_redirection_node(t_token **tokens)
 	redir_node = create_ast_node((*tokens)->type);
 	if (!redir_node)
 		return (print_error_status("Failed to allocate memory for \
-			REDIRECTION node"),
+			REDIRECTION node", env),
 			NULL);
 	*tokens = (*tokens)->next;
 	if ((*tokens) && (*tokens)->type == WORD)
@@ -88,7 +88,8 @@ t_ast	*create_command_node(t_ast *command_node, t_token **tokens,
 		node = command_node;
 	else
 		node = create_ast_node(WORD);
-	add_argument(&node->args, size, count, (*tokens)->value);
+	if (!add_argument(&node->args, size, count, (*tokens)->value))
+		return (NULL);
 	*tokens = (*tokens)->next;
 	return (node);
 }

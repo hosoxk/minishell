@@ -20,18 +20,17 @@
  * If getcwd() fails, prints an error message using perror() with the string
  * "getcwd".
  */
-void	my_pwd(void)
+bool	my_pwd(void)
 {
 	char	cwd[PATH_MAX];
 
 	if (getcwd(cwd, sizeof(cwd)) != NULL)
 	{
 		printf("%s\n", cwd);
+		return (true);
 	}
-	else
-	{
-		perror("getcwd");
-	}
+	perror("getcwd");
+	return (false);
 }
 
 // void	my_pwd(char **env)

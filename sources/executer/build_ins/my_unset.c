@@ -23,7 +23,7 @@
  * @param argv The command line arguments for the unset command.
  * @return Nothing.
  */
-void	unset(char ***env, char **argv)
+bool	my_unset(char ***env, char **argv)
 {
 	int		i;
 	char	*temp;
@@ -35,10 +35,11 @@ void	unset(char ***env, char **argv)
 		{
 			temp = ft_strdup("NULL");
 			if (!temp)
-				return (print_error_status("malloc failed"));
+				return (print_error_status("malloc failed", *env), false);
 			free((*env)[i]);
 			(*env)[i] = temp;
 		}
 		i++;
 	}
+	return (true);
 }

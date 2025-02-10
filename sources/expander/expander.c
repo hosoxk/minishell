@@ -32,7 +32,7 @@
 static bool	expend_token(t_token *token, char **env)
 {
 	if (ft_strchr(token->value, '*'))
-		if (!expand_wildcard(token))
+		if (!expand_wildcard(token, env))
 			return (false);
 	return (expand_var(token, env));
 }
@@ -96,13 +96,13 @@ static bool	setup(t_token *token_list, char **env, t_token **token,
 	return (true);
 }
 
-static bool	marge(t_token **token, t_token **previous)
+static bool	marge(t_token **token, t_token **previous, char **env)
 {
 	char	*temp;
 
 	temp = ft_strjoin((*previous)->value, (*token)->value);
 	if (!temp)
-		return (print_error_status("Error: failure malloc"),
+		return (print_error_status("Error: failure malloc", env),
 			false);
 	free((*previous)->value);
 	free((*token)->value);
@@ -128,7 +128,7 @@ bool	expander(t_token *token_list, char **env)
 			if (previous->type == WORD
 				|| previous->type == QUOTED_STRING
 				|| previous->type == DOUBLE_QUOTED_STRING)
-				if (!marge(&token, &previous))
+				if (!marge(&token, &previous, env))
 					return (false);
 		previous = token;
 		token = token->next;

@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 16:29:12 by kvanden-          #+#    #+#             */
-/*   Updated: 2025/01/27 16:29:13 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/02/07 13:19:53 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ char	**expent_env(char **env)
 	size = ft_tab_len(env);
 	new_env = ft_calloc(size * 2, sizeof(char *));
 	if (!new_env)
-		return (print_error_status("malloc failed"), NULL);
+		return (print_error_status("malloc failed", env), NULL);
 	i = 0;
 	while (i < ((size * 2) - 1))
 	{
@@ -42,7 +42,7 @@ char	**expent_env(char **env)
 		{
 			new_env[i] = NULL;
 			ft_free_tab(new_env);
-			return (print_error_status("malloc failed"), NULL);
+			return (print_error_status("malloc failed", env), NULL);
 		}
 		new_env[i] = temp;
 		i++;

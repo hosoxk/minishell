@@ -12,13 +12,13 @@
 
 #include "../minishell.h"
 
-static bool	handle_redirection(t_token **tokens, t_parse_vars *vars)
+static bool	handle_redirection(t_token **tokens, t_parse_vars *vars, char **env)
 {
 	t_ast	*redir_node;
 
-	redir_node = create_redirection_node(tokens);
+	redir_node = create_redirection_node(tokens, env);
 	if (!redir_node)
-		return (print_error_status("Error: failure creating redirection node")
+		return (print_error_status("Error: failure creating redirection node", env)
 			, false);
 	if (vars->is_prefix)
 	{
@@ -53,12 +53,12 @@ static bool	handle_word_token(t_token **tokens, t_parse_vars *vars)
 	return (true);
 }
 
-static bool	process_token(t_token **tokens, t_parse_vars *vars)
+static bool	process_token(t_token **tokens, t_parse_vars *vars, char **env)
 {
 	if ((*tokens)->type == PIPE)
-		return (create_pipe_node(vars->left_node, tokens, vars));
+		return (create_pipe_node(vars->left_node, tokens, vars, env));
 	else if ((*tokens)->type >= REDIRECT_IN && (*tokens)->type <= HEREDOC)
-		return (handle_redirection(tokens, vars));
+		return (handle_redirection(tokens, vars, env));
 	else if ((*tokens)->type == WORD)
 		return (handle_word_token(tokens, vars));
 	else
@@ -73,7 +73,7 @@ t_ast	*create_ast_node(t_token_type type)
 	node = malloc(sizeof (t_ast));
 	if (!node)
 	{
-		print_error_status("Error: failure mallocing space for new ast_node");
+		print_error("Error: failure mallocing space for new ast_node");
 		return (NULL);
 	}
 	node->type = type;
@@ -99,7 +99,7 @@ t_ast	*create_ast_node(t_token_type type)
  *	Step 2) Token iteration
  *		Each token is processed sequentially in this function.
  */
-t_ast	*parse_ast(t_token **tokens)
+t_ast	*parse_ast(t_token **tokens, char **env)
 {
 	t_parse_vars	vars;
 
@@ -107,7 +107,7 @@ t_ast	*parse_ast(t_token **tokens)
 	vars.is_prefix = true;
 	while (*tokens)
 	{
-		if (!process_token(tokens, &vars))
+		if (!process_token(tokens, &vars, env))
 			return (vars.left_node);
 	}
 	return (vars.left_node);

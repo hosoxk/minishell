@@ -59,7 +59,7 @@ static bool	execute_cmd(t_ast *ast_root, char ***env, pid_t *pids,
 		pid = fork();
 		printf("forking ...\n");
 		if (pid == -1)
-			return (print_error_status("fork failed"), false);
+			return (print_error_status("fork failed", *env), false);
 		set_pid(pids, pid);
 		if (!pid)
 			do_cmd(ast_root, env, pids);
@@ -92,7 +92,7 @@ bool	execute(t_ast *ast_root, char ***env, pid_t *pids, bool is_first)
 		return (do_pipe(ast_root, env, pids));
 	else if (ast_root->type >= REDIRECT_IN && ast_root->type <= HEREDOC)
 		return (do_redirection(ast_root, env, pids, is_first));
-	return (print_error_status("syntax error"), false);
+	return (print_error_status("syntax error", *env), false);
 }
 
 /**
@@ -107,15 +107,15 @@ bool	execute(t_ast *ast_root, char ***env, pid_t *pids, bool is_first)
  * status is returned unchanged. If a process terminates due to a signal, the
  * exit status is set to the signal number plus 128.
  */
-int	get_exit_code(pid_t *pids)
+void	fiks_exit_code(char **env, pid_t *pids)
 {
-	int	status;
 	int	i;
+	int status;
 	int	len;
 
-	status = g_exit_status;
 	len = get_len_pids(pids);
 	i = 0;
+	status = get_exit_status(env);
 	while (i < len)
 	{
 		if (waitpid(pids[i], &status, 0) == -1)
@@ -127,7 +127,7 @@ int	get_exit_code(pid_t *pids)
 		i++;
 	}
 	free(pids);
-	return (status);
+	set_exit_status(status, env);
 }
 
 /**
@@ -146,17 +146,18 @@ int	get_exit_code(pid_t *pids)
 bool	executor(t_ast *ast_root, char ***env)
 {
 	pid_t	*pids;
+	bool	status;
 
-	if (execute_custom_cmd(ast_root, env))
-		return (g_exit_status == 0 || g_exit_status == 1);
+	if (execute_custom_cmd(ast_root, env, &status))
+		return (status);
 	pids = get_pid_list(ast_root);
 	if (!pids)
 	{
-		print_error_status("fork failed");
+		print_error_status("fork failed", *env);
 		return (false);
 	}
 	if (!execute(ast_root, env, pids, true))
 		return (free(pids), false);
-	g_exit_status = get_exit_code(pids);
+	fiks_exit_code(*env, pids);
 	return (true);
 }

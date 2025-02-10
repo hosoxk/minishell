@@ -50,7 +50,7 @@ static char	*get_new_dir(char *cwd, char **env, char **argv)
 	else
 		nwd = ft_strjoin_multiple(cwd, "/", argv[1], NULL);
 	if (!nwd)
-		print_error_status("malloc failed");
+		print_error_status("malloc failed", env);
 	return (nwd);
 }
 
@@ -63,27 +63,27 @@ static char	*get_new_dir(char *cwd, char **env, char **argv)
  * @param env The environment variables as an array of strings.
  * @param argv The command line arguments for the cd command.
  */
-void	my_cd(char ***env, char **argv)
+bool	my_cd(char ***env, char **argv)
 {
 	char	cwd[PATH_MAX];
 	char	*nwd;
 
 	if (!getcwd(cwd, sizeof(cwd)))
-		return (g_exit_status = 1, perror("getcwd"));
+		return (set_exit_status(1, *env), perror("getcwd"), false);
 	nwd = get_new_dir(cwd, *env, argv);
 	if (!nwd)
 	{
-		g_exit_status = 1;
-		return ;
+		set_exit_status(1, *env);
+		return (false);
 	}
 	if (chdir(nwd) != 0)
 	{
 		perror(argv[1]);
 		free(nwd);
-		return ;
+		return (set_exit_status(1, *env), false);
 	}
 	free(nwd);
 	if (!getcwd(cwd, sizeof(cwd)))
-		return (g_exit_status = 1, perror("getcwd"));
-	update_env("PWD", cwd, env);
+		return (set_exit_status(1, *env), perror("getcwd")), false;
+	return (update_env("PWD", cwd, env));
 }

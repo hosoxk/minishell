@@ -41,7 +41,7 @@
 #  define DEBUG 0
 # endif
 
-extern volatile int			g_exit_status;
+extern volatile int			g_event_val;
 
 typedef enum e_token_type	t_token_type;
 typedef enum e_command_type	t_command_type;
@@ -127,30 +127,30 @@ typedef struct s_free_data
 char			*get_next_line(int fd);
 
 void			set_data_to_ast(t_ast *node, t_free_data *data);
-t_ast			*get_ast(t_token *token_list, t_free_data *data);
+t_ast			*get_ast(t_token *token_list, t_free_data *data, char **env);
 
 // *** LEXER & HANDLER ***
-bool			lexer(char *line, t_token **token_list);
+bool			lexer(char *line, t_token **token_list, char **env);
 void			handle_var(char **line, t_token **token_list);
-bool			handle_redirect(char **line, t_token **token_list);
+bool			handle_redirect(char **line, t_token **token_list, char **env);
 bool			handle_quoted_str(char **line, t_token **token_list, \
-					char *absoluut_begin);
-bool			handle_pipe(char **line, t_token **token_list);
-bool			handle_parentheses(char **line, t_token **token_list);
-bool			handle_ampersand(char **line, t_token **token_list);
+					char *absoluut_begin, char **env);
+bool			handle_pipe(char **line, t_token **token_list, char **env);
+bool			handle_parentheses(char **line, t_token **token_list, char **env);
+bool			handle_ampersand(char **line, t_token **token_list, char **env);
 bool			add_token_to_list(t_token **token_list, char *value,
-					t_token_type type);
-bool			validate_token_sequence(t_token *tokens);
-bool			is_valid_command(t_token *token);
+					t_token_type type, char **env);
+bool			validate_token_sequence(t_token *tokens, char **env);
+// bool			is_valid_command(t_token *token);
 
 // *** PARSER ***
-t_ast			*parse_ast(t_token **tokens);
-void			add_argument(char ***args, int *size, int *count, \
+t_ast			*parse_ast(t_token **tokens, char **env);
+bool			add_argument(char ***args, int *size, int *count, \
 					const char *value);
 t_ast			*create_ast_node(t_token_type type);
 bool			create_pipe_node(t_ast *left_node, t_token **tokens,
-					t_parse_vars *vars);
-t_ast			*create_redirection_node(t_token **tokens);
+					t_parse_vars *vars, char **env);
+t_ast			*create_redirection_node(t_token **tokens, char **env);
 void			attach_redirection_to_command(t_ast *command, t_ast *redir,
 					bool is_prefix);
 t_ast			*create_command_node(t_ast *command_node, t_token **tokens, \
@@ -178,8 +178,8 @@ bool			is_special_case(char c);
 void			print_tokens(t_token **token_list);
 void			print_ast(t_ast *node, int depth);
 void			print_error(char *str);
-void			print_error_status(char *str);
-void			print_error_exit_status(char *str, int exit_status);
+void			print_error_status(char *str, char **env);
+void			print_error_exit_status(char *str, int exit_status, char **env);
 
 // *** CLEAN ***
 void			free_token_list(t_token **token_list);
@@ -191,7 +191,7 @@ void			exit_clean(t_ast *node, char **env, int exit_status);
 // *** EXPANDER ***
 void			expand_ast(t_ast *node, char **env);
 bool			expander(t_token *token_list, char **env);
-bool			expand_wildcard(t_token *token);
+bool			expand_wildcard(t_token *token, char **env);
 bool			expand_var(t_token *token, char **env);
 void			sort_linkt_list(t_token *list);
 
@@ -201,19 +201,19 @@ bool			execute(t_ast *ast_root, char ***env, pid_t *pids, \
 bool			executor(t_ast *ast_root, char ***env);
 void			execute_build_in_cmd(char **argv, char **env);
 bool			execute_custom_cmd_after_fork(char **argv, char ***env);
-bool			execute_custom_cmd(t_ast *ast_root, char ***env);
+bool			execute_custom_cmd(t_ast *ast_root, char ***env, bool *status);
 bool			do_pipe(t_ast *ast_root, char ***env, pid_t *pids);
 bool			do_redirection(t_ast *ast_root, char ***env, pid_t *pids,
 					bool is_first);
 bool			init_heredoc(t_ast *ast_root, char **env, pid_t *pids);
-void			my_echo(char **argv);
-void			my_exit(char **argv);
+bool			my_echo(char **argv);
+void			my_exit(char **argv, char **env);
 bool			my_exit_normal(char ***env, t_ast *node);
-void			my_env(char **env, char **argv);
-void			export(char ***env, char **argv);
-void			unset(char ***env, char **argv);
-void			my_cd(char ***env, char **argv);
-void			my_pwd(void);
+bool			my_env(char **env, char **argv);
+bool			my_export(char ***env, char **argv);
+bool			my_unset(char ***env, char **argv);
+bool			my_cd(char ***env, char **argv);
+bool			my_pwd(void);
 
 // *** ENVIRONMENT ***
 char			*getenv_stript(char *name, char **env);
@@ -249,6 +249,9 @@ void			add_fd(t_ast *tree, int fd);
 void			pop_fd(t_ast *tree);
 
 int				get_exit_status(char **env);
+int				get_exit_status_and_free(char **env);
 bool			set_exit_status(int exit_status, char **env);
+
+int				get_location(char *name, char ***env);
 
 #endif

@@ -6,16 +6,11 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 15:15:46 by yde-rudd          #+#    #+#             */
-/*   Updated: 2025/02/05 15:06:50 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/02/07 12:45:07 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-void	exit_status(int exit_status)
-{
-	g_exit_status = exit_status;
-}
 
 void	print_error(char *str)
 {
@@ -24,16 +19,16 @@ void	print_error(char *str)
 	ft_putstr_fd(RESET, STDERR_FILENO);
 }
 
-void	print_error_status(char *str)
+void	print_error_status(char *str, char **env)
 {
 	print_error(str);
-	g_exit_status = 1;
+	set_exit_status(1, env);
 }
 
-void	print_error_exit_status(char *str, int exit_status)
+void	print_error_exit_status(char *str, int exit_status, char **env)
 {
 	print_error(str);
-	g_exit_status = exit_status;
+	set_exit_status(exit_status, env);
 }
 
 // void	print_tokens(t_token **token_list)

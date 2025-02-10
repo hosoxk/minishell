@@ -3,22 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   create_token.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yde-rudd <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 16:39:13 by yde-rudd          #+#    #+#             */
-/*   Updated: 2025/01/27 16:41:16 by yde-rudd         ###   ########.fr       */
+/*   Updated: 2025/02/10 09:07:04 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static t_token	*init_token(char *value, t_token_type type)
+static t_token	*init_token(char *value, t_token_type type, char **env)
 {
 	t_token	*new_token;
 
 	new_token = malloc(sizeof (t_token));
 	if (!new_token)
-		return (print_error_status("Failure mallocing space for new_token"),
+		return (print_error_status("Failure mallocing space for new_token", env),
 			NULL);
 	new_token->type = type;
 	new_token->next = NULL;
@@ -26,7 +26,7 @@ static t_token	*init_token(char *value, t_token_type type)
 	new_token->value = ft_strdup(value);
 	if (!new_token->value && value)
 		return (free(new_token), print_error("Error: "),
-			print_error_status("failure ft_strdup in add_token_to_list"), NULL);
+			print_error_status("failure ft_strdup in add_token_to_list", env), NULL);
 	return (new_token);
 }
 
@@ -34,7 +34,7 @@ static t_token	*init_token(char *value, t_token_type type)
  *	token iterates to the end of the list
  */
 
-bool	add_token_to_list(t_token **token_list, char *value, t_token_type type)
+bool	add_token_to_list(t_token **token_list, char *value, t_token_type type, char **env)
 {
 	t_token	*new_token;
 	t_token	*current;
@@ -43,7 +43,7 @@ bool	add_token_to_list(t_token **token_list, char *value, t_token_type type)
 		return (print_error("null parameter found for add_token_to_list"),
 			false);
 	current = NULL;
-	new_token = init_token(value, type);
+	new_token = init_token(value, type, env);
 	if (!new_token)
 		return (false);
 	if (!*token_list)

@@ -20,7 +20,7 @@
  *
  * If the first argument is "-n", the trailing newline is not printed.
  */
-void	my_echo(char **argv)
+bool	my_echo(char **argv)
 {
 	int		i;
 	bool	is_print_end;
@@ -40,4 +40,5 @@ void	my_echo(char **argv)
 	}
 	if (is_print_end)
 		ft_putchar_fd('\n', 1);
+	return (true);
 }

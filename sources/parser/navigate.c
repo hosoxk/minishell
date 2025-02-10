@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 13:36:21 by yde-rudd          #+#    #+#             */
-/*   Updated: 2025/01/21 10:55:04 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/02/07 13:11:06 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,13 +56,13 @@ void	move_cmds(t_ast **node)
 	move_cmds(&(*node)->right);
 }
 
-t_ast	*get_ast(t_token *token_list, t_free_data *data)
+t_ast	*get_ast(t_token *token_list, t_free_data *data, char **env)
 {
 	t_ast	*root;
 	t_token	*temp;
 
 	temp = token_list;
-	root = parse_ast(&temp);
+	root = parse_ast(&temp, env);
 	free_token_list(&token_list);
 	if (!root)
 		return (NULL);

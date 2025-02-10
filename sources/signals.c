@@ -20,8 +20,7 @@ void	handle_sigint_in_cmd(int sig)
 
 void	handle_sigint_here(int sig)
 {
-	(void)sig;
-	g_exit_status = 130;
+	g_event_val = sig;
 	rl_on_new_line();
 	write(1, "\n", 1);
 	close(STDIN_FILENO);
@@ -34,7 +33,7 @@ void	handle_sigint_here(int sig)
 void	handle_sigint(int sig)
 {
 	(void)sig;
-	g_exit_status = 130;
+	g_event_val = sig;
 	printf("\n");
 	rl_on_new_line();
 	rl_replace_line("", 0);
