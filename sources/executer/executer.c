@@ -31,7 +31,7 @@ static void	do_cmd(t_ast *ast_root, char ***env, int *pids)
 		&& !execute_custom_cmd_after_fork(ast_root->args, env))
 	{
 		execute_build_in_cmd(ast_root->args, *env);
-		perror(ast_root->args[0]);
+		// perror(ast_root->args[0]);
 		exit_clean(ast_root, *env, -1);
 		return ;
 	}

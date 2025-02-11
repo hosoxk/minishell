@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:38:48 by yde-rudd          #+#    #+#             */
-/*   Updated: 2025/02/11 17:03:41 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/02/11 18:22:49 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ bool	execute_token_list(t_token *token_list, char ***env)
 		return (true);
 	signal(SIGINT, handle_sigint_in_cmd);
 	success = executor(root, env);
-	// setup_signals();
+	setup_signals();
 	free_ast(root);
 	return (success);
 }
@@ -113,7 +113,7 @@ int	main(int argc, char **argv, char **envp)
 			return (rl_clear_history(),
 				restore_terminal_settings(&orig_termios), get_exit_status_and_free(env));
 		if (!execute_line(line, &env))
-			if (get_exit_status(env) != 258)
+			if (get_exit_status(env) != 2)
 				return (restore_terminal_settings(&orig_termios),
 					get_exit_status_and_free(env));
 	}

@@ -64,7 +64,7 @@ bool	my_export(char ***env, char **argv)
 		return (print_export(*env), true);
 	name = get_name(argv, *env);
 	if (!name)
-		return (false);
+		return (true);
 	value = get_value(argv, name, *env);
 	if (!value)
 	{

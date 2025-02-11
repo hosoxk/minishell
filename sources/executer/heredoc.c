@@ -125,7 +125,7 @@ bool	init_heredoc(t_ast *ast_root, char **env, pid_t *pids)
 
 	if (pipe(p_fd) == -1)
 		return (false);
-	signal(SIGQUIT, SIG_DFL);
+	// signal(SIGQUIT, SIG_DFL);
 	pid = fork();
 	if (pid == -1)
 		return (false);

@@ -98,6 +98,15 @@ typedef struct s_ast
 	t_free_data		*free_data;
 }	t_ast;
 
+typedef struct s_quoted_struct
+{
+	char **line;
+	char *quoted_str;
+	char quote_char;
+	t_token **token_list;
+	char **env;
+}	t_quoted_struct;
+
 typedef struct s_parse_vars
 {
 	t_ast	*left_node;
