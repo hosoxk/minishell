@@ -56,11 +56,11 @@ static void	setup(int *p_fd, t_ast *ast_root, int *fd_in, int *fd_out)
 	close(ast_root->free_data->fd_in);
 }
 
-static void	sigint_handler(int sig)
-{
-	(void)sig;
-	disable_signal_chars();
-}
+// static void	sigint_handler(int sig)
+// {
+// 	(void)sig;
+// 	disable_signal_chars();
+// }
 
 /*
  * Handles the heredoc side of the pipe.
@@ -86,7 +86,8 @@ static void	here_doc_put_in(t_ast *ast_root, int *p_fd, char **env, pid_t *pids)
 		ret = readline("> ");
 		if (!ret)
 		{
-			if (g_event_val != 130)
+			printf("%d\n", g_event_val);
+			if (g_event_val != 2)
 				print_error_status("here-document is delimited by \
 				end-of-file!", env);
 			break ;
@@ -124,7 +125,7 @@ bool	init_heredoc(t_ast *ast_root, char **env, pid_t *pids)
 
 	if (pipe(p_fd) == -1)
 		return (false);
-	signal(SIGINT, sigint_handler);
+	//signal(SIGINT, sigint_handler);
 	pid = fork();
 	if (pid == -1)
 		return (false);
@@ -141,6 +142,7 @@ bool	init_heredoc(t_ast *ast_root, char **env, pid_t *pids)
 		else if (WIFSIGNALED(temp_exit_status))
 			set_exit_status(128 + WTERMSIG(temp_exit_status), env);
 	}
-	return (true);
-	signal(SIGINT, handle_sigint_in_cmd);
+	printf("exit status: %d\n", g_event_val);
+	return (g_event_val != 2);
+	//signal(SIGINT, handle_sigint_in_cmd);
 }

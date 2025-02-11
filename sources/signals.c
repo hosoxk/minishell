@@ -15,6 +15,8 @@
 void	handle_sigint_in_cmd(int sig)
 {
 	(void)sig;
+	g_event_val = sig;
+
 	printf("\n");
 }
 
