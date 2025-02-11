@@ -12,7 +12,8 @@
 
 #include "../minishell.h"
 
-static bool	handle_word(char **line, t_token **token_list, char *absoluut_begin, char **env)
+static bool	handle_word(char **line, t_token **token_list,
+	char *absoluut_begin, char **env)
 {
 	char	*start;
 	char	*word;
@@ -25,10 +26,10 @@ static bool	handle_word(char **line, t_token **token_list, char *absoluut_begin,
 	word = ft_strndup(start, *line - start);
 	if (!(absoluut_begin == start || *(start -1) == ' '))
 	{
-		if (!add_token_to_list(token_list, word, FAKE_QUOTED_STRING, env))
+		if (!add_token(token_list, word, FAKE_QOUTED_STR, env))
 			return (free(word), false);
 	}
-	else if (!add_token_to_list(token_list, word, WORD, env))
+	else if (!add_token(token_list, word, WORD, env))
 		return (free(word), false);
 	free(word);
 	return (true);

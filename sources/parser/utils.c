@@ -12,39 +12,6 @@
 
 #include "../minishell.h"
 
-void	print_error(char *str)
-{
-	ft_putstr_fd(BOLD_RED, STDERR_FILENO);
-	ft_putendl_fd(str, STDERR_FILENO);
-	ft_putstr_fd(RESET, STDERR_FILENO);
-}
-
-void	print_error_status(char *str, char **env)
-{
-	print_error(str);
-	set_exit_status(1, env);
-}
-
-void	print_error_exit_status(char *str, int exit_status, char **env)
-{
-	print_error(str);
-	set_exit_status(exit_status, env);
-}
-
-// void	print_tokens(t_token **token_list)
-// {
-// 	t_token	*current;
-
-// 	current = *token_list;
-// 	while (current)
-// 	{
-// 		printf(BOLD_BLUE "Token: %s, Type: %d\n" RESET, current->value,
-// 			current->type);
-// 		current = current->next;
-// 	}
-// 	ft_putendl_fd("", STDOUT_FILENO);
-// }
-
 bool	is_special_case(char c)
 {
 	if (c == '|' || c == '<' || c == '>' || c == '\'' || c == '\"' || c == '('
@@ -52,7 +19,20 @@ bool	is_special_case(char c)
 		return (true);
 	return (false);
 }
-/*
+
+void	print_tokens(t_token **token_list)
+{
+	t_token	*current;
+
+	current = *token_list;
+	while (current)
+	{
+		printf(BOLD_BLUE "Token: %s, Type: %d\n" RESET, current->value,
+			current->type);
+		current = current->next;
+	}
+}
+
 void	print_ast(t_ast *node, int depth)
 {
 	if (!node)
@@ -95,4 +75,3 @@ void	print_ast(t_ast *node, int depth)
 	printf(BOLD_BLUE "\nPrinting right child\n" RESET);
 	print_ast(node->right, depth + 1);
 }
-*/

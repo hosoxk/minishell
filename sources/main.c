@@ -12,8 +12,6 @@
 
 #include "minishell.h"
 
-// valgrind error: 
-// << lol --> ctrl + C --> exits minishell, shouldnt.
 volatile int	g_event_val = 0;
 
 static bool	check_input(int argc, char **envp, char **argv)
@@ -27,8 +25,7 @@ static bool	check_input(int argc, char **envp, char **argv)
 		return (print_error("Correct usage: ./<executable>"), false);
 	}
 	if (!envp)
-		return (print_error("Failure locating envp"),
-			false);
+		return (print_error("Failure locating envp"), false);
 	return (true);
 }
 
@@ -38,12 +35,6 @@ static bool	check_input(int argc, char **envp, char **argv)
  *	After tokenizing, parses the token_list
  *	Gets expanded and executed
  */
-
-//	printf(BOLD_MAGENTA"\nAbstract Syntax Tree:\n"RESET);
-//	print_ast(ast_root, 0);
-//	printf(BOLD_MAGENTA"\noutput:\n"RESET);
-//	print_tokens(&tree->token_list); //// 
-
 bool	execute_token_list(t_token *token_list, char ***env)
 {
 	t_ast		*root;
@@ -57,6 +48,7 @@ bool	execute_token_list(t_token *token_list, char ***env)
 	}
 	set_exit_status(0, *env);
 	root = get_ast(token_list, &data, *env);
+	print_ast(root, 0);
 	if (!root)
 		return (true);
 	signal(SIGINT, handle_sigint_in_cmd);
@@ -72,14 +64,14 @@ static bool	execute_line(char *line, char ***env)
 
 	token_list = NULL;
 	if (!lexer(line, &token_list, *env))
-		return (free(line), free_token_list(&token_list),
-			false);
+		return (free(line), free_token_list(&token_list), false);
 	free(line);
 	if (!validate_token_sequence(token_list, *env))
 	{
 		free_token_list(&token_list);
 		return (true);
 	}
+	print_tokens(&token_list);
 	return (execute_token_list(token_list, env));
 }
 
@@ -111,12 +103,11 @@ int	main(int argc, char **argv, char **envp)
 		line = get_line(env);
 		if (!line)
 			return (rl_clear_history(),
-				restore_terminal_settings(&orig_termios), get_exit_status_and_free(env));
+				restore_terminal_settings(&orig_termios),
+				get_exit_status_and_free(env));
 		if (!execute_line(line, &env))
 			if (get_exit_status(env) != 2)
 				return (restore_terminal_settings(&orig_termios),
 					get_exit_status_and_free(env));
 	}
 }
-	// restore_terminal_settings(&orig_termios);
-	// return (get_exit_status(env));

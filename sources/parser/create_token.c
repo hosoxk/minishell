@@ -18,15 +18,16 @@ static t_token	*init_token(char *value, t_token_type type, char **env)
 
 	new_token = malloc(sizeof (t_token));
 	if (!new_token)
-		return (print_error_status("Failure mallocing space for new_token", env),
-			NULL);
+		return (print_error_status("Failure mallocing space for new_token",
+				env), NULL);
 	new_token->type = type;
 	new_token->next = NULL;
 	new_token->value = NULL;
 	new_token->value = ft_strdup(value);
 	if (!new_token->value && value)
 		return (free(new_token), print_error("Error: "),
-			print_error_status("failure ft_strdup in add_token_to_list", env), NULL);
+			print_error_status("failure ft_strdup in add_token",
+				env), NULL);
 	return (new_token);
 }
 
@@ -34,13 +35,14 @@ static t_token	*init_token(char *value, t_token_type type, char **env)
  *	token iterates to the end of the list
  */
 
-bool	add_token_to_list(t_token **token_list, char *value, t_token_type type, char **env)
+bool	add_token(t_token **token_list, char *value,
+	t_token_type type, char **env)
 {
 	t_token	*new_token;
 	t_token	*current;
 
 	if (!token_list)
-		return (print_error("null parameter found for add_token_to_list"),
+		return (print_error("null parameter found for add_token"),
 			false);
 	current = NULL;
 	new_token = init_token(value, type, env);

@@ -31,7 +31,6 @@ static void	do_cmd(t_ast *ast_root, char ***env, int *pids)
 		&& !execute_custom_cmd_after_fork(ast_root->args, env))
 	{
 		execute_build_in_cmd(ast_root->args, *env);
-		// perror(ast_root->args[0]);
 		exit_clean(ast_root, *env, -1);
 		return ;
 	}
@@ -57,7 +56,6 @@ static bool	execute_cmd(t_ast *ast_root, char ***env, pid_t *pids,
 	if (is_first)
 	{
 		pid = fork();
-		printf("forking ...\n");
 		if (pid == -1)
 			return (print_error_status("fork failed", *env), false);
 		set_pid(pids, pid);
@@ -110,7 +108,7 @@ bool	execute(t_ast *ast_root, char ***env, pid_t *pids, bool is_first)
 void	fiks_exit_code(char **env, pid_t *pids)
 {
 	int	i;
-	int status;
+	int	status;
 	int	len;
 
 	len = get_len_pids(pids);

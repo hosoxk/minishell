@@ -14,15 +14,15 @@
 
 int	get_exit_status(char **env)
 {
-    int code;
+	int	code;
 
-    code = 0 + *getenv_stript("?", env);
+	code = 0 + *getenv_stript("?", env);
 	return (code);
 }
 
 bool	set_exit_status(int exit_status, char **env)
 {
-	int		index;
+	int	index;
 
 	index = get_location("?", &env);
 	if (index < 0)
@@ -31,11 +31,11 @@ bool	set_exit_status(int exit_status, char **env)
 	return (true);
 }
 
-int get_exit_status_and_free(char **env)
+int	get_exit_status_and_free(char **env)
 {
-    int exit_status;
+	int	exit_status;
 
-    exit_status = get_exit_status(env);
-    ft_free_tab(env);
-    return (exit_status);
+	exit_status = get_exit_status(env);
+	ft_free_tab(env);
+	return (exit_status);
 }

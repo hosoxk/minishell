@@ -12,14 +12,15 @@
 
 #include "../minishell.h"
 
-bool	create_pipe_node(t_ast *left_node, t_token **tokens, t_parse_vars *vars, char **env)
+bool	create_pipe_node(t_ast *left_node, t_token **tokens,
+	t_parse_vars *vars, char **env)
 {
 	t_ast	*pipe_node;
 
 	pipe_node = create_ast_node(PIPE);
 	if (!pipe_node)
-		return (print_error_status("Failed to allocate memory for PIPE node", env),
-			false);
+		return (print_error_status("Failed to allocate memory for PIPE node",
+				env), false);
 	pipe_node->left = left_node;
 	*tokens = (*tokens)->next;
 	pipe_node->right = parse_ast(tokens, env);

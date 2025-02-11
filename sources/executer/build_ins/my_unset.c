@@ -31,7 +31,8 @@ bool	my_unset(char ***env, char **argv)
 	i = 0;
 	while ((*env)[i])
 	{
-		if (ft_strncmp((*env)[i], argv[1], ft_strlen(argv[1])) == 0 && (*env)[i][ft_strlen(argv[1])] == '=')
+		if (ft_strncmp((*env)[i], argv[1], ft_strlen(argv[1])) == 0
+			&& (*env)[i][ft_strlen(argv[1])] == '=')
 		{
 			temp = ft_strdup("NULL");
 			if (!temp)

@@ -16,18 +16,16 @@ void	save_terminal_settings(struct termios *orig_termios)
 {
 	if (tcgetattr(STDIN_FILENO, orig_termios) == -1)
 	{
-		print_error("tcgetattr");
+		print_error("tcgetattr error: getting terminal settings");
 		exit(1);
 	}
 }
 
 void	restore_terminal_settings(const struct termios *orig_termios)
 {
-	printf("Restoring terminal settings!\n");
 	if (tcsetattr(STDIN_FILENO, TCSANOW, orig_termios) == -1)
 	{
-		print_error("tcsetattr");
+		print_error("tcsetattr error: setting terminal settings");
 		exit(1);
 	}
-	printf("Restored VQUIT: %d\n", orig_termios->c_cc[VQUIT]);
 }

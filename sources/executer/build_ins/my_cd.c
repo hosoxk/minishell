@@ -69,7 +69,7 @@ bool	my_cd(char ***env, char **argv)
 	char	*nwd;
 
 	if (!getcwd(cwd, sizeof(cwd)))
-		return (set_exit_status(1, *env), perror("getcwd"), false);
+		return (set_exit_status(1, *env), perror("getcwd"), true);
 	nwd = get_new_dir(cwd, *env, argv);
 	if (!nwd)
 	{
@@ -80,10 +80,10 @@ bool	my_cd(char ***env, char **argv)
 	{
 		perror(argv[1]);
 		free(nwd);
-		return (set_exit_status(1, *env), false);
+		return (set_exit_status(1, *env), true);
 	}
 	free(nwd);
 	if (!getcwd(cwd, sizeof(cwd)))
-		return (set_exit_status(1, *env), perror("getcwd")), false;
+		return ((set_exit_status(1, *env), perror("getcwd")), true);
 	return (update_env("PWD", cwd, env));
 }

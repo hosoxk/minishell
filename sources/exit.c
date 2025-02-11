@@ -12,6 +12,25 @@
 
 #include "minishell.h"
 
+void	print_error(char *str)
+{
+	ft_putstr_fd(BOLD_RED, STDERR_FILENO);
+	ft_putendl_fd(str, STDERR_FILENO);
+	ft_putstr_fd(RESET, STDERR_FILENO);
+}
+
+void	print_error_status(char *str, char **env)
+{
+	print_error(str);
+	set_exit_status(1, env);
+}
+
+void	print_error_exit_status(char *str, int exit_status, char **env)
+{
+	print_error(str);
+	set_exit_status(exit_status, env);
+}
+
 /**
  * Cleans up resources and exits the program with the specified exit status.
  *

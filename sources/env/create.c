@@ -62,8 +62,8 @@ static bool	set_path(char ***env)
 
 static bool	add_exit_status(char ***env)
 {
-	bool return_val;
-	
+	bool	return_val;
+
 	return_val = update_env("?", "?", env);
 	set_exit_status(0, *env);
 	return (return_val);

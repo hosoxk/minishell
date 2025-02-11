@@ -86,10 +86,8 @@ static void	here_doc_put_in(t_ast *ast_root, int *p_fd, char **env, pid_t *pids)
 		ret = readline("> ");
 		if (!ret)
 		{
-			printf("%d\n", g_event_val);
 			if (g_event_val != 2)
-				print_error_status("here-document is delimited by \
-				end-of-file!", env);
+				print_error_status("here-document is delimited by EOF!", env);
 			break ;
 		}
 		if (ft_strcmp(ret, ast_root->file) == 0)
@@ -125,7 +123,6 @@ bool	init_heredoc(t_ast *ast_root, char **env, pid_t *pids)
 
 	if (pipe(p_fd) == -1)
 		return (false);
-	// signal(SIGQUIT, SIG_DFL);
 	pid = fork();
 	if (pid == -1)
 		return (false);
@@ -144,5 +141,4 @@ bool	init_heredoc(t_ast *ast_root, char **env, pid_t *pids)
 	}
 	printf("exit status: %d\n", g_event_val);
 	return (g_event_val != 2);
-	//signal(SIGINT, handle_sigint_in_cmd);
 }

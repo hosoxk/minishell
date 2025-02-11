@@ -40,6 +40,7 @@ SRC_FILES = $(SRC_DIR)/main.c \
 		$(SRC_DIR)/parser/clean.c \
 		$(SRC_DIR)/parser/create_nodes.c \
 		$(SRC_DIR)/parser/validate_tokens.c \
+		$(SRC_DIR)/parser/handle_line.c \
 		\
 		$(SRC_DIR)/executer/build_ins/my_echo.c \
 		$(SRC_DIR)/executer/build_ins/my_env.c \
@@ -56,6 +57,7 @@ SRC_FILES = $(SRC_DIR)/main.c \
 		$(SRC_DIR)/executer/rediraction.c \
 		$(SRC_DIR)/executer/heredoc.c \
 		$(SRC_DIR)/executer/pids.c \
+		$(SRC_DIR)/executer/fds.c \
 		\
 		$(SRC_DIR)/expander/expander.c \
 		$(SRC_DIR)/expander/util.c \
@@ -69,8 +71,6 @@ SRC_FILES = $(SRC_DIR)/main.c \
 		$(SRC_DIR)/env/exit_status.c \
 		\
 		$(SRC_DIR)/exit.c \
-		$(SRC_DIR)/handle_line.c \
-		$(SRC_DIR)/fds.c \
 		$(SRC_DIR)/signals.c \
 		$(SRC_DIR)/terminal.c
 

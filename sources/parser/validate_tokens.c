@@ -30,7 +30,8 @@ static bool	check_pipe(t_token *token, t_token *prev_token, char **env)
 	return (is_valid);
 }
 
-static bool	check_logic_operators(t_token *token, t_token *prev_token, char **env)
+static bool	check_logic_operators(t_token *token, t_token *prev_token,
+	char **env)
 {
 	bool	is_valid;
 

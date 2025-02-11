@@ -30,7 +30,8 @@ static bool	_my_exit(char **argv, char **env)
 		i++;
 	}
 	if (argv[2])
-		return (print_error_exit_status("exit: too many arguments", 1, env), false);
+		return (print_error_exit_status("exit: too many arguments", 1, env),
+			false);
 	set_exit_status(atoi(argv[1]), env);
 	return (true);
 }

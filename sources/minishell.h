@@ -63,10 +63,10 @@ typedef enum e_token_type
 	HEREDOC,
 	WORD,
 	VARIABLE,
-	DOUBLE_QUOTED_STRING,
-	FAKE_DOUBLE_QUOTED_STRING,
-	FAKE_QUOTED_STRING,
-	QUOTED_STRING
+	D_QOUTED_STR,
+	FAKE_D_QOUTED_STR,
+	FAKE_QOUTED_STR,
+	QOUTED_STR
 }	t_token_type;
 
 typedef enum e_command_type
@@ -100,11 +100,11 @@ typedef struct s_ast
 
 typedef struct s_quoted_struct
 {
-	char **line;
-	char *quoted_str;
-	char quote_char;
-	t_token **token_list;
-	char **env;
+	char	**line;
+	char	*quoted_str;
+	char	quote_char;
+	t_token	**token_list;
+	char	**env;
 }	t_quoted_struct;
 
 typedef struct s_parse_vars
@@ -145,12 +145,15 @@ bool			handle_redirect(char **line, t_token **token_list, char **env);
 bool			handle_quoted_str(char **line, t_token **token_list, \
 					char *absoluut_begin, char **env);
 bool			handle_pipe(char **line, t_token **token_list, char **env);
-bool			handle_parentheses(char **line, t_token **token_list, char **env);
+bool			handle_parentheses(char **line, t_token **token_list, \
+					char **env);
 bool			handle_ampersand(char **line, t_token **token_list, char **env);
-bool			add_token_to_list(t_token **token_list, char *value,
+bool			add_token(t_token **token_list, char *value,
 					t_token_type type, char **env);
 bool			validate_token_sequence(t_token *tokens, char **env);
-// bool			is_valid_command(t_token *token);
+bool			add_quoted_token(t_quoted_struct *s);
+t_quoted_struct	*init_quoted_struct(char **line, char *quoted_str, \
+					char quote_char, t_token **token_list);
 
 // *** PARSER ***
 t_ast			*parse_ast(t_token **tokens, char **env);
@@ -234,7 +237,8 @@ char			**expent_env(char **env);
 
 // *** UTILS ***
 char			*get_line(char **env);
-
+void			print_tokens(t_token **token_list);
+void			print_ast(t_ast *node, int depth);
 // *** pids ***
 pid_t			*get_pid_list(t_ast *ast_root);
 void			set_pid(pid_t *pids, pid_t pid);
