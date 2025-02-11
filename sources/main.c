@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:38:48 by yde-rudd          #+#    #+#             */
-/*   Updated: 2025/02/11 16:51:37 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/02/11 17:03:41 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ bool	execute_token_list(t_token *token_list, char ***env)
 		return (true);
 	signal(SIGINT, handle_sigint_in_cmd);
 	success = executor(root, env);
-	setup_signals();
+	// setup_signals();
 	free_ast(root);
 	return (success);
 }

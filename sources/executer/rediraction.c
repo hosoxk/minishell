@@ -84,12 +84,15 @@ bool	do_redirection(t_ast *ast_root, char ***env, pid_t *pids, bool is_first)
 	add_fd(ast_root, fd_in);
 	add_fd(ast_root, fd_out);
 	if (ast_root->type == HEREDOC)
+	{
 		can_execute = init_heredoc(ast_root, *env, pids);
+		g_event_val = 0;
+	}
 	else
 		can_execute = init_redirection(ast_root, *env);
 	if (can_execute && ast_root->left && get_exit_status(*env) != 130)
 		can_execute = execute(ast_root->left, env, pids, is_first);
-	if (can_execute)
+	if (true || can_execute)
 	{
 		dup2(fd_in, STDIN_FILENO);
 		dup2(fd_out, STDOUT_FILENO);
