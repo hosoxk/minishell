@@ -6,7 +6,7 @@
 /*   By: kvanden- <kvanden-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 16:56:36 by yde-rudd          #+#    #+#             */
-/*   Updated: 2025/02/11 18:12:06 by kvanden-         ###   ########.fr       */
+/*   Updated: 2025/02/12 10:12:37 by kvanden-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ bool	add_quoted_token(t_quoted_struct *s)
 		if (!add_token(s->token_list, s->quoted_str, QOUTED_STR, s->env))
 			return (false);
 	}
-	else if (s->quote_char == '\'')
+	else if (s->quote_char == '\"') /// '\''
 	{
 		if (!add_token(s->token_list, s->quoted_str, D_QOUTED_STR, s->env))
 			return (false);
@@ -45,6 +45,7 @@ t_quoted_struct	*init_quoted_struct(char **line, char *quoted_str,
 		char quote_char, t_token **token_list)
 {
 	t_quoted_struct	*s;
+	////???
 
 	s = malloc(sizeof(t_quoted_struct));
 	if (!s)
